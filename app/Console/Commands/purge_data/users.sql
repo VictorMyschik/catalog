@@ -1,0 +1,2 @@
+insert into public.users (id, name, email, email_verified_at, password, remember_token, created_at, updated_at)
+values  (1, 'Viktar Myshchyk', 'mega-ximik@mail.ru', null, '$2y$12$RtSY8L8crJ2Hu6k3ss3aW.raxQaJ.9gsqRG7TCuy42s8h5NDomfiy', null, '2024-07-28 20:54:46', '2024-07-28 20:54:46');
