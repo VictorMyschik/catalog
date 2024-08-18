@@ -11,6 +11,7 @@ return new class extends Migration {
             $table->id();
             $table->string('name')->unique()->index();
             $table->jsonb('sl')->nullable();
+            $table->string('json_link')->nullable();
         });
     }
 
