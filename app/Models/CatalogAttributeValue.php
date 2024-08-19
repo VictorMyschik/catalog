@@ -10,6 +10,13 @@ class CatalogAttributeValue extends ORM
 {
     protected $table = 'catalog_attribute_values';
 
+    protected $fillable = [
+        'catalog_attribute_id',
+        'text_value',
+    ];
+
+    public $timestamps = false;
+
     public function getTextValue(): string
     {
         return $this->text_value;

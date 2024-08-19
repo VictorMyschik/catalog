@@ -12,6 +12,8 @@ return new class extends Migration {
             $table->unsignedBigInteger('catalog_attribute_id')->index();
             $table->string('text_value', 8000)->nullable()->index();
 
+            $table->unique(['catalog_attribute_id', 'text_value']);
+
             $table->foreign('catalog_attribute_id')->references('id')->on('catalog_attributes')->cascadeOnDelete();
         });
     }

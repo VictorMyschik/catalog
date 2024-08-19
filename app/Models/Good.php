@@ -28,6 +28,9 @@ class Good extends ORM
         'parent_good_id'   => 'integer',
         'is_certification' => 'boolean',
         'sl'               => 'json',
+        'int_id'           => 'integer',
+        'string_id'        => 'string',
+        'link'             => 'string',
         'created_at'       => 'datetime',
         'updated_at'       => 'datetime',
     ];

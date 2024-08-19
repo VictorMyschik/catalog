@@ -16,6 +16,13 @@ class CatalogAttribute extends ORM
     use DescriptionNullableFieldTrait;
 
     protected $table = 'catalog_attributes';
+    public $timestamps = false;
+    protected $fillable = [
+        'group_attribute_id',
+        'name',
+        'description',
+        'sort',
+    ];
 
     protected $casts = [
         'id'                 => 'int',

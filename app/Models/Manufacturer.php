@@ -13,6 +13,13 @@ class Manufacturer extends ORM
 
     protected $table = 'manufacturers';
 
+    protected $fillable = [
+        'name',
+        'address',
+    ];
+
+    public const null UPDATED_AT = null;
+
     protected $casts = [
         'id'         => 'int',
         'name'       => 'string',

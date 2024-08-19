@@ -87,5 +87,6 @@ class purge extends Command
     private array $tableList = [
         'users',
         'countries',
+        'catalog_types',
     ];
 }

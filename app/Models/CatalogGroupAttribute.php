@@ -15,6 +15,13 @@ class CatalogGroupAttribute extends ORM
 
     protected $table = 'catalog_group_attributes';
 
+    public $timestamps = false;
+    protected $fillable = [
+        'type_id',
+        'name',
+        'sort',
+    ];
+
     protected $casts = [
         'id'      => 'int',
         'type_id' => 'int',
