@@ -19,10 +19,10 @@ class CatalogControllerTest extends TestCase
         );
 
         $request = new Request([
-            'url'            => 'https://catalog.onliner.by/notebook/honor/5301ahgw',
+            'url'            => 'https://catalog.onliner.by/sdapi/catalog.api/search/cpu',
             'type_id'        => 1,
             'is_load_images' => true,
-            'complex'        => false,
+            'complex'        => true,
         ]);
 
         $controller->importLink($request);

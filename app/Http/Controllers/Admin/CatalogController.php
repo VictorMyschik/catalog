@@ -18,11 +18,6 @@ final class CatalogController extends Controller
         private readonly OnlinerService       $service
     ) {}
 
-    private array $urls = array();
-
-    /**
-     * Parse Good by link
-     */
     public function importLink(Request $request): RedirectResponse
     {
         $input = Validator::make($request->all(), [
@@ -49,8 +44,7 @@ final class CatalogController extends Controller
             $article = array_pop($tmpArr);
             $templateUrl = "https://catalog.onliner.by/sdapi/catalog.api/search/{$article}?page=1";
 
-            $this->parseUrlList($templateUrl, $max);
-            $urls = $this->urls;
+            $urls = $this->importOnlinerService->parseUrlList($templateUrl, $max);
         } else { // Один товар
             $urls[] = $input['url']; // ссылка
         }

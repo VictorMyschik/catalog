@@ -9,7 +9,7 @@ use App\Services\HTTPClientService\HTTPClient;
 use App\Services\ImageUploader\ImageUploadService;
 use Symfony\Component\DomCrawler\Crawler;
 
-final readonly class ImportOnlinerService
+final class ImportOnlinerService
 {
     public function __construct(
         private HTTPClient         $client,
@@ -211,5 +211,29 @@ final readonly class ImportOnlinerService
         $out['attributes'] = $attrFormatted;
 
         return $out;
+    }
+
+    private array $urls = [];
+
+    public function parseUrlList(string $url, ?int $max = 0): array
+    {
+        if ($max && count($this->urls) > $max) {
+            return $this->urls;
+        }
+
+        $json = json_decode((string)$this->client->doGet($url), true);
+
+        if (isset($json['products']) && count($json['products'])) {
+            foreach ($json['products'] as $product) {
+                $this->urls[] = $product['html_url'];
+            }
+
+            $pageNumber = explode('=', $url);
+            $newPageNumber = $pageNumber[0] . '=' . (++$pageNumber[1]);
+
+            $this->parseUrlList($newPageNumber);
+        }
+
+        return $this->urls;
     }
 }
