@@ -17,6 +17,9 @@ return new class extends Migration {
             $table->unsignedBigInteger("manufacturer_id")->nullable()->index();
             $table->string("parent_good_id")->nullable()->index();
             $table->boolean("is_certification")->default(false);
+            $table->integer('int_id')->nullable()->index();
+            $table->string('string_id')->index();
+            $table->string('link');
             $table->jsonb('sl')->nullable();
 
             $table->timestampTz('created_at')->useCurrent();
