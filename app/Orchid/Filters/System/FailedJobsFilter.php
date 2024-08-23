@@ -3,7 +3,7 @@
 namespace App\Orchid\Filters\System;
 
 use App\Enums\QueueNameEnum;
-use App\Models\FailedJobs;
+use App\Models\System\FailedJobs;
 use App\Orchid\Layouts\Lego\ActionFilterPanel;
 use Illuminate\Database\Eloquent\Builder;
 use Orchid\Filters\Filter;

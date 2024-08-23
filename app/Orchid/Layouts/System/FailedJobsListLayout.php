@@ -2,7 +2,7 @@
 
 namespace App\Orchid\Layouts\System;
 
-use App\Models\FailedJobs;
+use App\Models\System\FailedJobs;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
 use Orchid\Screen\Layouts\Table;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Onliner;
 
-use App\Models\CatalogType;
+use App\Models\Catalog\CatalogType;
 use App\Services\HTTPClientService\HTTPClient;
 use App\Services\ImageUploader\ImageUploadService;
 use Symfony\Component\DomCrawler\Crawler;

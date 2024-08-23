@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
-use App\Models\CatalogAttribute;
-use App\Models\CatalogAttributeValue;
-use App\Models\CatalogGroupAttribute;
-use App\Models\CatalogType;
-use App\Models\Good;
-use App\Models\GoodAttribute;
-use App\Models\Manufacturer;
+use App\Models\Catalog\CatalogAttribute;
+use App\Models\Catalog\CatalogAttributeValue;
+use App\Models\Catalog\CatalogGroupAttribute;
+use App\Models\Catalog\CatalogType;
+use App\Models\Catalog\Good;
+use App\Models\Catalog\GoodAttribute;
+use App\Models\Catalog\Manufacturer;
 
 readonly class OnlinerDBRepository extends DBRepository implements OnlinerRepositoryInterface
 {

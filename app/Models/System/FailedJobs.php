@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\System;
 
 use App\Models\ORM\ORM;
 use Orchid\Filters\Filterable;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories\Images;
 
-use App\Models\Image;
+use App\Models\Catalog\Image;
 use App\Repositories\DBRepository;
 use App\Services\ImageUploader\ImageDTO;
 use Illuminate\Contracts\Filesystem\Filesystem;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Models;
+namespace App\Models\Catalog;
 
 use App\Models\Lego\Fields\JsonFieldTrait;
 use App\Models\Lego\Fields\NameFieldTrait;

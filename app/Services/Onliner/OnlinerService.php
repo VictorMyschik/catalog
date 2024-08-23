@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Services\Onliner;
 
-use App\Models\CatalogAttribute;
-use App\Models\CatalogAttributeValue;
-use App\Models\CatalogGroupAttribute;
-use App\Models\CatalogType;
-use App\Models\Manufacturer;
+use App\Models\Catalog\CatalogAttribute;
+use App\Models\Catalog\CatalogAttributeValue;
+use App\Models\Catalog\CatalogGroupAttribute;
+use App\Models\Catalog\CatalogType;
+use App\Models\Catalog\Manufacturer;
 use App\Repositories\OnlinerRepositoryInterface;
 
 final readonly class OnlinerService

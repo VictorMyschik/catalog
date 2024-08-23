@@ -2,20 +2,37 @@
 
 declare(strict_types=1);
 
-namespace App\Models;
+namespace App\Models\Catalog;
 
 use App\Models\Lego\Fields\DescriptionNullableFieldTrait;
 use App\Models\Lego\Fields\JsonFieldTrait;
 use App\Models\Lego\Fields\NameFieldTrait;
 use App\Models\ORM\ORM;
+use Orchid\Filters\Filterable;
+use Orchid\Screen\AsSource;
 
 class Good extends ORM
 {
+    use AsSource;
+    use Filterable;
     use NameFieldTrait;
     use JsonFieldTrait;
     use DescriptionNullableFieldTrait;
 
     protected $table = 'goods';
+
+    protected array $allowedSorts = [
+        'id',
+        'type_id',
+        'prefix',
+        'name',
+        'parent_good_id',
+        'int_id',
+        'string_id',
+        'link',
+        'created_at',
+        'updated_at',
+    ];
 
     protected $casts = [
         'id'               => 'integer',
