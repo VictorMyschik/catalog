@@ -246,7 +246,7 @@ final class ImportOnlinerService
         $list = $this->catalogService->getCatalogTypeList();
 
         foreach ($list as $type) {
-            SearchGoodsByCatalogTypeJob::dispatch($type);
+            SearchGoodsByCatalogTypeJob::dispatch($type)->onConnection('rabbitmq');
         }
     }
 

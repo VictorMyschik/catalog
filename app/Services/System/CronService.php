@@ -23,6 +23,9 @@ final readonly class CronService
     public function needRun(Cron $job): bool
     {
         $lastWork = $job->getLastWork();
+        if (is_null($lastWork)) {
+            return true;
+        }
         $lastWork->add(new DateInterval('PT' . $job->getPeriod() . 'M'));
 
         return now() > $lastWork;
@@ -49,6 +52,9 @@ final readonly class CronService
         match ($cron->getCronKey()) {
             CronKeyEnum::UPDATE_CATALOG_GOODS => $this->runUpdateCatalogGoods(),
         };
+
+        $cron->setLastWork(now());
+        $cron->save();
     }
 
     private function runUpdateCatalogGoods(): void

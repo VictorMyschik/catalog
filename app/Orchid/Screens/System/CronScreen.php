@@ -9,6 +9,8 @@ use App\Services\System\CronService;
 use Illuminate\Http\Request;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\ModalToggle;
+use Orchid\Screen\Fields\Label;
+use Orchid\Screen\Fields\ViewField;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Layout;
 
@@ -49,8 +51,8 @@ class CronScreen extends Screen
     public function layout(): iterable
     {
         return [
-            Layout::modal('cron_modal', CronEditLayout::class)->async('asyncGetCron'),
             CronListLayout::class,
+            Layout::modal('cron_modal', CronEditLayout::class)->async('asyncGetCron'),
         ];
     }
 
@@ -73,8 +75,8 @@ class CronScreen extends Screen
 
     public function run(int $id): void
     {
-        if($id === self::ALL_ACTIVE) {
-            $this->runAllActive();
+        if ($id === self::ALL_ACTIVE) {
+            $this->service->runAllActive();
             return;
         }
         $this->service->runById($id);
