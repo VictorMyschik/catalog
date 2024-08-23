@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Services\Catalog\ImportOnlinerService;
 use App\Services\System\CronService;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -14,7 +15,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         $schedule->call(function () {
-            (new CronService())->runAllActive();
+            (new CronService(app(ImportOnlinerService::class)))->runAllActive();
         })->everyMinute();
     }
 

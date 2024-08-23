@@ -13,13 +13,8 @@ class TestJob implements ShouldBeUnique
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public function __construct()
+    public function handle(ImportOnlinerService $service)
     {
-        //$this->queue = JobsEnum::Update_catalog;
-    }
-
-    public function handle(ImportOnlinerService $service): void
-    {
-        echo 'TestJob';
+        dd('TestJob');
     }
 }
