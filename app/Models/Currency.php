@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Models\Lego\Traits\DescriptionNullableFieldTrait;
-use App\Models\Lego\Traits\NameFieldTrait;
+use App\Models\Lego\Fields\DescriptionNullableFieldTrait;
+use App\Models\Lego\Fields\NameFieldTrait;
 use App\Models\ORM\ORM;
 use Carbon\Carbon;
 

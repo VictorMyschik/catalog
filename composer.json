@@ -13,7 +13,10 @@
     "laravel/tinker": "^2.9",
     "laravel/ui": "^4.5",
     "ext-simplexml": "*",
-    "symfony/dom-crawler": "^6.4.x-dev"
+    "symfony/dom-crawler": "^6.4.x-dev",
+    "orchid/icons": "^2.0",
+    "orchid/platform": "^14.18.0",
+    "vladimir-yuldashev/laravel-queue-rabbitmq": "^14.1"
   },
   "require-dev": {
     "fakerphp/faker": "^1.23",
