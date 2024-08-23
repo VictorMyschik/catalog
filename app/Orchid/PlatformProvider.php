@@ -34,6 +34,8 @@ class PlatformProvider extends OrchidServiceProvider
     public function menu(): array
     {
         return [
+            Menu::make('Товары')->icon('list')->route('catalog.goods.list')->divider(),
+
             Menu::make('System')->icon('info')->list([
                 Menu::make('Cron')->icon('calendar')->route('system.info.cron'),
                 Menu::make('Cache')->icon('database')->route('system.cache'),

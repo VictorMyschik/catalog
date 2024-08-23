@@ -2,18 +2,23 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Onliner;
+namespace App\Services\Catalog;
 
 use App\Models\Catalog\CatalogAttribute;
 use App\Models\Catalog\CatalogAttributeValue;
 use App\Models\Catalog\CatalogGroupAttribute;
 use App\Models\Catalog\CatalogType;
 use App\Models\Catalog\Manufacturer;
-use App\Repositories\OnlinerRepositoryInterface;
+use App\Repositories\Catalog\CatalogRepositoryInterface;
+use App\Services\ImageUploader\Enum\ImageTypeEnum;
+use App\Services\ImageUploader\ImageUploadService;
 
-final readonly class OnlinerService
+final readonly class CatalogService
 {
-    public function __construct(private OnlinerRepositoryInterface $repository) {}
+    public function __construct(
+        private CatalogRepositoryInterface $repository,
+        private ImageUploadService         $imageUploader,
+    ) {}
 
     public function isGoodExist(string $stringId): bool
     {
@@ -53,5 +58,11 @@ final readonly class OnlinerService
     public function getManufacturerOrCreateNew(array $data): Manufacturer
     {
         return $this->repository->getManufacturerOrCreateNew($data);
+    }
+
+    public function deleteGood(int $id): void
+    {
+        $this->imageUploader->deleteImagesWithModels($id, ImageTypeEnum::Good);
+        $this->repository->deleteGood($id);
     }
 }

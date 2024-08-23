@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
+use App\Repositories\Catalog\CatalogDBRepository;
+use App\Repositories\Catalog\CatalogRepositoryInterface;
 use App\Repositories\Images\ImageRepository;
-use App\Repositories\OnlinerDBRepository;
-use App\Repositories\OnlinerRepositoryInterface;
-use App\Services\ImageUploader\ImageNameResolver;
+use App\Repositories\Images\ImageRepositoryInterface;
 use App\Services\ImageUploader\ImageUploadService;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Contracts\Foundation\Application;
@@ -16,8 +16,8 @@ class CatalogServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->app->bind(OnlinerRepositoryInterface::class, function (Application $app) {
-            return new OnlinerDBRepository(
+        $this->app->bind(CatalogRepositoryInterface::class, function (Application $app) {
+            return new CatalogDBRepository(
                 $app->make(DatabaseManager::class),
             );
         });
@@ -27,10 +27,13 @@ class CatalogServiceProvider extends ServiceProvider
 
             return new ImageUploadService(
                 $application->make(Factory::class)->disk($config->get('filesystems.default')),
-                new ImageNameResolver(),
-                $application->make(ImageRepository::class),
+                $application->make(ImageRepositoryInterface::class),
                 $config->get('storage')
             );
+        });
+
+        $this->app->bind(ImageRepositoryInterface::class, function (Application $app) {
+            return new ImageRepository($app->make(DatabaseManager::class));
         });
     }
 

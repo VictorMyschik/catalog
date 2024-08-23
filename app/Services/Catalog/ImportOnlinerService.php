@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Onliner;
+namespace App\Services\Catalog;
 
 use App\Models\Catalog\CatalogType;
 use App\Services\HTTPClientService\HTTPClient;
@@ -13,7 +13,7 @@ final class ImportOnlinerService
 {
     public function __construct(
         private HTTPClient         $client,
-        private OnlinerService     $onlinerService,
+        private CatalogService     $onlinerService,
         private ImageUploadService $imageService
     ) {}
 

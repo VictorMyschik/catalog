@@ -4,14 +4,26 @@ declare(strict_types=1);
 
 namespace App\Orchid\Screens\Catalog;
 
+use App\Models\Catalog\Good;
+use App\Orchid\Filters\Catalog\CatalogGoodsFilter;
+use App\Orchid\Layouts\Catalog\GoodListLayout;
+use App\Orchid\Layouts\Lego\InfoModalLayout;
+use App\Services\Catalog\CatalogService;
+use Illuminate\Http\Request;
+use Orchid\Screen\Layouts\Modal;
 use Orchid\Screen\Screen;
+use Orchid\Support\Facades\Layout;
 
 class CatalogGoodsScreen extends Screen
 {
+    public $name = 'Список товаров';
+
+    public function __construct(private Request $request, private readonly CatalogService $service) {}
+
     public function query(): iterable
     {
         return [
-            'list' => null,
+            'list' => CatalogGoodsFilter::runQuery(),
         ];
     }
 
@@ -23,7 +35,21 @@ class CatalogGoodsScreen extends Screen
     public function layout(): iterable
     {
         return [
-
+            CatalogGoodsFilter::displayFilterCard($this->request),
+            GoodListLayout::class,
+            Layout::modal('view_good', InfoModalLayout::class)->async('asyncGetGood')->size(Modal::SIZE_XL),
         ];
+    }
+
+    public function asyncGetGood(int $id = 0): array
+    {
+        return [
+            'body' => Good::loadByOrDie($id)->sl,
+        ];
+    }
+
+    public function remove(int $id): void
+    {
+        $this->service->deleteGood($id);
     }
 }

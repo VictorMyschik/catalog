@@ -5,18 +5,11 @@ declare(strict_types=1);
 namespace App\Repositories\Images;
 
 use App\Models\Catalog\Image;
-use App\Repositories\DBRepository;
-use App\Services\ImageUploader\ImageDTO;
-use Illuminate\Contracts\Filesystem\Filesystem;
-use Illuminate\Database\DatabaseManager;
+use App\Repositories\RepositoryBase;
+use App\Services\ImageUploader\DTO\ImageDTO;
 
-final readonly class ImageRepository extends DBRepository implements ImageRepositoryInterface
+final readonly class ImageRepository extends RepositoryBase implements ImageRepositoryInterface
 {
-    public function __construct(private Filesystem $filesystem, DatabaseManager $db)
-    {
-        parent::__construct($db);
-    }
-
     public function addImage(ImageDTO $dto): Image
     {
         return Image::firstOrCreate([
@@ -30,12 +23,13 @@ final readonly class ImageRepository extends DBRepository implements ImageReposi
         return Image::loadBy($imageId);
     }
 
-    public function deleteImage(int $goodId): void
+    public function getImageListByGoodId(int $goodId): array
     {
-        $image = Image::where('good_id', $goodId)->first();
+        return Image::where('good_id', $goodId)->get()->all();
+    }
 
-        $image && $this->filesystem->delete($image->getPath() . '/' . $image->getName());
-
-        $image && $image->delete();
+    public function deleteImage(Image $image): void
+    {
+        $image->delete();
     }
 }

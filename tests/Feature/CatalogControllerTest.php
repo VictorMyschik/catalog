@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Admin\CatalogController;
+use App\Services\Catalog\CatalogService;
+use App\Services\Catalog\ImportOnlinerService;
 use App\Services\ImageUploader\ImageUploadService;
-use App\Services\Onliner\ImportOnlinerService;
-use App\Services\Onliner\OnlinerService;
 use Illuminate\Http\Request;
 use Tests\TestCase;
 
@@ -15,7 +15,7 @@ class CatalogControllerTest extends TestCase
     {
         $controller = new CatalogController(
             app(ImportOnlinerService::class),
-            app(OnlinerService::class),
+            app(CatalogService::class),
         );
 
         $request = new Request([
@@ -23,6 +23,7 @@ class CatalogControllerTest extends TestCase
             'type_id'        => 1,
             'is_load_images' => true,
             'complex'        => true,
+            'max'            => 10,
         ]);
 
         $controller->importLink($request);

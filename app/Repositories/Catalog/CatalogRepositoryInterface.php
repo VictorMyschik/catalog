@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Repositories;
+namespace App\Repositories\Catalog;
 
 use App\Models\Catalog\CatalogAttribute;
 use App\Models\Catalog\CatalogAttributeValue;
@@ -10,7 +10,7 @@ use App\Models\Catalog\CatalogGroupAttribute;
 use App\Models\Catalog\CatalogType;
 use App\Models\Catalog\Manufacturer;
 
-interface OnlinerRepositoryInterface
+interface CatalogRepositoryInterface
 {
     public function isGoodExist(string $stringId): bool;
 
@@ -27,4 +27,6 @@ interface OnlinerRepositoryInterface
     public function createGoodAttributes(array $goodAttributes): void;
 
     public function getManufacturerOrCreateNew(array $data): Manufacturer;
+
+    public function deleteGood(int $id): void;
 }

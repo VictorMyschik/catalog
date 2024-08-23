@@ -54,4 +54,9 @@ class Image extends ORM
     {
         return Storage::url($this->getPath() . '/' . $this->getFileName());
     }
+
+    public function getFilePathWithName(): string
+    {
+        return $this->getPath() . '/' . $this->getFileName();
+    }
 }
