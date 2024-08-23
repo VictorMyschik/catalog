@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Orchid\Screens\System;
 
 use App\Models\System\Settings;
@@ -17,7 +19,7 @@ use Orchid\Support\Facades\Toast;
 
 class SettingsScreen extends Screen
 {
-    public function __construct(protected readonly SettingsRepositoryInterface $repository) {}
+    public function __construct(private readonly SettingsRepositoryInterface $repository) {}
 
     public function name(): string
     {

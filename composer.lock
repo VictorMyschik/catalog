@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8ff4c193653607678d274d79666479c2",
+    "content-hash": "ad65e5344662b2979ee98822407075fc",
     "packages": [
         {
             "name": "brick/math",
@@ -2648,16 +2648,16 @@
         },
         {
             "name": "orchid/platform",
-            "version": "14.30.2",
+            "version": "14.28.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchidsoftware/platform.git",
-                "reference": "30613d845f10aa34c289e850b004b68692b303c4"
+                "reference": "5b0a86e75f6177e745a6fb033a46dbcca5f00e30"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchidsoftware/platform/zipball/30613d845f10aa34c289e850b004b68692b303c4",
-                "reference": "30613d845f10aa34c289e850b004b68692b303c4",
+                "url": "https://api.github.com/repos/orchidsoftware/platform/zipball/5b0a86e75f6177e745a6fb033a46dbcca5f00e30",
+                "reference": "5b0a86e75f6177e745a6fb033a46dbcca5f00e30",
                 "shasum": ""
             },
             "require": {
@@ -2751,7 +2751,7 @@
                     "type": "opencollective"
                 }
             ],
-            "time": "2024-08-22T22:05:41+00:00"
+            "time": "2024-08-18T00:27:59+00:00"
         },
         {
             "name": "paragonie/constant_time_encoding",
