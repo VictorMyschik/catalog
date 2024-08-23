@@ -9,6 +9,7 @@ use App\Orchid\Filters\Catalog\CatalogGoodsFilter;
 use App\Orchid\Layouts\Catalog\GoodListLayout;
 use App\Orchid\Layouts\Lego\InfoModalLayout;
 use App\Services\Catalog\CatalogService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Orchid\Screen\Layouts\Modal;
 use Orchid\Screen\Screen;
@@ -16,7 +17,7 @@ use Orchid\Support\Facades\Layout;
 
 class CatalogGoodsScreen extends Screen
 {
-    public $name = 'Список товаров';
+    protected $name = 'Список товаров';
 
     public function __construct(private Request $request, private readonly CatalogService $service) {}
 
@@ -52,4 +53,25 @@ class CatalogGoodsScreen extends Screen
     {
         $this->service->deleteGood($id);
     }
+
+    #region Filter
+    public function runFiltering(Request $request): RedirectResponse
+    {
+        $input = $request->all(CatalogGoodsFilter::FIELDS);
+
+        $list = [];
+        foreach (CatalogGoodsFilter::FIELDS as $item) {
+            if (!is_null($input[$item])) {
+                $list[$item] = $input[$item];
+            }
+        }
+
+        return redirect()->route('catalog.goods.list', $list);
+    }
+
+    public function clearFilter(): RedirectResponse
+    {
+        return redirect()->route('catalog.goods.list');
+    }
+    #endregion
 }

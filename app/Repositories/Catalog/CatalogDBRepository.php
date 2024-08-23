@@ -10,6 +10,7 @@ use App\Models\Catalog\CatalogGroupAttribute;
 use App\Models\Catalog\CatalogType;
 use App\Models\Catalog\Good;
 use App\Models\Catalog\GoodAttribute;
+use App\Models\Catalog\Image;
 use App\Models\Catalog\Manufacturer;
 use App\Repositories\RepositoryBase;
 
@@ -64,5 +65,15 @@ readonly class CatalogDBRepository extends RepositoryBase implements CatalogRepo
     public function deleteGood(int $id): void
     {
         $this->db->table(Good::getTableName())->where('id', $id)->delete();
+    }
+
+    public function getGoodLogo(int $goodId): ?Image
+    {
+        return Image::where('good_id', $goodId)->first();
+    }
+
+    public function getManufacturer(int $id): ?Manufacturer
+    {
+        return Manufacturer::loadBy($id);
     }
 }

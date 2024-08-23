@@ -8,6 +8,7 @@ use App\Models\Catalog\CatalogAttribute;
 use App\Models\Catalog\CatalogAttributeValue;
 use App\Models\Catalog\CatalogGroupAttribute;
 use App\Models\Catalog\CatalogType;
+use App\Models\Catalog\Image;
 use App\Models\Catalog\Manufacturer;
 use App\Repositories\Catalog\CatalogRepositoryInterface;
 use App\Services\ImageUploader\Enum\ImageTypeEnum;
@@ -64,5 +65,15 @@ final readonly class CatalogService
     {
         $this->imageUploader->deleteImagesWithModels($id, ImageTypeEnum::Good);
         $this->repository->deleteGood($id);
+    }
+
+    public function getGoodLogo(int $goodId): ?Image
+    {
+        return $this->repository->getGoodLogo($goodId);
+    }
+
+    public function getManufacturerName(int $manufacturerId): ?string
+    {
+        return $this->repository->getManufacturer($manufacturerId)?->name ?? null;
     }
 }
