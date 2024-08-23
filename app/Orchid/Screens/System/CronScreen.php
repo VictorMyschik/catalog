@@ -28,9 +28,8 @@ class CronScreen extends Screen
     public function commandBar(): iterable
     {
         return [
-            ModalToggle::make('Add')
-                ->class('mr-border-radius-5')
-                ->type(Color::INFO())
+            ModalToggle::make('add')
+                ->class('mr-btn-success')
                 ->icon('plus')
                 ->modal('cron_modal')
                 ->modalTitle('Create New Cron Job')
@@ -38,9 +37,8 @@ class CronScreen extends Screen
                 ->asyncParameters(['id' => 0]),
 
             Button::make('Run all active')
-                ->class('mr-border-radius-5')
+                ->class('mr-btn-success')
                 ->icon('refresh')
-                ->type(Color::BASIC())
                 ->method('run', ['id' => self::ALL_ACTIVE])
                 ->confirm('Run all Cron jobs'),
         ];

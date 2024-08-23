@@ -26,7 +26,7 @@ class CacheScreen extends Screen
     {
         return [
             Button::make('Clear')
-                ->type(Color::WARNING())
+                ->class('mr-btn-danger')
                 ->icon('trash')
                 ->novalidate()
                 ->method('cacheClear'),

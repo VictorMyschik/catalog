@@ -42,8 +42,7 @@ class SettingsScreen extends Screen
     {
         return [
             ModalToggle::make('Add')
-                ->class('mr-border-radius-5')
-                ->type(Color::INFO())
+                ->class('mr-btn-success')
                 ->icon('plus')
                 ->modal('setup_modal')
                 ->modalTitle('Settings')

@@ -26,11 +26,11 @@ class CronListLayout extends Table
                 ->sort()
                 ->defaultHidden(),
             TD::make('created_at', 'Created')
-                ->render(fn(Cron $cron) => $cron->getCreated())
+                ->render(fn(Cron $cron) => $cron->created_at->format('d.m.Y H:i:s'))
                 ->sort()
                 ->defaultHidden(),
             TD::make('updated_at', 'Updated')
-                ->render(fn(Cron $cron) => $cron->getUpdated())
+                ->render(fn(Cron $cron) => $cron->updated_at->format('d.m.Y H:i:s'))
                 ->sort()
                 ->defaultHidden(),
         ];

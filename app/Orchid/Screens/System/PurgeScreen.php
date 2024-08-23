@@ -39,6 +39,7 @@ class PurgeScreen extends Screen
 
         if (ENV('PRODUCTION') !== true) {
             $btn = Button::make('Purge')
+                ->class('mr-btn-danger')
                 ->icon('trash')
                 ->method('purge')
                 ->confirm('Вы уверены, что хотите удалить все данные?');
