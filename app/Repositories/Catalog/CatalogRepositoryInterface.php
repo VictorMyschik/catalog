@@ -15,6 +15,8 @@ interface CatalogRepositoryInterface
 {
     public function isGoodExist(string $stringId): bool;
 
+    public function getCatalogTypeList(): array;
+
     public function getCatalogTypeById(int $id): CatalogType;
 
     public function saveGood(int $id, array $data): int;
@@ -34,4 +36,6 @@ interface CatalogRepositoryInterface
     public function getGoodLogo(int $goodId): ?Image;
 
     public function getManufacturer(int $id): ?Manufacturer;
+
+    public function hasGoodByIntId(int $intId): bool;
 }

@@ -15,7 +15,6 @@ return new class extends Migration {
         Schema::create('cron', function (Blueprint $table): void {
             $table->id();
 
-            $table->string('name', 50);
             $table->boolean('active')->default(false);
             $table->unsignedBigInteger('period');
             $table->timestamp('last_work')->nullable();

@@ -4,8 +4,8 @@ namespace App\Models\System;
 
 use App\Models\Lego\Fields\ActiveFieldTrait;
 use App\Models\Lego\Fields\DescriptionNullableFieldTrait;
-use App\Models\Lego\Fields\NameFieldTrait;
 use App\Models\ORM\ORM;
+use App\Orchid\Screens\System\Enum\CronKeyEnum;
 use Carbon\Carbon;
 use Orchid\Filters\Filterable;
 use Orchid\Screen\AsSource;
@@ -14,7 +14,6 @@ class Cron extends ORM
 {
     use AsSource;
     use Filterable;
-    use NameFieldTrait;
     use DescriptionNullableFieldTrait;
     use ActiveFieldTrait;
 
@@ -46,9 +45,9 @@ class Cron extends ORM
         $this->period = $value;
     }
 
-    public function getCronKey(): string
+    public function getCronKey(): CronKeyEnum
     {
-        return $this->cron_key;
+        return CronKeyEnum::from($this->cron_key);
     }
 
     public function setCronKey(string $value): void

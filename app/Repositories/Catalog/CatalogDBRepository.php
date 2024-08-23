@@ -76,4 +76,14 @@ readonly class CatalogDBRepository extends RepositoryBase implements CatalogRepo
     {
         return Manufacturer::loadBy($id);
     }
+
+    public function getCatalogTypeList(): array
+    {
+        return CatalogType::get()->all();
+    }
+
+    public function hasGoodByIntId(int $intId): bool
+    {
+        return $this->db->table(Good::getTableName())->where('int_id', $intId)->exists();
+    }
 }

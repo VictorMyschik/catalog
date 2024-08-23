@@ -5,18 +5,20 @@ namespace App\Orchid\Screens\System;
 use App\Models\System\Cron;
 use App\Orchid\Layouts\System\Cron\CronEditLayout;
 use App\Orchid\Layouts\System\Cron\CronListLayout;
+use App\Services\System\CronService;
 use Illuminate\Http\Request;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Screen;
-use Orchid\Support\Color;
 use Orchid\Support\Facades\Layout;
 
 class CronScreen extends Screen
 {
     private const int ALL_ACTIVE = -1;
 
-    public ?string $name = 'Cron';
+    protected ?string $name = 'Cron';
+
+    public function __construct(private readonly CronService $service) {}
 
     public function query(): iterable
     {
@@ -66,7 +68,15 @@ class CronScreen extends Screen
         $cron->setCronKey($request->get('cron')['cron_key']);
         $cron->setPeriod((int)$request->get('cron')['period']);
         $cron->setDescription($request->get('cron')['description']);
-        $cron->setName($request->get('cron')['name']);
         $cron->saveMr();
+    }
+
+    public function run(int $id): void
+    {
+        if($id === self::ALL_ACTIVE) {
+            $this->runAllActive();
+            return;
+        }
+        $this->service->runById($id);
     }
 }

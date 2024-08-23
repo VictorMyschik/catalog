@@ -18,7 +18,6 @@ class CronListLayout extends Table
         $rows = [
             TD::make('id', 'ID')->sort(),
             TD::make('active', 'Active')->sort()->active(),
-            TD::make('name')->sort(),
             TD::make('period')->sort(),
             TD::make('description', 'Description')->width('50%')->defaultHidden()->sort(),
             TD::make('last_work', 'Last Work')

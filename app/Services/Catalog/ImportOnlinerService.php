@@ -4,17 +4,21 @@ declare(strict_types=1);
 
 namespace App\Services\Catalog;
 
+use App\Jobs\Catalog\DownloadGoodJob;
+use App\Jobs\Catalog\SearchGoodsByCatalogTypeJob;
 use App\Models\Catalog\CatalogType;
 use App\Services\HTTPClientService\HTTPClient;
 use App\Services\ImageUploader\ImageUploadService;
+use Exception;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\DomCrawler\Crawler;
 
 final class ImportOnlinerService
 {
     public function __construct(
-        private HTTPClient         $client,
-        private CatalogService     $onlinerService,
-        private ImageUploadService $imageService
+        private readonly HTTPClient         $client,
+        private readonly CatalogService     $catalogService,
+        private readonly ImageUploadService $imageService
     ) {}
 
     public function import(string $stringId, CatalogType $type, string $url, bool $isLoadImages): int
@@ -29,7 +33,7 @@ final class ImportOnlinerService
 
     private function createGoodWithAllInfo(CatalogType $type, array $parsedData, string $url, string $cleanData, bool $isLoadImages = true): int
     {
-        $goodId = $this->onlinerService->saveGood(0, [
+        $goodId = $this->catalogService->saveGood(0, [
             'type_id'   => $type->id(),
             'name'      => $parsedData['good_name'],
             'string_id' => $parsedData['string_id'],
@@ -62,13 +66,13 @@ final class ImportOnlinerService
     {
         $crawler = new Crawler($data);
 
-        $tmp_link = $crawler->filter('div > .product-gallery__thumb')->each(function ($link, $i) {
+        $tmp_link = $crawler->filter('div > .product-gallery__thumb')->each(function ($link) {
             return $link->attr('data-original');
         });
 
         $links = array();
 
-        foreach ($tmp_link as $key => $item) {
+        foreach ($tmp_link as $item) {
             if (str_contains((string)$item, 'https://imgproxy.onliner.by') !== false) {
                 $links[] = $item;
             }
@@ -79,13 +83,13 @@ final class ImportOnlinerService
 
     private function updateGoodWithManufacturer(int $goodId, string $stringId): void
     {
-        $jsonData = $this->client->doGet("https://catalog.onliner.by/sdapi/catalog.api/products/{$stringId}");
+        $jsonData = $this->client->doGet("https://catalog.onliner.by/sdapi/catalog.api/products/$stringId");
         $data = json_decode((string)$jsonData, true);
 
         $dataForUpdate['int_id'] = $data['id'] ?? null;
 
         if ($manufacturerJson = $data['manufacturer'] ?? null) {
-            $manufacturer = $this->onlinerService->getManufacturerOrCreateNew([
+            $manufacturer = $this->catalogService->getManufacturerOrCreateNew([
                 'name'    => $manufacturerJson['name'],
                 'address' => $manufacturerJson['legal_address']
             ]);
@@ -104,7 +108,7 @@ final class ImportOnlinerService
         $dataForUpdate['description'] = $data['description'] ?? null;
         $dataForUpdate['sl'] = $jsonData;
 
-        $this->onlinerService->saveGood($goodId, $dataForUpdate);
+        $this->catalogService->saveGood($goodId, $dataForUpdate);
     }
 
     private function insertGoodAttributes(int $goodId, array $attributes = array()): void
@@ -120,7 +124,7 @@ final class ImportOnlinerService
         }
 
         if (count($newGoodAttributes)) {
-            $this->onlinerService->createGoodAttributes($newGoodAttributes);
+            $this->catalogService->createGoodAttributes($newGoodAttributes);
         }
     }
 
@@ -130,13 +134,13 @@ final class ImportOnlinerService
 
         foreach ($data as $group_name => $sub_group) {
             $sortOrder = 1000;
-            $group = $this->onlinerService->getGroupAttributeOrCreateNew($type->id(), $group_name, $sortOrder);
+            $group = $this->catalogService->getGroupAttributeOrCreateNew($type->id(), $group_name, $sortOrder);
 
             foreach ($sub_group as $title => $value) {
-                $catalogAttribute = $this->onlinerService->getCatalogAttributeOrCreateNew($group, $title);
+                $catalogAttribute = $this->catalogService->getCatalogAttributeOrCreateNew($group, $title);
 
-                $this->onlinerService->getCatalogAttributeValueOrCreateNew($catalogAttribute, null);
-                $catalogAttributeValue = $this->onlinerService->getCatalogAttributeValueOrCreateNew($catalogAttribute, $value['text_value'] ?: null);
+                $this->catalogService->getCatalogAttributeValueOrCreateNew($catalogAttribute, null);
+                $catalogAttributeValue = $this->catalogService->getCatalogAttributeValueOrCreateNew($catalogAttribute, $value['text_value'] ?: null);
 
                 $out[] = [
                     'bool'     => $value['bool'],
@@ -235,5 +239,65 @@ final class ImportOnlinerService
         }
 
         return $this->urls;
+    }
+
+    public function updateCatalogGoods(): void
+    {
+        $list = $this->catalogService->getCatalogTypeList();
+
+        foreach ($list as $type) {
+            SearchGoodsByCatalogTypeJob::dispatch($type);
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function searchNewGoodsByCatalogType(CatalogType $type): void
+    {
+        if (!$type->getJsonLink()) {
+            throw new Exception('Поиск и добавление новых товаров в каталог: ' . $type->getName() . ' - нет ссылки на json');
+        }
+
+        if (!$article = $type->getOnlinerArticleName()) {
+            throw new Exception('Поиск и добавление новых товаров в каталог: ' . $type->getName() . ' - нет артикула');
+        }
+
+        $link = "https://catalog.onliner.by/sdapi/catalog.api/search/$article?page=1";
+
+        // Получение списка страниц
+        $json = (string)$this->client->doGet($link);
+        $data = @json_decode($json, true);
+
+        // количество всего страниц
+        if ($data['page'] ?? null) {
+            $cntPage = $data['page']['last'] ?? 2;
+
+            // Создание задач. Одна страница - одна задача
+            for ($i = 1; $i <= $cntPage; $i++) {
+                $link = "https://catalog.onliner.by/sdapi/catalog.api/search/$article?page=$i";
+                DownloadGoodJob::dispatch($type, $link);
+            }
+        }
+    }
+
+    public function downloadGoods(CatalogType $type, string $link): void
+    {
+        $data = (string)$this->client->doGet($link);
+        $json = @json_decode($data, true);
+
+        if (isset($json['products']) && count($json['products'])) {
+            foreach ($json['products'] as $product) {
+                // Постановка в очередь проверки и скачки новых товаров
+                if (!$this->catalogService->hasGoodByIntId((int)$product['id']) && $product['html_url'] ?? null) {
+                    // Найден новый товар - постановка задачи на скачивание
+                    $this->import(stringId: $product['key'], type: $type, url: (string)$product['html_url'], isLoadImages: true);
+                } else {
+                    Log::info('Новый товар ' . $product['id'] . " без HTML ссылки");
+                }
+            }
+        } else {
+            Log::info($type->getName() . " не нашёл товаров вообще");
+        }
     }
 }

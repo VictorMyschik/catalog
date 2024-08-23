@@ -22,8 +22,21 @@ class CatalogType extends ORM
         'json_link' => 'string',
     ];
 
-    public function getJonLink(): ?string
+    public function getJsonLink(): ?string
     {
         return $this->json_link;
+    }
+
+    public function getOnlinerArticleName(): ?string
+    {
+        $link = (string)$this->getJsonLink();
+
+        if (strpos($link, 'page=1')) {
+            $link = str_replace('?page=1', '', $link);
+        }
+
+        $tmpArr = explode('/', $link);
+
+        return array_pop($tmpArr);
     }
 }

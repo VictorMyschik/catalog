@@ -26,6 +26,11 @@ final readonly class CatalogService
         return $this->repository->isGoodExist($stringId);
     }
 
+    public function getCatalogTypeList(): array
+    {
+        return $this->repository->getCatalogTypeList();
+    }
+
     public function getCatalogTypeById(int $id): CatalogType
     {
         return $this->repository->getCatalogTypeById($id);
@@ -75,5 +80,10 @@ final readonly class CatalogService
     public function getManufacturerName(int $manufacturerId): ?string
     {
         return $this->repository->getManufacturer($manufacturerId)?->name ?? null;
+    }
+
+    public function hasGoodByIntId(int $intId): bool
+    {
+        return $this->repository->hasGoodByIntId($intId);
     }
 }
