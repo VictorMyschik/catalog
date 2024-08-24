@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Orchid\Screens\Catalog\CatalogGoodsScreen;
+use App\Orchid\Screens\Catalog\CatalogTypesScreen;
 use App\Orchid\Screens\Catalog\ManufacturerScreen;
 use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
@@ -77,4 +78,5 @@ Route::screen('system/purge', PurgeScreen::class)->name('system.purge');
 
 // Catalog
 Route::screen('catalog/goods/list', CatalogGoodsScreen::class)->name('catalog.goods.list');
-Route::screen('catalog/manufacturer/list', ManufacturerScreen::class)->name('catalog.manufacturer.list');
+Route::screen('catalog/manufacturers/list', ManufacturerScreen::class)->name('catalog.manufacturer.list');
+Route::screen('catalog/types/list', CatalogTypesScreen::class)->name('catalog.type.list');

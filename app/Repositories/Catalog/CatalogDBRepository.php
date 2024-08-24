@@ -91,4 +91,18 @@ readonly class CatalogDBRepository extends RepositoryBase implements CatalogRepo
     {
         $this->db->table(Manufacturer::getTableName())->where('id', $manufacturerId)->delete();
     }
+
+    public function deleteCatalogType(int $typeId): void
+    {
+        $this->db->table(CatalogType::getTableName())->where('id', $typeId)->delete();
+    }
+
+    public function saveCatalogType(int $id, array $type): void
+    {
+        if ($id > 0) {
+            $this->db->table(CatalogType::getTableName())->where('id', $id)->update($type);
+        } else {
+            $this->db->table(CatalogType::getTableName())->insert($type);
+        }
+    }
 }

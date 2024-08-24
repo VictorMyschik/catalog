@@ -7,13 +7,23 @@ namespace App\Models\Catalog;
 use App\Models\Lego\Fields\JsonFieldTrait;
 use App\Models\Lego\Fields\NameFieldTrait;
 use App\Models\ORM\ORM;
+use Orchid\Filters\Filterable;
+use Orchid\Screen\AsSource;
 
 class CatalogType extends ORM
 {
+    use AsSource;
+    use Filterable;
     use NameFieldTrait;
     use JsonFieldTrait;
 
     protected $table = 'catalog_types';
+
+    protected array $allowedSorts = [
+        'id',
+        'name',
+        'json_link',
+    ];
 
     protected $casts = [
         'id'        => 'int',

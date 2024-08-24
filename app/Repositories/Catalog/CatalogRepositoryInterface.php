@@ -40,4 +40,8 @@ interface CatalogRepositoryInterface
     public function hasGoodByIntId(int $intId): bool;
 
     public function deleteManufacturer(int $manufacturerId): void;
+
+    public function deleteCatalogType(int $typeId): void;
+
+    public function saveCatalogType(int $id, array $type): void;
 }

@@ -20,7 +20,7 @@ class CatalogControllerTest extends TestCase
 
         $request = new Request([
             'url'            => 'https://catalog.onliner.by/sdapi/catalog.api/search/cpu',
-            'type_id'        => 1,
+            'type_id'        => 7,
             'is_load_images' => true,
             'complex'        => true,
             'max'            => 10,

@@ -29,6 +29,9 @@ class GoodListLayout extends Table
             TD::make('manufacturer_id', 'Производитель')->render(function (Good $good) {
                 return $this->service->getManufacturerName($good->manufacturer_id);
             })->sort(),
+            TD::make('type_id', 'Тип')->render(function (Good $good) {
+                return $this->service->getCatalogTypeById($good->type_id)->getName();
+            })->sort(),
             TD::make('prefix', 'Префикс')->sort(),
             TD::make('name')->render(function (Good $good) {
                 return "<a href='{$good->link}' target='_blank'>{$good->name}</a>";

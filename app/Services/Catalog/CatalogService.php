@@ -91,4 +91,14 @@ final readonly class CatalogService
     {
         $this->repository->deleteManufacturer($manufacturerId);
     }
+
+    public function deleteCatalogType(int $typeId): void
+    {
+        $this->repository->deleteCatalogType($typeId);
+    }
+
+    public function saveCatalogType(int $id, array $type): void
+    {
+        $this->repository->saveCatalogType($id, $type);
+    }
 }
