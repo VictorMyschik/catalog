@@ -54,10 +54,8 @@ final readonly class ImageUploadService
         $dir = '';
         /** @var Image[] $images */
         foreach ($images as $image) {
-            $this->deleteFile($image->getFilePathWithName());
-            $this->imageRepository->deleteImage($image);
-
             $dir = $image->getPath();
+            $this->deleteImage($image);
         }
 
         $dir && $this->filesystem->deleteDirectory($dir);
@@ -83,5 +81,17 @@ final readonly class ImageUploadService
             'image/webp' => '.webp',
             default => '',
         };
+    }
+
+    private function deleteImage(Image $image): void
+    {
+        $this->deleteFile($image->getFilePathWithName());
+        $this->imageRepository->deleteImage($image);
+    }
+
+    public function deleteImageById(int $id): void
+    {
+        $image = $this->imageRepository->getImageById($id);
+        $image && $this->deleteImage($image);
     }
 }

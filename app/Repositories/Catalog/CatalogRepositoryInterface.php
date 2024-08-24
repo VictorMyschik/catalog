@@ -47,4 +47,6 @@ interface CatalogRepositoryInterface
     public function saveCatalogType(int $id, array $type): void;
 
     public function getGoodById(int $id): ?Good;
+
+    public function getGoodImages(int $goodId): array;
 }

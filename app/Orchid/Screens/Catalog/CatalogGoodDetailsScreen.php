@@ -10,6 +10,7 @@ use App\Orchid\Layouts\Lego\InfoModalLayout;
 use App\Services\Catalog\CatalogService;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Request;
+use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Fields\Group;
 use Orchid\Screen\Fields\Input;
@@ -60,9 +61,26 @@ class CatalogGoodDetailsScreen extends Screen
             $this->getAdditionalLayout(),
         ]);
 
+        $out[] = Layout::rows([$this->getImageLayout()]);
+
         $out[] = Layout::modal('view_good', InfoModalLayout::class)->async('asyncGetGood')->size(Modal::SIZE_XL);
 
         return $out;
+    }
+
+    private function getImageLayout(): ViewField
+    {
+        $images = $this->service->getGoodImages($this->good->id());
+
+        foreach ($images as $image) {
+            $image->btn = Group::make([
+                Button::make('удалить')->class('mr-btn-danger')->icon('trash')->confirm('Удалить?')
+                    ->method('deleteImage')->novalidate()
+                    ->parameters(['image_id' => $image->id()]),
+            ])->autoWidth()->render();
+        }
+
+        return ViewField::make('')->view('admin.good_images')->value($images);
     }
 
     private function getBaseLayout(): Rows
@@ -107,5 +125,10 @@ class CatalogGoodDetailsScreen extends Screen
                 Label::make('good.int_id')->title('Числовой ID'),
             ]),
         ]);
+    }
+
+    public function deleteImage(int $image_id): void
+    {
+        $this->service->deleteImage($image_id);
     }
 }

@@ -107,4 +107,14 @@ final readonly class CatalogService
     {
         return $this->repository->getGoodById($id);
     }
+
+    public function getGoodImages(int $goodId): array
+    {
+        return $this->repository->getGoodImages($goodId);
+    }
+
+    public function deleteImage(int $imageId): void
+    {
+        $this->imageUploader->deleteImageById($imageId);
+    }
 }

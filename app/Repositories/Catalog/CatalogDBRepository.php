@@ -110,4 +110,9 @@ readonly class CatalogDBRepository extends RepositoryBase implements CatalogRepo
     {
         return Good::loadBy($id);
     }
+
+    public function getGoodImages(int $goodId): array
+    {
+        return Image::where('good_id', $goodId)->get()->all();
+    }
 }
