@@ -66,14 +66,23 @@ class CatalogGoodDetailsScreen extends Screen
         ]);
 
         $out[] = Layout::rows([$this->getImageLayout()]);
-
-        $out[] = Layout::modal('view_good', InfoModalLayout::class)->async('asyncGetGood')->size(Modal::SIZE_XL);
-
+        $out[] = Layout::rows($this->getAttributeLayout());
         $out[] = Layout::rows([
             ActionDeleteModelLayout::getActionButtons('Удалить товар', 'deleteGood', ['id' => $this->good->id()]),
         ]);
 
+        $out[] = Layout::modal('view_good', InfoModalLayout::class)->async('asyncGetGood')->size(Modal::SIZE_XL);
+
         return $out;
+    }
+
+    private function getAttributeLayout(): array
+    {
+        $list = $this->service->getGoodAttributes($this->good->id());
+
+        return [
+            ViewField::make('')->view('admin.good_attributes')->value($list),
+        ];
     }
 
     private function getImageLayout(): ViewField
@@ -128,7 +137,6 @@ class CatalogGoodDetailsScreen extends Screen
             Relation::make('good.manufacturer_id')->title('Производитель')->fromModel(Manufacturer::class, 'name'),
             Group::make([
                 Label::make('good.link')->title('Ссылка на onliner.by'),
-
             ]),
             Group::make([
                 Switcher::make('good.is_certification')->sendTrueOrFalse()->title('Требование сертификации'),

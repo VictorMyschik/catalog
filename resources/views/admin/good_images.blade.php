@@ -5,10 +5,10 @@
                 <img src="{{$image->getUrl()}}" alt="">
             </a>
             <div class="slider-item--block">
-                <div class="slider-item--desc p-2">
+                <div class="slider-item--desc p-1">
                     {{$image->getFileName()}}
                 </div>
-                <div class="slider-item--footer p-2">
+                <div class="slider-item--footer p-1">
                     {{$image->btn}}
                 </div>
             </div>
@@ -18,15 +18,14 @@
 <style>
     .slider-wrapper {
         display: flex;
-        padding: 1rem;
         margin: 0 1px;
         overflow-x: auto;
-        height: 300px;
+        height: 250px;
     }
 
     .slider-item {
         flex: 0 0 300px;
-        height: 150px;
+        height: 120px;
         padding: 1rem;
         margin-right: 1rem;
     }

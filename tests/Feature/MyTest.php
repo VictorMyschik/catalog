@@ -1,14 +1,14 @@
 <?php
 
-use App\Jobs\TestJob;
+use App\Services\Catalog\CatalogService;
 use Tests\TestCase;
 
 class MyTest extends TestCase
 {
     public function testMy()
     {
-        for ($i = 0; $i < 10; $i++) {
-            TestJob::dispatch();
-        }
+        /** @var CatalogService $service */
+        $service = app(CatalogService::class);
+        $r = $service->getGoodAttributes(1);
     }
 }

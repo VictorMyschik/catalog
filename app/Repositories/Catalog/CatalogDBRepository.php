@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories\Catalog;
 
+use App\Helpers\System\MrCacheHelper;
 use App\Models\Catalog\CatalogAttribute;
 use App\Models\Catalog\CatalogAttributeValue;
 use App\Models\Catalog\CatalogGroupAttribute;
@@ -12,7 +13,12 @@ use App\Models\Catalog\Good;
 use App\Models\Catalog\GoodAttribute;
 use App\Models\Catalog\Image;
 use App\Models\Catalog\Manufacturer;
+use App\Models\Catalog\MrCatalogAttribute;
+use App\Models\Catalog\MrCatalogAttributeValue;
+use App\Models\Catalog\MrCatalogGroup;
+use App\Models\Good\MrGoodAttribute;
 use App\Repositories\RepositoryBase;
+use Illuminate\Support\Facades\DB;
 
 readonly class CatalogDBRepository extends RepositoryBase implements CatalogRepositoryInterface
 {
@@ -115,5 +121,38 @@ readonly class CatalogDBRepository extends RepositoryBase implements CatalogRepo
     public function getGoodImages(int $goodId): array
     {
         return Image::where('good_id', $goodId)->get()->all();
+    }
+
+    public function getGoodAttributes(int $goodId): array
+    {
+        $query = DB::table(GoodAttribute::getTableName());
+
+        $query->join(CatalogAttributeValue::getTableName(),
+            CatalogAttributeValue::getTableName() . '.id', '=',
+            GoodAttribute::getTableName() . '.attribute_value_id');
+
+        $query->join(CatalogAttribute::getTableName(),
+            CatalogAttribute::getTableName() . '.id', '=',
+            CatalogAttributeValue::getTableName() . '.catalog_attribute_id');
+
+        $query->join(CatalogGroupAttribute::getTableName(),
+            CatalogGroupAttribute::getTableName() . '.id', '=',
+            CatalogAttribute::getTableName() . '.group_attribute_id');
+
+        $query->where(GoodAttribute::getTableName() . '.good_id', $goodId);
+
+        $query->orderBy(CatalogGroupAttribute::getTableName() . '.sort', 'ASC');
+        $query->orderBy(CatalogAttribute::getTableName() . '.sort', 'ASC');
+
+        return $query->select([
+            CatalogGroupAttribute::getTableName() . '.name as group_name',
+            CatalogAttribute::getTableName() . '.name as attribute_name',
+            CatalogAttribute::getTableName() . '.sort as attribute_sort',
+            CatalogAttributeValue::getTableName() . '.text_value as attribute_value',
+            CatalogAttributeValue::getTableName() . '.id as attribute_value_id',
+            GoodAttribute::getTableName() . '.bool_value as bool_value',
+            GoodAttribute::getTableName() . '.id as good_attribute_id',
+            CatalogGroupAttribute::getTableName() . '.sort as group_sort',
+        ])->get()->all();
     }
 }

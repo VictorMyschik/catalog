@@ -117,4 +117,35 @@ final readonly class CatalogService
     {
         $this->imageUploader->deleteImageById($imageId);
     }
+
+    public function getGoodAttributes(int $goodId): array
+    {
+        $out = array();
+
+        foreach ($this->repository->getGoodAttributes($goodId) as $item) {
+            $attributeGroupName = $item->group_name;
+            $attributeGroupSort = $item->group_sort;
+
+            $class = '';
+            if (!is_null($item->bool_value)) {
+                $class = $item->bool_value ? '<i class="fa fa-check"></i> ' : '<i class="fa fa-times-circle"></i>';
+            }
+
+            $value = $class . ' ' . $item->attribute_value;
+
+
+            $id = $item->good_attribute_id;
+
+            $out[$attributeGroupName]['data'][] = array(
+                'id'         => $id,
+                'name'       => $item->attribute_name,
+                'value'      => $value,
+                'sort'       => $item->attribute_sort,
+            );
+
+            $out[$attributeGroupName]['sort'] = $attributeGroupSort;
+        }
+
+        return $out;
+    }
 }
