@@ -8,6 +8,7 @@ use App\Jobs\JobsEnum;
 use App\Models\Catalog\CatalogType;
 use App\Services\Catalog\ImportOnlinerService;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
@@ -15,7 +16,7 @@ use Illuminate\Queue\SerializesModels;
 /**
  * Скачивание товаров с onliner.by
  */
-class DownloadGoodJob
+class DownloadGoodJob implements ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;

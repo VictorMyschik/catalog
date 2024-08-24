@@ -86,4 +86,9 @@ final readonly class CatalogService
     {
         return $this->repository->hasGoodByIntId($intId);
     }
+
+    public function deleteManufacturer(int $manufacturerId): void
+    {
+        $this->repository->deleteManufacturer($manufacturerId);
+    }
 }

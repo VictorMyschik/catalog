@@ -8,11 +8,12 @@ use App\Jobs\JobsEnum;
 use App\Models\Catalog\CatalogType;
 use App\Services\Catalog\ImportOnlinerService;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class SearchGoodsByCatalogTypeJob
+class SearchGoodsByCatalogTypeJob implements ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;

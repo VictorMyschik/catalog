@@ -16,6 +16,8 @@
     "symfony/dom-crawler": "^6.4.x-dev",
     "orchid/icons": "^2.2.1",
     "orchid/platform": "14.28.2",
+    "php-amqplib/php-amqplib": "^3.7",
+    "tymon/jwt-auth": "^2.0",
     "vladimir-yuldashev/laravel-queue-rabbitmq": "^14.1"
   },
   "require-dev": {

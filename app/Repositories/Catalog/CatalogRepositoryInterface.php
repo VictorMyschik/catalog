@@ -38,4 +38,6 @@ interface CatalogRepositoryInterface
     public function getManufacturer(int $id): ?Manufacturer;
 
     public function hasGoodByIntId(int $intId): bool;
+
+    public function deleteManufacturer(int $manufacturerId): void;
 }

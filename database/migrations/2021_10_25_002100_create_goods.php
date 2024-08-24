@@ -26,7 +26,7 @@ return new class extends Migration {
             $table->timestampTz('updated_at')->nullable()->useCurrentOnUpdate();
 
             $table->foreign('type_id')->references('id')->on('catalog_types')->cascadeOnDelete();
-            $table->foreign('manufacturer_id')->references('id')->on('manufacturers')->cascadeOnDelete();
+            $table->foreign('manufacturer_id')->references('id')->on('manufacturers')->onDelete('set null');
         });
     }
 

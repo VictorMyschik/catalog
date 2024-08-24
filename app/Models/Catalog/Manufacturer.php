@@ -6,12 +6,22 @@ namespace App\Models\Catalog;
 
 use App\Models\Lego\Fields\NameFieldTrait;
 use App\Models\ORM\ORM;
+use Orchid\Filters\Filterable;
+use Orchid\Screen\AsSource;
 
 class Manufacturer extends ORM
 {
+    use AsSource;
+    use Filterable;
     use NameFieldTrait;
 
     protected $table = 'manufacturers';
+
+    protected array $allowedSorts = [
+        'id',
+        'name',
+        'address',
+    ];
 
     protected $fillable = [
         'name',

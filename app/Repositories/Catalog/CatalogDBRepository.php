@@ -86,4 +86,9 @@ readonly class CatalogDBRepository extends RepositoryBase implements CatalogRepo
     {
         return $this->db->table(Good::getTableName())->where('int_id', $intId)->exists();
     }
+
+    public function deleteManufacturer(int $manufacturerId): void
+    {
+        $this->db->table(Manufacturer::getTableName())->where('id', $manufacturerId)->delete();
+    }
 }
