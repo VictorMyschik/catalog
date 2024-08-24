@@ -6,10 +6,12 @@ namespace App\Orchid\Screens\Catalog;
 
 use App\Models\Catalog\Good;
 use App\Models\Catalog\Manufacturer;
+use App\Orchid\Layouts\Lego\ActionDeleteModelLayout;
 use App\Orchid\Layouts\Lego\InfoModalLayout;
 use App\Services\Catalog\CatalogService;
-use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Fields\Group;
@@ -49,7 +51,9 @@ class CatalogGoodDetailsScreen extends Screen
 
     public function commandBar(): iterable
     {
-        return [];
+        return [
+            Button::make('Сохранить')->class('mr-btn-success')->method('saveGood')->parameters(['id' => $this->good->id()]),
+        ];
     }
 
     public function layout(): iterable
@@ -64,6 +68,10 @@ class CatalogGoodDetailsScreen extends Screen
         $out[] = Layout::rows([$this->getImageLayout()]);
 
         $out[] = Layout::modal('view_good', InfoModalLayout::class)->async('asyncGetGood')->size(Modal::SIZE_XL);
+
+        $out[] = Layout::rows([
+            ActionDeleteModelLayout::getActionButtons('Удалить товар', 'deleteGood', ['id' => $this->good->id()]),
+        ]);
 
         return $out;
     }
@@ -86,7 +94,7 @@ class CatalogGoodDetailsScreen extends Screen
     private function getBaseLayout(): Rows
     {
         return Layout::rows([
-            Input::make('good.name')->title('Наименование'),
+            Input::make('good.name')->required()->title('Наименование'),
             Input::make('good.prefix')->title('Префикс'),
             Input::make('good.short_info')->title('Краткая информация'),
             TextArea::make('good.description')->name('good.description')->rows(5)->title('Описание'),
@@ -100,6 +108,20 @@ class CatalogGoodDetailsScreen extends Screen
         ];
     }
 
+    public function saveGood(Request $request, int $id): void
+    {
+        $input = Validator::make($request->all(), [
+            'good.name'             => 'required',
+            'good.prefix'           => 'nullable',
+            'good.short_info'       => 'nullable',
+            'good.description'      => 'nullable',
+            'good.manufacturer_id'  => 'nullable|integer',
+            'good.is_certification' => 'boolean',
+        ])->validate()['good'];
+
+        $this->service->saveGood($id, $input);
+    }
+
     private function getAdditionalLayout(): Rows
     {
         return Layout::rows([
@@ -109,7 +131,7 @@ class CatalogGoodDetailsScreen extends Screen
 
             ]),
             Group::make([
-                Switcher::make('good.is_certification')->title('Требование сертификации'),
+                Switcher::make('good.is_certification')->sendTrueOrFalse()->title('Требование сертификации'),
                 Label::make('good.link')->title('Ссылка на onliner.by'),
             ]),
             Group::make([
@@ -130,5 +152,12 @@ class CatalogGoodDetailsScreen extends Screen
     public function deleteImage(int $image_id): void
     {
         $this->service->deleteImage($image_id);
+    }
+
+    public function deleteGood(int $id): RedirectResponse
+    {
+        $this->service->deleteGood($id);
+
+        return redirect()->route('catalog.goods.list');
     }
 }

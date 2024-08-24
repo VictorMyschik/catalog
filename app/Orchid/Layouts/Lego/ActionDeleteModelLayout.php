@@ -11,7 +11,12 @@ class ActionDeleteModelLayout
     public static function getActionButtons(string $title, string $methodName = 'remove', array $parameters = []): Group
     {
         return Group::make([
-            Button::make('Clear')->confirm('Удалить?')->class('btn btn-sm')->name($title)->method($methodName)->parameters($parameters)->type(Color::DANGER)->novalidate(),
+            Button::make('Clear')->confirm('Удалить?')
+                ->class('mr-btn-danger')
+                ->name($title)
+                ->method($methodName)
+                ->parameters($parameters)
+                ->novalidate(),
         ])->autoWidth();
     }
 }

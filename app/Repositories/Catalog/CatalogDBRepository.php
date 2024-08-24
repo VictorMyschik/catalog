@@ -29,6 +29,7 @@ readonly class CatalogDBRepository extends RepositoryBase implements CatalogRepo
     public function saveGood(int $id, array $data): int
     {
         if ($id > 0) {
+            $data['updated_at'] = now();
             $this->db->table(Good::getTableName())->where('id', $id)->update($data);
 
             return $id;
