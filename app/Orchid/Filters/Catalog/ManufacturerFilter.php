@@ -52,7 +52,7 @@ class ManufacturerFilter extends Filter
         $input = $request->all(self::FIELDS);
 
         $group = Group::make([
-            Input::make('id')->value((string)$input['id'])->title('ID'),
+            Input::make('id')->value((string)$input['id'])->type('number')->title('ID'),
             Input::make('name')->value((string)$input['name'])->title('Название'),
             Input::make('address')->value((string)$input['address'])->title('Адрес'),
         ]);

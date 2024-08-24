@@ -46,21 +46,21 @@ class ManufacturerScreen extends Screen
     #region Filter
     public function runFiltering(Request $request): RedirectResponse
     {
-        $input = $request->all(CatalogGoodsFilter::FIELDS);
+        $input = $request->all(ManufacturerFilter::FIELDS);
 
         $list = [];
-        foreach (CatalogGoodsFilter::FIELDS as $item) {
+        foreach (ManufacturerFilter::FIELDS as $item) {
             if (!is_null($input[$item])) {
                 $list[$item] = $input[$item];
             }
         }
 
-        return redirect()->route('catalog.goods.list', $list);
+        return redirect()->route('catalog.manufacturer.list', $list);
     }
 
     public function clearFilter(): RedirectResponse
     {
-        return redirect()->route('catalog.goods.list');
+        return redirect()->route('catalog.manufacturer.list');
     }
     #endregion
 }
