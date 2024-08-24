@@ -7,7 +7,7 @@ namespace App\Models\Lego\Fields;
  */
 trait JsonFieldTrait
 {
-    public function getSL(): ?string
+    public function getSL()//: ?string
     {
         return $this->sl;
     }

@@ -8,6 +8,7 @@ use App\Models\Catalog\Good;
 use App\Models\Catalog\Manufacturer;
 use App\Orchid\Layouts\Lego\InfoModalLayout;
 use App\Services\Catalog\CatalogService;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Request;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Fields\Group;
@@ -24,7 +25,7 @@ use Orchid\Support\Facades\Layout;
 
 class CatalogGoodDetailsScreen extends Screen
 {
-    public function __construct(private Request $request, private readonly CatalogService $service) {}
+    public function __construct(private readonly CatalogService $service) {}
 
     public ?Good $good = null;
 
@@ -77,11 +78,11 @@ class CatalogGoodDetailsScreen extends Screen
     public function asyncGetGood(int $id = 0): array
     {
         return [
-            'body' => Good::loadByOrDie($id)->sl,
+            'body' => Good::loadByOrDie($id)->getSL(),
         ];
     }
 
-    private function getAdditionalLayout()
+    private function getAdditionalLayout(): Rows
     {
         return Layout::rows([
             Relation::make('good.manufacturer_id')->title('Производитель')->fromModel(Manufacturer::class, 'name'),
