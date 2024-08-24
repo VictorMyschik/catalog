@@ -219,7 +219,7 @@ final class ImportOnlinerService
 
     private array $urls = [];
 
-    public function parseUrlList(string $url, ?int $max = 0): array
+    public function parseUrlList(string $url, int $max = 0): array
     {
         if ($max && count($this->urls) > $max) {
             return $this->urls;
@@ -246,7 +246,7 @@ final class ImportOnlinerService
         $list = $this->catalogService->getCatalogTypeList();
 
         foreach ($list as $type) {
-            SearchGoodsByCatalogTypeJob::dispatch($type)->onConnection('rabbitmq');
+            SearchGoodsByCatalogTypeJob::dispatch($type);
         }
     }
 

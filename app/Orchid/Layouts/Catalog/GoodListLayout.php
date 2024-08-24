@@ -62,7 +62,7 @@ class GoodListLayout extends Table
                 ->width('100px')
                 ->render(function (Good $good) {
                     return DropDown::make()->icon('options-vertical')->list([
-                        Button::make('Delete')
+                        Button::make('удалить')
                             ->icon('trash')
                             ->confirm('This item will be removed permanently.')
                             ->method('remove', [

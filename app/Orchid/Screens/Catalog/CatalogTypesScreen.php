@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Orchid\Screens\Catalog;
 
+use App\Jobs\Catalog\SearchGoodsByCatalogTypeJob;
 use App\Models\Catalog\CatalogType;
 use App\Orchid\Filters\Catalog\CatalogTypeFilter;
 use App\Orchid\Layouts\Catalog\CatalogTypeEditLayout;
 use App\Orchid\Layouts\Catalog\CatalogTypeListLayout;
 use App\Services\Catalog\CatalogService;
+use App\Services\Catalog\ImportOnlinerService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -20,7 +22,7 @@ class CatalogTypesScreen extends Screen
 {
     protected $name = 'Список товаров';
 
-    public function __construct(private Request $request, private readonly CatalogService $service) {}
+    public function __construct(private Request $request, private readonly CatalogService $service, private readonly ImportOnlinerService $importOnlinerService) {}
 
     public function query(): iterable
     {
@@ -92,4 +94,9 @@ class CatalogTypesScreen extends Screen
         return redirect()->route('catalog.type.list');
     }
     #endregion
+
+    public function updateGoods(int $type_id): void
+    {
+        SearchGoodsByCatalogTypeJob::dispatch(CatalogType::loadByOrDie($type_id));
+    }
 }

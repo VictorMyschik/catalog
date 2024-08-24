@@ -32,6 +32,12 @@ class CatalogTypeListLayout extends Table
                             ->modal('type_modal')
                             ->modalTitle('Изменить тип')
                             ->method('saveCatalogType', ['type_id' => $catalogType->id()]),
+                        Button::make('обновить товары')
+                            ->icon('upload')
+                            ->confirm('This item will be removed permanently.')
+                            ->method('updateGoods', [
+                                'type_id' => $catalogType->id(),
+                            ]),
                         Button::make('удалить')
                             ->icon('trash')
                             ->confirm('This item will be removed permanently.')
