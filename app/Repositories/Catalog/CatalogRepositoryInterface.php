@@ -8,6 +8,7 @@ use App\Models\Catalog\CatalogAttribute;
 use App\Models\Catalog\CatalogAttributeValue;
 use App\Models\Catalog\CatalogGroupAttribute;
 use App\Models\Catalog\CatalogType;
+use App\Models\Catalog\Good;
 use App\Models\Catalog\Image;
 use App\Models\Catalog\Manufacturer;
 
@@ -44,4 +45,6 @@ interface CatalogRepositoryInterface
     public function deleteCatalogType(int $typeId): void;
 
     public function saveCatalogType(int $id, array $type): void;
+
+    public function getGoodById(int $id): ?Good;
 }

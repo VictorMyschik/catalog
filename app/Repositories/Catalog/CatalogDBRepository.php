@@ -105,4 +105,9 @@ readonly class CatalogDBRepository extends RepositoryBase implements CatalogRepo
             $this->db->table(CatalogType::getTableName())->insert($type);
         }
     }
+
+    public function getGoodById(int $id): ?Good
+    {
+        return Good::loadBy($id);
+    }
 }

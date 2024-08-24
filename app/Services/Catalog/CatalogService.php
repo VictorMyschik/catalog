@@ -8,6 +8,7 @@ use App\Models\Catalog\CatalogAttribute;
 use App\Models\Catalog\CatalogAttributeValue;
 use App\Models\Catalog\CatalogGroupAttribute;
 use App\Models\Catalog\CatalogType;
+use App\Models\Catalog\Good;
 use App\Models\Catalog\Image;
 use App\Models\Catalog\Manufacturer;
 use App\Repositories\Catalog\CatalogRepositoryInterface;
@@ -100,5 +101,10 @@ final readonly class CatalogService
     public function saveCatalogType(int $id, array $type): void
     {
         $this->repository->saveCatalogType($id, $type);
+    }
+
+    public function getGoodById(int $id): ?Good
+    {
+        return $this->repository->getGoodById($id);
     }
 }

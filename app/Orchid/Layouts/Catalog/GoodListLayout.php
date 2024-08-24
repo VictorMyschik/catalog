@@ -34,7 +34,7 @@ class GoodListLayout extends Table
             })->sort(),
             TD::make('prefix', 'Префикс')->sort(),
             TD::make('name')->render(function (Good $good) {
-                return "<a href='{$good->link}' target='_blank'>{$good->name}</a>";
+                return '<a href="' . route('catalog.good.details', ['id' => $good->id()]) . '" target="_blank">' . $good->getName() . '</a>';
             })->sort(),
             TD::make('string_id', 'Строковый ID')->sort(),
             TD::make('link', 'Ссылка')->render(function (Good $good) {
