@@ -205,6 +205,7 @@ return [
     'icons' => [
         'bs'  => \Orchid\Support\BootstrapIconsPath::getFolder(),
         'orc' => \Orchid\IconPack\Path::getFolder(),
+       // 'fa' => resource_path('icons/fontawesome')
     ],
 
     /*

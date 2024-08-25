@@ -7,7 +7,14 @@
         @foreach($attributes['data'] as $attribute)
             <tr>
                 <td>{{ $attribute['name'] }}</td>
-                <td>{{ $attribute['value'] }}</td>
+                <td>
+                    @if($attribute['bool'] === true)
+                        <x-orchid-icon path="fa.check"/>
+                    @elseif($attribute['bool'] === false)
+                        <x-orchid-icon path="fa.ban"/>
+                    @endif
+                    {!! $attribute['value'] !!}
+                </td>
             </tr>
         @endforeach
     @endforeach

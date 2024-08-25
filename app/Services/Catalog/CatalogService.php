@@ -126,21 +126,14 @@ final readonly class CatalogService
             $attributeGroupName = $item->group_name;
             $attributeGroupSort = $item->group_sort;
 
-            $class = '';
-            if (!is_null($item->bool_value)) {
-                $class = $item->bool_value ? '<i class="fa fa-check"></i> ' : '<i class="fa fa-times-circle"></i>';
-            }
-
-            $value = $class . ' ' . $item->attribute_value;
-
-
             $id = $item->good_attribute_id;
 
             $out[$attributeGroupName]['data'][] = array(
                 'id'         => $id,
                 'name'       => $item->attribute_name,
-                'value'      => $value,
+                'value'      => $item->attribute_value,
                 'sort'       => $item->attribute_sort,
+                'bool'       => $item->bool_value,
             );
 
             $out[$attributeGroupName]['sort'] = $attributeGroupSort;
