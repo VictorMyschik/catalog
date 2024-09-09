@@ -15,6 +15,14 @@ final readonly class ESClient
         return $this->client->ping();
     }
 
+    public function getById(string $index, int $id): array
+    {
+        return $this->client->get([
+            'index' => $index,
+            'id'    => $id,
+        ]);
+    }
+
     /**
      * Generate index with many articles
      */
@@ -32,10 +40,14 @@ final readonly class ESClient
 
     public function single(string $index, array $data): array
     {
-        return $this->client->index([
+        $params = [
             'index' => $index,
-            'body'  => $data,
-        ]);
+            'id'    => $data['id'],
+            'body'  => $data
+        ];
+
+
+        return $this->client->index($params);
     }
 
     public function search(string $hash, string $query, array $fields, string $index): array
