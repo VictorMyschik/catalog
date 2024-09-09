@@ -32,24 +32,16 @@ class ESClientTest extends TestCase
     {
         parent::tearDown();
 
-        // Elastic delete all documents from "articles" index
+        // Elastic delete all documents from "catalog" index
         $params = [
-            "index" => "catalog",
-            "body"  => [
-                "query" => [
-                    "bool" => [
-                        "filter" => [
-                            [
-                                "match" => [
-                                    "hash" => 'test'
-                                ]
-                            ]
-                        ]
-                    ]
+            'index' => 'catalog',
+            'body'  => [
+                'query' => [
+                    'match_all' => new \stdClass()
                 ]
-            ]
+            ],
+            'conflicts' => 'proceed'
         ];
-
         $this->client->deleteByQuery($params);
     }
 
@@ -77,7 +69,6 @@ class ESClientTest extends TestCase
                 'name'        => $good->getName(),
                 'short_info'  => $good->getShortInfo(),
                 'description' => $good->getDescription(),
-                'hash'     => 'test',
             ];
         }
 
@@ -100,7 +91,6 @@ class ESClientTest extends TestCase
                 'name'        => $good->getName(),
                 'short_info'  => $good->getShortInfo(),
                 'description' => $good->getDescription(),
-                'hash'     => 'test',
             ]
         ];
 

@@ -27,14 +27,22 @@ final readonly class ESClient
             $params['body'][] = $item;
         }
 
-       return $this->client->bulk($params);
+        return $this->client->bulk($params);
+    }
+
+    public function single(string $index, array $data): array
+    {
+        return $this->client->index([
+            'index' => $index,
+            'body'  => $data,
+        ]);
     }
 
     public function search(string $hash, string $query, array $fields, string $index): array
     {
         $params = [
             "index" => $index,
-            "from"  => 0, "size" => 1000, // Elastic use pagination, get first page
+            "from"  => 0, "size" => 100, // Elastic use pagination, get first page
             "body"  => [
                 "query" => [
                     "bool" => [

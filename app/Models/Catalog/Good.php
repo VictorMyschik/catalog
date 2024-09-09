@@ -67,7 +67,7 @@ class Good extends ORM
         return $this->short_info;
     }
 
-    public function getManufacturerId(): int
+    public function getManufacturerId(): ?int
     {
         return $this->manufacturer_id;
     }
@@ -80,5 +80,10 @@ class Good extends ORM
     public function isCertification(): bool
     {
         return $this->is_certification;
+    }
+
+    public function getManufacturer(): ?Manufacturer
+    {
+        return Manufacturer::loadBy($this->getManufacturerId());
     }
 }

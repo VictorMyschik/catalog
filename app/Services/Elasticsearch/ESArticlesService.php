@@ -4,30 +4,24 @@ declare(strict_types=1);
 
 namespace App\Services\Elasticsearch;
 
-use Elasticsearch\Client;
+use App\Models\Catalog\Good;
 
-class ESArticlesService
+final readonly class ESArticlesService
 {
     private const string INDEX = 'catalog';
 
-    public function __construct(private readonly ESClient $client) {}
+    public function __construct(private ESClient $client) {}
 
-    public function addBulkIndex(string $hash, array $articles): void
+    public function addBulkIndex(Good $good): void
     {
-        $body = [];
+        $body = [
+            'prefix'       => $good->getPrefix(),
+            'name'         => $good->getName(),
+            'short_info'   => $good->getShortInfo(),
+            'description'  => $good->getDescription(),
+            'manufacturer' => $good->getManufacturer()->getName(),
+        ];
 
-        foreach ($articles as $article) {
-            $article = (array)$article;
-
-            $body[] = [
-                'uid'      => $article['uid'],
-                'title'    => $article['title'],
-                'abstract' => $article['abstract'],
-                'hash'     => $hash,
-            ];
-        }
-
-        $this->bulk(self::INDEX, $body);
-        sleep(1);
+        $this->client->single(self::INDEX, $body);
     }
 }
