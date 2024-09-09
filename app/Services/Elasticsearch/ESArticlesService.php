@@ -8,12 +8,26 @@ use Elasticsearch\Client;
 
 class ESArticlesService
 {
-    private const string INDEX = 'articles';
+    private const string INDEX = 'catalog';
 
-    public function __construct(private readonly Client $client) {}
+    public function __construct(private readonly ESClient $client) {}
 
-    public function ping(): bool
+    public function addBulkIndex(string $hash, array $articles): void
     {
-       return $this->client->ping();
+        $body = [];
+
+        foreach ($articles as $article) {
+            $article = (array)$article;
+
+            $body[] = [
+                'uid'      => $article['uid'],
+                'title'    => $article['title'],
+                'abstract' => $article['abstract'],
+                'hash'     => $hash,
+            ];
+        }
+
+        $this->bulk(self::INDEX, $body);
+        sleep(1);
     }
 }
