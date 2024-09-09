@@ -10,6 +10,7 @@ use App\Services\ImageUploader\DTO\ImageDTO;
 use App\Services\ImageUploader\Enum\ImageTypeEnum;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Log;
 
 final readonly class ImageUploadService
 {
@@ -21,23 +22,27 @@ final readonly class ImageUploadService
 
     public function uploadImage(int $goodId, string $imageUrl): void
     {
-        $image = getimagesize($imageUrl);
+        try {
+            $image = getimagesize($imageUrl);
 
-        $fileName = $this->getImageNameByType($image['mime']);
+            $fileName = $this->getImageNameByType($image['mime']);
 
-        $filePathWithName = $this->storageConfig['images'] . '/' . $goodId;
+            $filePathWithName = $this->storageConfig['images'] . '/' . $goodId;
 
-        $image = $this->imageRepository->addImage(
-            new ImageDTO(
-                file_name: $fileName,
-                good_id: $goodId,
-                original_url: $imageUrl,
-                path: $filePathWithName,
-                hash: md5_file($imageUrl),
-            )
-        );
+            $image = $this->imageRepository->addImage(
+                new ImageDTO(
+                    file_name: $fileName,
+                    good_id: $goodId,
+                    original_url: $imageUrl,
+                    path: $filePathWithName,
+                    hash: md5_file($imageUrl),
+                )
+            );
 
-        $this->filesystem->put($filePathWithName . '/' . $image->getFileName(), file_get_contents($imageUrl));
+            //$this->filesystem->put($filePathWithName . '/' . $image->getFileName(), file_get_contents($imageUrl));
+        } catch (\Exception $e) {
+            Log::error('Error upload image: ' . $e->getMessage(), ['good_id' => $goodId, 'image_url' => $imageUrl]);
+        }
     }
 
     public function deleteImagesWithModels(int $objectId, ImageTypeEnum $imageType): void

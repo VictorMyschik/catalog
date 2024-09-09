@@ -6,7 +6,10 @@ use App\Repositories\Catalog\CatalogDBRepository;
 use App\Repositories\Catalog\CatalogRepositoryInterface;
 use App\Repositories\Images\ImageRepository;
 use App\Repositories\Images\ImageRepositoryInterface;
+use App\Services\Elasticsearch\ESArticlesService;
 use App\Services\ImageUploader\ImageUploadService;
+use Elasticsearch\Client;
+use Elasticsearch\ClientBuilder;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\DatabaseManager;
@@ -34,6 +37,20 @@ class CatalogServiceProvider extends ServiceProvider
 
         $this->app->bind(ImageRepositoryInterface::class, function (Application $app) {
             return new ImageRepository($app->make(DatabaseManager::class));
+        });
+
+        // ESArticlesService
+        $this->app->bind(\Elasticsearch\Client::class, function ($app) {
+            $host = env('ELASTICSEARCH_HOST');
+            $port = env('ELASTICSEARCH_PORT');
+            $login = env('ELASTICSEARCH_LOGIN');
+            $password = env('ELASTICSEARCH_PASSWORD');
+
+            // HTTP Basic Authentication
+            $hosts = [
+                "{$login}:{$password}@{$host}:$port",
+            ];
+            return ClientBuilder::create()->setHosts($hosts)->build();
         });
     }
 

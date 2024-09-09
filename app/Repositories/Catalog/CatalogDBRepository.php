@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Repositories\Catalog;
 
-use App\Helpers\System\MrCacheHelper;
 use App\Models\Catalog\CatalogAttribute;
 use App\Models\Catalog\CatalogAttributeValue;
 use App\Models\Catalog\CatalogGroupAttribute;
@@ -13,10 +12,6 @@ use App\Models\Catalog\Good;
 use App\Models\Catalog\GoodAttribute;
 use App\Models\Catalog\Image;
 use App\Models\Catalog\Manufacturer;
-use App\Models\Catalog\MrCatalogAttribute;
-use App\Models\Catalog\MrCatalogAttributeValue;
-use App\Models\Catalog\MrCatalogGroup;
-use App\Models\Good\MrGoodAttribute;
 use App\Repositories\RepositoryBase;
 use Illuminate\Support\Facades\DB;
 

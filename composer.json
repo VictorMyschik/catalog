@@ -19,7 +19,8 @@
     "php-amqplib/php-amqplib": "^3.7",
     "symfony/dom-crawler": "^6.4.x-dev",
     "tymon/jwt-auth": "^2.0",
-    "vladimir-yuldashev/laravel-queue-rabbitmq": "^14.1"
+    "vladimir-yuldashev/laravel-queue-rabbitmq": "^14.1",
+    "elasticsearch/elasticsearch": "~v7.17.2"
   },
   "require-dev": {
     "fakerphp/faker": "^1.23",

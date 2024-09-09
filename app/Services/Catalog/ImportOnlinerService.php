@@ -50,6 +50,7 @@ final class ImportOnlinerService
             $this->importOnlinerImagesCatalog($goodId, $cleanData);
         }
 
+        Log::info('Создан товар: ' . $parsedData['good_name'] . '. ID' . $goodId);
         return $goodId;
     }
 
@@ -289,15 +290,24 @@ final class ImportOnlinerService
         if (isset($json['products']) && count($json['products'])) {
             foreach ($json['products'] as $product) {
                 // Постановка в очередь проверки и скачки новых товаров
-                if (!$this->catalogService->hasGoodByIntId((int)$product['id']) && $product['html_url'] ?? null) {
+                if ($this->catalogService->hasGoodByIntId((int)$product['id'])) {
+                    Log::warning($type->getName() . ' int_id ' . (int)$product['id'] . " " . $product['name'] . ' уже есть в базе');
+                    continue;
+                }
+
+                if ($product['html_url'] ?? null) {
                     // Найден новый товар - постановка задачи на скачивание
                     $this->import(stringId: $product['key'], type: $type, url: (string)$product['html_url'], isLoadImages: true);
                 } else {
-                    Log::info('Новый товар ' . $product['id'] . " без HTML ссылки");
+                    Log::info('Новый товар ' . $product['id'] . " без HTML ссылки", [
+                        'product' => $product,
+                        'type'    => $type->getName(),
+                        'link'    => $link,
+                    ]);
                 }
             }
         } else {
-            Log::info($type->getName() . " не нашёл товаров вообще");
+            Log::info($type->getName() . " не нашёл товаров вообще", ['json' => $json, 'link' => $link]);
         }
     }
 }
