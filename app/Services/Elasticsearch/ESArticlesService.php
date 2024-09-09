@@ -27,10 +27,10 @@ final readonly class ESArticlesService
         try {
             $this->client->single(self::INDEX, $body);
         } catch (\Exception $e) {
-            throw new \Exception('Error while adding good to ES: ' . $e->getMessage());
+            throw new \Exception('Ошибка при попытке добавить товар в ES: ' . $e->getMessage());
         }
 
-        Log::info('Good ' . $good->id() . ' was added to ES', $body);
+        Log::info('Good ' . $good->id() . ' успешно добавлен в ES', $body);
     }
 
     public function getByGoodId(int $id): array
