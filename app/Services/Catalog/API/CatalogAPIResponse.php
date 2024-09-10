@@ -11,7 +11,6 @@ use App\Http\Controllers\Api\v1\Catalog\Response\Components\AttributeValueCompon
 use App\Http\Controllers\Api\v1\Catalog\Response\Components\CatalogGroupComponent;
 use App\Http\Controllers\Api\v1\Catalog\Response\Components\ManufacturerComponent;
 use App\Models\Catalog\Good;
-use App\Services\Catalog\API\DTO\SearchDTO;
 use App\Services\Catalog\CatalogService;
 use App\Services\Elasticsearch\ESService;
 
@@ -19,9 +18,9 @@ final readonly class CatalogAPIResponse implements CatalogAPIInterface
 {
     public function __construct(private CatalogService $repository, private ESService $elastic) {}
 
-    public function searchGoods(SearchDTO $dto): array
+    public function searchGoods(string $query, int $limit): array
     {
-        $esResult = $this->elastic->searchGoods($dto->search);
+        $esResult = $this->elastic->searchGoods($query, $limit);
 
         $ids = array_map(fn($item) => (int)$item['_id'], $esResult['hits']['hits']);
 

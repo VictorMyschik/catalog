@@ -20,7 +20,8 @@
     "symfony/dom-crawler": "^6.4.x-dev",
     "tymon/jwt-auth": "^2.0",
     "vladimir-yuldashev/laravel-queue-rabbitmq": "^14.1",
-    "elasticsearch/elasticsearch": "~v7.17.2"
+    "elasticsearch/elasticsearch": "~v7.17.2",
+    "darkaonline/l5-swagger": "^8.5"
   },
   "require-dev": {
     "fakerphp/faker": "^1.23",

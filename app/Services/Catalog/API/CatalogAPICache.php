@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Services\Catalog\API;
 
-use App\Services\Catalog\API\DTO\SearchDTO;
 use Illuminate\Cache\Repository;
 use Illuminate\Support\Facades\Cache;
 
@@ -14,12 +13,12 @@ final readonly class CatalogAPICache implements CatalogAPIInterface
 
     public function __construct(private CatalogAPIResponse $repository, private Repository $cache) {}
 
-    public function searchGoods(SearchDTO $dto): array
+    public function searchGoods(string $query, int $limit): array
     {
-        $key = 'search_' . md5(implode('.', (array)$dto));
+        $key = 'search_' . md5($query) . '_' . $limit;
 
-        return $this->cache->tags([self::CACHE_TAG])->rememberForever($key, function () use ($dto) {
-            return $this->repository->searchGoods($dto);
+        return $this->cache->tags([self::CACHE_TAG])->rememberForever($key, function () use ($query, $limit) {
+            return $this->repository->searchGoods($query, $limit);
         });
     }
 

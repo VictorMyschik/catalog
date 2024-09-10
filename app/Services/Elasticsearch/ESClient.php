@@ -50,11 +50,11 @@ final readonly class ESClient
         return $this->client->index($params);
     }
 
-    public function search(string $query, string $index): array
+    public function search(string $query, string $index, int $limit = 10): array
     {
         $params = [
             "index" => $index,
-            "from"  => 0, "size" => 10, // Elastic use pagination, get first page
+            "from"  => 0, "size" => $limit, // Elastic use pagination, get first page
             "body"  => [
                 "query" => [
                     "bool" => [

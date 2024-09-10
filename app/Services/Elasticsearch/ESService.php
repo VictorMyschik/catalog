@@ -64,8 +64,8 @@ final readonly class ESService
         return $this->client->getById(self::INDEX, $id);
     }
 
-    public function searchGoods(string $query): array
+    public function searchGoods(string $query, int $limit): array
     {
-        return $this->client->search(query: $query, index: self::INDEX);
+        return $this->client->search(query: $query, index: self::INDEX, limit: $limit);
     }
 }

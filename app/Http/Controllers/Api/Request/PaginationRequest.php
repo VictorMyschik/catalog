@@ -8,6 +8,29 @@ use App\Exceptions\ExceptionAPI;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @OA\Schema(
+ *     schema="PaginationRequest",
+ *     type="object",
+ *     title="Pagination Request",
+ *     description="Request model for pagination",
+ *     @OA\Property(
+ *         property="page",
+ *         type="integer",
+ *         description="Page number"
+ *     ),
+ *     @OA\Property(
+ *         property="per_page",
+ *         type="integer",
+ *         description="Number of items per page"
+ *     ),
+ *     @OA\Property(
+ *         property="sort",
+ *         type="string",
+ *         description="Sort order"
+ *     )
+ * )
+ */
 class PaginationRequest extends FormRequest
 {
     public function rules(): array

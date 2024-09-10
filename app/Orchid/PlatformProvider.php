@@ -35,7 +35,7 @@ class PlatformProvider extends OrchidServiceProvider
 
             Menu::make(__('Users'))->icon('bs.people')->route('platform.systems.users')->permission('platform.systems.users')->title(__('Access Controls')),
             Menu::make(__('Roles'))->icon('bs.shield')->route('platform.systems.roles')->permission('platform.systems.roles')->divider(),
-
+            Menu::make('API documentation')->icon('database')->target('_blank')->href('/api/documentation'),
             Menu::make('Documentation')->title('Docs')->icon('bs.box-arrow-up-right')->url('https://orchid.software/en/docs')->target('_blank'),
         ];
     }
