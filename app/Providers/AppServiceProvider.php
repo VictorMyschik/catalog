@@ -3,10 +3,12 @@
 namespace App\Providers;
 
 use App\Classes\Cache\CacheRedisClass;
+use App\Exceptions\Handler;
 use App\Repositories\System\SettingsRepository;
 use App\Repositories\System\SettingsRepositoryCache;
 use App\Repositories\System\SettingsRepositoryInterface;
 use Illuminate\Cache\Repository;
+use Illuminate\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Support\ServiceProvider;
@@ -18,6 +20,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $this->app->singleton(ExceptionHandlerContract::class, Handler::class);
+
         $this->app->singleton(CacheRedisClass::class, function (Application $app) {
             return new CacheRedisClass($app->make(Repository::class)->connection()->client());
         });

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\Admin\CatalogController;
+use App\Http\Controllers\Admin\CatalogImportController;
 use App\Services\Catalog\CatalogService;
 use App\Services\Catalog\ImportOnlinerService;
 use App\Services\ImageUploader\ImageUploadService;
@@ -13,7 +13,7 @@ class CatalogControllerTest extends TestCase
 {
     public function testImportLink(): void
     {
-        $controller = new CatalogController(
+        $controller = new CatalogImportController(
             app(ImportOnlinerService::class),
             app(CatalogService::class),
         );

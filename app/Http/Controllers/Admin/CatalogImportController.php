@@ -11,7 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-final class CatalogController extends Controller
+final class CatalogImportController extends Controller
 {
     public function __construct(
         private readonly ImportOnlinerService $importOnlinerService,
@@ -20,6 +20,7 @@ final class CatalogController extends Controller
 
     public function importLink(Request $request): RedirectResponse
     {
+        abort('manual disable');
         $input = Validator::make($request->all(), [
             'url'            => 'required|max:255',
             'type_id'        => 'required|integer|exists:catalog_types,id',
