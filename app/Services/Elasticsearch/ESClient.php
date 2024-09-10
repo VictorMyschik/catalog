@@ -50,56 +50,27 @@ final readonly class ESClient
         return $this->client->index($params);
     }
 
-    public function search(string $hash, string $query, array $fields, string $index): array
+    public function search(string $query, string $index): array
     {
         $params = [
             "index" => $index,
-            "from"  => 0, "size" => 100, // Elastic use pagination, get first page
+            "from"  => 0, "size" => 10, // Elastic use pagination, get first page
             "body"  => [
                 "query" => [
                     "bool" => [
                         "must"   => [
                             [
                                 'multi_match' => [
-                                    'fields' => $fields,
-                                    'query'  => $query,
+                                    'query' => $query,
                                 ],
                             ]
                         ],
-                        "filter" => [
-                            [
-                                "match" => [
-                                    "hash" => $hash
-                                ]
-                            ]
-                        ]
+                        "filter" => []
                     ]
                 ]
             ]
         ];
 
         return $this->client->search($params);
-    }
-
-    public function deleteByQuery(string $index, string $hash): void
-    {
-        $params = [
-            "index" => $index,
-            "body"  => [
-                "query" => [
-                    "bool" => [
-                        "filter" => [
-                            [
-                                "match" => [
-                                    "hash" => $hash
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
-            ]
-        ];
-
-        $this->client->deleteByQuery($params);
     }
 }

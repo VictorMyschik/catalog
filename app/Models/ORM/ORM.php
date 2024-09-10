@@ -7,11 +7,15 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ORM extends Model
 {
+    private static array $localCache = [];
+
     public function deleteMr(): bool
     {
         if (method_exists($this, 'beforeDelete')) {
             $this->beforeDelete();
         }
+
+        unset(self::$localCache[static::class][$this->id()]);
 
         $this->delete();
 
@@ -44,6 +48,8 @@ class ORM extends Model
             $this->flushAffectedCaches();
         }
 
+        unset(self::$localCache[static::class][$this->id()]);
+
         return $this->id();
     }
 
@@ -54,6 +60,10 @@ class ORM extends Model
 
     public static function loadBy(?int $value): ?static
     {
+        if ($value === null || $value === 0) {
+            return null;
+        }
+
         return static::find($value);
     }
 
@@ -62,6 +72,14 @@ class ORM extends Model
      */
     public static function loadByOrDie(?int $value): static
     {
+        if ($value === null || $value === 0) {
+            throw new ModelNotFoundException();
+        }
+
+        if (!isset(self::$localCache[static::class][$value])) {
+            self::$localCache[static::class][$value] = self::findOrFail($value);
+        }
+
         return self::findOrFail($value);
     }
 }

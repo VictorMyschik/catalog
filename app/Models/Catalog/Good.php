@@ -57,6 +57,11 @@ class Good extends ORM
         return $this->type_id;
     }
 
+    public function getGroup(): CatalogType
+    {
+        return CatalogType::loadByOrDie($this->getTypeId());
+    }
+
     public function getPrefix(): ?string
     {
         return $this->prefix;

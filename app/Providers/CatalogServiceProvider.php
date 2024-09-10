@@ -6,10 +6,13 @@ use App\Repositories\Catalog\CatalogDBRepository;
 use App\Repositories\Catalog\CatalogRepositoryInterface;
 use App\Repositories\Images\ImageRepository;
 use App\Repositories\Images\ImageRepositoryInterface;
-use App\Services\Elasticsearch\ESArticlesService;
+use App\Services\Catalog\API\CatalogAPICache;
+use App\Services\Catalog\API\CatalogAPIInterface;
+use App\Services\Catalog\API\CatalogAPIResponse;
+use App\Services\Catalog\CatalogService;
 use App\Services\ImageUploader\ImageUploadService;
-use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
+use Illuminate\Cache\Repository;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\DatabaseManager;
@@ -52,6 +55,14 @@ class CatalogServiceProvider extends ServiceProvider
             ];
             return ClientBuilder::create()->setHosts($hosts)->build();
         });
+
+        $this->app->bind(CatalogAPIInterface::class, function (Application $app) {
+            return new CatalogAPICache(
+                $app->make(CatalogAPIResponse::class),
+                $app->make(Repository::class),
+            );
+        });
+
     }
 
     public function boot(): void {}

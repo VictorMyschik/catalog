@@ -7,9 +7,18 @@ namespace App\Services\Elasticsearch;
 use App\Models\Catalog\Good;
 use Illuminate\Support\Facades\Log;
 
-final readonly class ESArticlesService
+final readonly class ESService
 {
     private const string INDEX = 'catalog';
+
+    private const array FIELDS = [
+        'id',
+        'prefix',
+        'name',
+        'short_info',
+        'description',
+        'manufacturer',
+    ];
 
     public function __construct(private ESClient $client) {}
 
@@ -33,8 +42,30 @@ final readonly class ESArticlesService
         Log::info('Good ' . $good->id() . ' успешно добавлен в ES', $body);
     }
 
+    public function addBulkGoods(array $goods): void
+    {
+        $body = [];
+        foreach ($goods as $good) {
+            $body[] = [
+                'id'           => $good->id(),
+                'prefix'       => $good->getPrefix(),
+                'name'         => $good->getName(),
+                'short_info'   => $good->getShortInfo(),
+                'description'  => $good->getDescription(),
+                'manufacturer' => $good->getManufacturer()?->getName(),
+            ];
+        }
+
+        $this->client->bulk(self::INDEX, $body);
+    }
+
     public function getByGoodId(int $id): array
     {
         return $this->client->getById(self::INDEX, $id);
+    }
+
+    public function searchGoods(string $query): array
+    {
+        return $this->client->search(query: $query, index: self::INDEX);
     }
 }

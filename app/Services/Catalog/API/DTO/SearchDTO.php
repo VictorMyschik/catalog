@@ -8,7 +8,7 @@ final readonly class SearchDTO
 {
     public function __construct(
         public string $search,
-        public int    $page = 1,
+        public int    $page = 0,
         public int    $perPage = 10,
         public string $sort = 'id',
     ) {}

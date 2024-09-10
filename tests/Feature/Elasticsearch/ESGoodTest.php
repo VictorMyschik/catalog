@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace Elasticsearch;
 
 use App\Models\Catalog\Good;
-use App\Services\Elasticsearch\ESArticlesService;
+use App\Services\Elasticsearch\ESService;
 use Tests\TestCase;
 
 class ESGoodTest extends TestCase
 {
     public function testCreateBulkIndex(): void
     {
-        /** @var ESArticlesService $service */
-        $service = app(ESArticlesService::class);
+        /** @var ESService $service */
+        $service = app(ESService::class);
 
         $good = new Good();
         $good->id = 1;

@@ -118,6 +118,11 @@ final readonly class CatalogService
         $this->imageUploader->deleteImageById($imageId);
     }
 
+    public function getAPIGoodAttributes(int $goodId): array
+    {
+        return $this->repository->getGoodAttributes($goodId);
+    }
+
     public function getGoodAttributes(int $goodId): array
     {
         $out = array();
@@ -129,16 +134,22 @@ final readonly class CatalogService
             $id = $item->good_attribute_id;
 
             $out[$attributeGroupName]['data'][] = array(
-                'id'         => $id,
-                'name'       => $item->attribute_name,
-                'value'      => $item->attribute_value,
-                'sort'       => $item->attribute_sort,
-                'bool'       => $item->bool_value,
+                'id'          => $id,
+                'name'        => $item->attribute_name,
+                'value'       => $item->attribute_value,
+                'sort'        => $item->attribute_sort,
+                'bool'        => $item->bool_value,
+                'description' => $item->attribute_description,
             );
 
             $out[$attributeGroupName]['sort'] = $attributeGroupSort;
         }
 
         return $out;
+    }
+
+    public function getGoodsByIds(array $ids): array
+    {
+        return $this->repository->getGoodsByIds($ids);
     }
 }

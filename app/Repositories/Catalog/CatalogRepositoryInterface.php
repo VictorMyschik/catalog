@@ -51,4 +51,6 @@ interface CatalogRepositoryInterface
     public function getGoodImages(int $goodId): array;
 
     public function getGoodAttributes(int $goodId): array;
+
+    public function getGoodsByIds(array $ids): array;
 }

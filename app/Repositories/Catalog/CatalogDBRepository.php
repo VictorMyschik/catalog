@@ -143,11 +143,17 @@ readonly class CatalogDBRepository extends RepositoryBase implements CatalogRepo
             CatalogGroupAttribute::getTableName() . '.name as group_name',
             CatalogAttribute::getTableName() . '.name as attribute_name',
             CatalogAttribute::getTableName() . '.sort as attribute_sort',
+            CatalogAttribute::getTableName() . '.description as attribute_description',
             CatalogAttributeValue::getTableName() . '.text_value as attribute_value',
             CatalogAttributeValue::getTableName() . '.id as attribute_value_id',
             GoodAttribute::getTableName() . '.bool_value as bool_value',
             GoodAttribute::getTableName() . '.id as good_attribute_id',
             CatalogGroupAttribute::getTableName() . '.sort as group_sort',
         ])->get()->all();
+    }
+
+    public function getGoodsByIds(array $ids): array
+    {
+        return Good::whereIn('id', $ids)->get()->keyBy('id')->all();
     }
 }
