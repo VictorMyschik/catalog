@@ -6,6 +6,7 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -34,6 +35,12 @@ class Handler extends ExceptionHandler
     public function render($request, \Throwable $e)
     {
         if ($e instanceof ExceptionAPI) {
+            Log::error($e->getMessage(), [
+                    'trace'   => array_slice($e->getTrace(), 0, 5),
+                    'file'    => $e->getFile(),
+                    'request' => $request->all(),
+                ]
+            );
             return $this->failResult($e->getMessage());
         }
 

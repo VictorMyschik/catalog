@@ -109,7 +109,7 @@ return [
             'driver' => 'monolog',
             'level' => env('LOG_LEVEL', 'debug'),
             'handler' => StreamHandler::class,
-            'formatter' => Monolog\Formatter\LineFormatter::class,
+            'formatter' => Monolog\Formatter\JsonFormatter::class,
             'with' => [
                 'stream' => 'php://stdout',
             ],
