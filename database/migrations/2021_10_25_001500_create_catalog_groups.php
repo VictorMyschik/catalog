@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('catalog_types', function (Blueprint $table) {
+        Schema::create('catalog_groups', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique()->index();
             $table->jsonb('sl')->nullable();
@@ -17,6 +17,6 @@ return new class extends Migration {
 
     public function down(): void
     {
-        Schema::dropIfExists('catalog_types');
+        Schema::dropIfExists('catalog_groups');
     }
 };

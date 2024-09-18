@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Orchid\Layouts\Catalog;
 
-use App\Models\Catalog\Good;
+use App\Models\Catalog\CatalogGood;
 use App\Models\Catalog\Manufacturer;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
+use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
 
@@ -28,6 +29,12 @@ class ManufacturerListLayout extends Table
                 ->width('100px')
                 ->render(function (Manufacturer $manufacturer) {
                     return DropDown::make()->icon('options-vertical')->list([
+                        ModalToggle::make('изменить')->modal('edit_manufacturer_modal')
+                            ->modalTitle('Изменить производителя')
+                            ->method('saveManufacturer')
+                            ->parameters(['manufacturer_id' => $manufacturer->id()])
+                            ->icon('pencil'),
+
                         Button::make('Delete')
                             ->icon('trash')
                             ->confirm('This item will be removed permanently.')

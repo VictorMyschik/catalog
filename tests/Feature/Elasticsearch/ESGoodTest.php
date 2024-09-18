@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Elasticsearch;
 
-use App\Models\Catalog\Good;
+use App\Models\Catalog\CatalogGood;
 use App\Services\Elasticsearch\ESService;
 use Tests\TestCase;
 
@@ -15,7 +15,7 @@ class ESGoodTest extends TestCase
         /** @var ESService $service */
         $service = app(ESService::class);
 
-        $good = new Good();
+        $good = new CatalogGood();
         $good->id = 1;
         $good->prefix = 'prefix';
         $good->name = 'name';

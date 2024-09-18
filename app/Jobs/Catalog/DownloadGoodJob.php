@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Jobs\Catalog;
 
 use App\Jobs\JobsEnum;
-use App\Models\Catalog\CatalogType;
+use App\Models\Catalog\CatalogGroup;
 use App\Services\Catalog\ImportOnlinerService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -23,7 +23,7 @@ class DownloadGoodJob implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    public function __construct(public CatalogType $kind, public string $link)
+    public function __construct(public CatalogGroup $kind, public string $link)
     {
         $this->queue = JobsEnum::Update_catalog->value;
     }

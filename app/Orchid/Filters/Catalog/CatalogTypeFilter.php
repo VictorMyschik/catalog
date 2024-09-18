@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Orchid\Filters\Catalog;
 
-use App\Models\Catalog\CatalogType;
-use App\Models\Catalog\Good;
+use App\Models\Catalog\CatalogGroup;
+use App\Models\Catalog\CatalogGood;
 use App\Models\Catalog\Manufacturer;
 use App\Orchid\Layouts\Lego\ActionFilterPanel;
 use Illuminate\Database\Eloquent\Builder;
@@ -28,7 +28,7 @@ class CatalogTypeFilter extends Filter
 
     public static function runQuery()
     {
-        return CatalogType::filters([self::class])->paginate(20);
+        return CatalogGroup::filters([self::class])->paginate(20);
     }
 
     public function run(Builder $builder): Builder

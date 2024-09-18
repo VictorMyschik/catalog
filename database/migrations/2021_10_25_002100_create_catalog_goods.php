@@ -7,9 +7,11 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('goods', function (Blueprint $table) {
+        Schema::create('catalog_goods', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('type_id')->index();
+            $table->tinyInteger('type')->index();
+            $table->unsignedBigInteger('group_id')->index();
+            $table->boolean('active')->default(false)->index();
             $table->string('prefix', 500)->nullable();
             $table->string('name', 500)->index();
             $table->string('short_info', 2000)->nullable(); //краткие сведения о товаре
@@ -18,20 +20,21 @@ return new class extends Migration {
             $table->string("parent_good_id")->nullable()->index();
             $table->boolean("is_certification")->default(false);
             $table->integer('int_id')->nullable()->unique()->index();
-            $table->string('string_id')->unique()->index();
-            $table->string('link');
+            $table->string('string_id')->nullable()->unique()->index();
+            $table->string('link')->nullable();
+            $table->string('vendor_code', 50)->nullable()->unique()->index();
             $table->jsonb('sl')->nullable();
 
             $table->timestampTz('created_at')->useCurrent();
             $table->timestampTz('updated_at')->nullable()->useCurrentOnUpdate();
 
-            $table->foreign('type_id')->references('id')->on('catalog_types')->cascadeOnDelete();
+            $table->foreign('group_id')->references('id')->on('catalog_groups')->cascadeOnDelete();
             $table->foreign('manufacturer_id')->references('id')->on('manufacturers')->onDelete('set null');
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('goods');
+        Schema::dropIfExists('catalog_goods');
     }
 };

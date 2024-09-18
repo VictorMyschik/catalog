@@ -7,7 +7,7 @@ namespace App\Services\Catalog;
 use App\Events\ESAddGoodEvent;
 use App\Jobs\Catalog\DownloadGoodJob;
 use App\Jobs\Catalog\SearchGoodsByCatalogTypeJob;
-use App\Models\Catalog\CatalogType;
+use App\Models\Catalog\CatalogGroup;
 use App\Services\HTTPClientService\HTTPClient;
 use App\Services\ImageUploader\ImageUploadService;
 use Exception;
@@ -22,7 +22,7 @@ final class ImportOnlinerService
         private readonly ImageUploadService $imageService
     ) {}
 
-    public function import(string $stringId, CatalogType $type, string $url, bool $isLoadImages): int
+    public function import(string $stringId, CatalogGroup $type, string $url, bool $isLoadImages): int
     {
         $cleanData = $this->client->doGet($url);
 
@@ -32,7 +32,7 @@ final class ImportOnlinerService
         return $this->createGoodWithAllInfo($type, $parsedData, $url, (string)$cleanData, $isLoadImages);
     }
 
-    private function createGoodWithAllInfo(CatalogType $type, array $parsedData, string $url, string $cleanData, bool $isLoadImages = true): int
+    private function createGoodWithAllInfo(CatalogGroup $type, array $parsedData, string $url, string $cleanData, bool $isLoadImages = true): int
     {
         $goodId = $this->catalogService->saveGood(0, [
             'type_id'   => $type->id(),
@@ -62,7 +62,7 @@ final class ImportOnlinerService
         $imageNames = $this->parseImgUrls($htmlData);
 
         foreach ($imageNames as $imageUrl) {
-            $this->imageService->uploadImage($goodId, $imageUrl);
+            $this->imageService->uploadImageByURL($goodId, $imageUrl);
         }
     }
 
@@ -132,7 +132,7 @@ final class ImportOnlinerService
         }
     }
 
-    private function createCatalogAttributes(array $data, CatalogType $type): array
+    private function createCatalogAttributes(array $data, CatalogGroup $type): array
     {
         $out = [];
 
@@ -247,7 +247,7 @@ final class ImportOnlinerService
 
     public function updateCatalogGoods(): void
     {
-        $list = $this->catalogService->getCatalogTypeList();
+        $list = $this->catalogService->getCatalogGroupList();
 
         foreach ($list as $type) {
             SearchGoodsByCatalogTypeJob::dispatch($type);
@@ -257,7 +257,7 @@ final class ImportOnlinerService
     /**
      * @throws Exception
      */
-    public function searchNewGoodsByCatalogType(CatalogType $type): void
+    public function searchNewGoodsByCatalogType(CatalogGroup $type): void
     {
         if (!$type->getJsonLink()) {
             throw new Exception('Поиск и добавление новых товаров в каталог: ' . $type->getName() . ' - нет ссылки на json');
@@ -285,7 +285,7 @@ final class ImportOnlinerService
         }
     }
 
-    public function downloadGoods(CatalogType $type, string $link): void
+    public function downloadGoods(CatalogGroup $type, string $link): void
     {
         $data = (string)$this->client->doGet($link);
         $json = @json_decode($data, true);

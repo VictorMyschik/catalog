@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Orchid\Screens\Catalog;
 
 use App\Jobs\Catalog\SearchGoodsByCatalogTypeJob;
-use App\Models\Catalog\CatalogType;
+use App\Models\Catalog\CatalogGroup;
 use App\Orchid\Filters\Catalog\CatalogTypeFilter;
-use App\Orchid\Layouts\Catalog\CatalogTypeEditLayout;
+use App\Orchid\Layouts\Catalog\CatalogGroupEditLayout;
 use App\Orchid\Layouts\Catalog\CatalogTypeListLayout;
 use App\Services\Catalog\CatalogService;
 use App\Services\Catalog\ImportOnlinerService;
@@ -18,11 +18,11 @@ use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Layout;
 
-class CatalogTypesScreen extends Screen
+class CatalogGroupsScreen extends Screen
 {
     protected $name = 'Список товаров';
 
-    public function __construct(private Request $request, private readonly CatalogService $service, private readonly ImportOnlinerService $importOnlinerService) {}
+    public function __construct(private Request $request, private readonly CatalogService $service) {}
 
     public function query(): iterable
     {
@@ -48,14 +48,14 @@ class CatalogTypesScreen extends Screen
         return [
             CatalogTypeFilter::displayFilterCard($this->request),
             CatalogTypeListLayout::class,
-            Layout::modal('type_modal', CatalogTypeEditLayout::class)->async('asyncGetType'),
+            Layout::modal('type_modal', CatalogGroupEditLayout::class)->async('asyncGetType'),
         ];
     }
 
     public function asyncGetType(int $type_id = 0): array
     {
         return [
-            'type' => CatalogType::loadBy($type_id),
+            'type' => CatalogGroup::loadBy($type_id),
         ];
     }
 
@@ -97,6 +97,6 @@ class CatalogTypesScreen extends Screen
 
     public function updateGoods(int $type_id): void
     {
-        SearchGoodsByCatalogTypeJob::dispatch(CatalogType::loadByOrDie($type_id));
+        SearchGoodsByCatalogTypeJob::dispatch(CatalogGroup::loadByOrDie($type_id));
     }
 }

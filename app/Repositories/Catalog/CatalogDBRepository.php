@@ -6,11 +6,11 @@ namespace App\Repositories\Catalog;
 
 use App\Models\Catalog\CatalogAttribute;
 use App\Models\Catalog\CatalogAttributeValue;
+use App\Models\Catalog\CatalogGood;
+use App\Models\Catalog\CatalogGoodAttribute;
+use App\Models\Catalog\CatalogGroup;
 use App\Models\Catalog\CatalogGroupAttribute;
-use App\Models\Catalog\CatalogType;
-use App\Models\Catalog\Good;
-use App\Models\Catalog\GoodAttribute;
-use App\Models\Catalog\Image;
+use App\Models\Catalog\CatalogImage;
 use App\Models\Catalog\Manufacturer;
 use App\Repositories\RepositoryBase;
 use Illuminate\Support\Facades\DB;
@@ -19,24 +19,24 @@ readonly class CatalogDBRepository extends RepositoryBase implements CatalogRepo
 {
     public function isGoodExist(string $stringId): bool
     {
-        return $this->db->table(Good::getTableName())->where('string_id', $stringId)->exists();
+        return $this->db->table(CatalogGood::getTableName())->where('string_id', $stringId)->exists();
     }
 
-    public function getCatalogTypeById(int $id): CatalogType
+    public function getCatalogGroupById(int $id): CatalogGroup
     {
-        return CatalogType::loadByOrDie($id);
+        return CatalogGroup::loadByOrDie($id);
     }
 
     public function saveGood(int $id, array $data): int
     {
         if ($id > 0) {
             $data['updated_at'] = now();
-            $this->db->table(Good::getTableName())->where('id', $id)->update($data);
+            $this->db->table(CatalogGood::getTableName())->where('id', $id)->update($data);
 
             return $id;
         }
 
-        return $this->db->table(Good::getTableName())->insertGetId($data);
+        return $this->db->table(CatalogGood::getTableName())->insertGetId($data);
     }
 
     public function getGroupAttributeOrCreateNew(int $typeId, string $groupName, int $sortOrder): CatalogGroupAttribute
@@ -56,7 +56,7 @@ readonly class CatalogDBRepository extends RepositoryBase implements CatalogRepo
 
     public function createGoodAttributes(array $goodAttributes): void
     {
-        $this->db->table(GoodAttribute::getTableName())->insert($goodAttributes);
+        $this->db->table(CatalogGoodAttribute::getTableName())->insert($goodAttributes);
     }
 
     public function getManufacturerOrCreateNew(array $data): Manufacturer
@@ -66,12 +66,12 @@ readonly class CatalogDBRepository extends RepositoryBase implements CatalogRepo
 
     public function deleteGood(int $id): void
     {
-        $this->db->table(Good::getTableName())->where('id', $id)->delete();
+        $this->db->table(CatalogGood::getTableName())->where('id', $id)->delete();
     }
 
-    public function getGoodLogo(int $goodId): ?Image
+    public function getGoodLogo(int $goodId): ?CatalogImage
     {
-        return Image::where('good_id', $goodId)->first();
+        return CatalogImage::where('good_id', $goodId)->first();
     }
 
     public function getManufacturer(int $id): ?Manufacturer
@@ -79,14 +79,14 @@ readonly class CatalogDBRepository extends RepositoryBase implements CatalogRepo
         return Manufacturer::loadBy($id);
     }
 
-    public function getCatalogTypeList(): array
+    public function getCatalogGroupList(): array
     {
-        return CatalogType::get()->all();
+        return CatalogGroup::get()->keyBy('id')->all();
     }
 
     public function hasGoodByIntId(int $intId): bool
     {
-        return $this->db->table(Good::getTableName())->where('int_id', $intId)->exists();
+        return $this->db->table(CatalogGood::getTableName())->where('int_id', $intId)->exists();
     }
 
     public function deleteManufacturer(int $manufacturerId): void
@@ -96,35 +96,40 @@ readonly class CatalogDBRepository extends RepositoryBase implements CatalogRepo
 
     public function deleteCatalogType(int $typeId): void
     {
-        $this->db->table(CatalogType::getTableName())->where('id', $typeId)->delete();
+        $this->db->table(CatalogGroup::getTableName())->where('id', $typeId)->delete();
     }
 
     public function saveCatalogType(int $id, array $type): void
     {
         if ($id > 0) {
-            $this->db->table(CatalogType::getTableName())->where('id', $id)->update($type);
+            $this->db->table(CatalogGroup::getTableName())->where('id', $id)->update($type);
         } else {
-            $this->db->table(CatalogType::getTableName())->insert($type);
+            $this->db->table(CatalogGroup::getTableName())->insert($type);
         }
     }
 
-    public function getGoodById(int $id): ?Good
+    public function getGoodById(int $id): ?CatalogGood
     {
-        return Good::loadBy($id);
+        return CatalogGood::loadBy($id);
     }
 
     public function getGoodImages(int $goodId): array
     {
-        return Image::where('good_id', $goodId)->get()->all();
+        return CatalogImage::where('good_id', $goodId)->get()->all();
+    }
+
+    public function getGoodImageById(int $catalogImageId): ?CatalogImage
+    {
+        return CatalogImage::loadBy($catalogImageId);
     }
 
     public function getGoodAttributes(int $goodId): array
     {
-        $query = DB::table(GoodAttribute::getTableName());
+        $query = DB::table(CatalogGoodAttribute::getTableName());
 
         $query->join(CatalogAttributeValue::getTableName(),
             CatalogAttributeValue::getTableName() . '.id', '=',
-            GoodAttribute::getTableName() . '.attribute_value_id');
+            CatalogGoodAttribute::getTableName() . '.attribute_value_id');
 
         $query->join(CatalogAttribute::getTableName(),
             CatalogAttribute::getTableName() . '.id', '=',
@@ -134,7 +139,7 @@ readonly class CatalogDBRepository extends RepositoryBase implements CatalogRepo
             CatalogGroupAttribute::getTableName() . '.id', '=',
             CatalogAttribute::getTableName() . '.group_attribute_id');
 
-        $query->where(GoodAttribute::getTableName() . '.good_id', $goodId);
+        $query->where(CatalogGoodAttribute::getTableName() . '.good_id', $goodId);
 
         $query->orderBy(CatalogGroupAttribute::getTableName() . '.sort', 'ASC');
         $query->orderBy(CatalogAttribute::getTableName() . '.sort', 'ASC');
@@ -146,14 +151,36 @@ readonly class CatalogDBRepository extends RepositoryBase implements CatalogRepo
             CatalogAttribute::getTableName() . '.description as attribute_description',
             CatalogAttributeValue::getTableName() . '.text_value as attribute_value',
             CatalogAttributeValue::getTableName() . '.id as attribute_value_id',
-            GoodAttribute::getTableName() . '.bool_value as bool_value',
-            GoodAttribute::getTableName() . '.id as good_attribute_id',
+            CatalogGoodAttribute::getTableName() . '.bool_value as bool_value',
+            CatalogGoodAttribute::getTableName() . '.id as good_attribute_id',
             CatalogGroupAttribute::getTableName() . '.sort as group_sort',
         ])->get()->all();
     }
 
     public function getGoodsByIds(array $ids): array
     {
-        return Good::whereIn('id', $ids)->get()->keyBy('id')->all();
+        return CatalogGood::whereIn('id', $ids)->get()->keyBy('id')->all();
+    }
+
+    public function saveManufacturer(int $id, $data): int
+    {
+        if ($id > 0) {
+            $this->db->table(Manufacturer::getTableName())->where('id', $id)->update($data);
+
+            return $id;
+        }
+
+        return $this->db->table(Manufacturer::getTableName())->insertGetId($data);
+    }
+
+    public function saveGoodImage(int $id, array $data): int
+    {
+        if ($id > 0) {
+            $this->db->table(CatalogImage::getTableName())->where('id', $id)->update($data);
+
+            return $id;
+        }
+
+        return $this->db->table(CatalogImage::getTableName())->insertGetId($data);
     }
 }

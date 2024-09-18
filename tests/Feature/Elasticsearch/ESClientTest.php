@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Elasticsearch;
 
-use App\Models\Catalog\Good;
+use App\Models\Catalog\CatalogGood;
 use Exception;
 use Tests\TestCase;
 
@@ -54,7 +54,7 @@ class ESClientTest extends TestCase
     public function testCreateBulkIndex(): void
     {
         $limit = 100;
-        $goods = Good::limit($limit)->get();
+        $goods = CatalogGood::limit($limit)->get();
 
         $params = [];
         foreach ($goods as $good) {
@@ -80,7 +80,7 @@ class ESClientTest extends TestCase
 
     public function testCRUDSingle(): void
     {
-        $good = Good::loadByOrDie(1);
+        $good = CatalogGood::loadByOrDie(1);
 
         // Create
         $params = [

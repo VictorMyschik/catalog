@@ -6,7 +6,7 @@ namespace App\Models\Catalog;
 
 use App\Models\ORM\ORM;
 
-class GoodAttribute extends ORM
+class CatalogGoodAttribute extends ORM
 {
     protected $table = 'good_attributes';
 

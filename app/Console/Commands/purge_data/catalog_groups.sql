@@ -1,4 +1,4 @@
-insert into public.catalog_types (id, name, sl, json_link)
+insert into public.catalog_groups (id, name, sl, json_link)
 values  (1, 'Ноутбуки', null, 'https://catalog.onliner.by/sdapi/catalog.api/search/notebook?page=1'),
         (2, 'Планшеты', null, 'https://catalog.onliner.by/sdapi/catalog.api/search/tabletpc?page=1'),
         (3, 'Моноблоки', null, 'https://catalog.onliner.by/sdapi/catalog.api/search/monoblock?page=1'),

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Orchid\Layouts\Catalog;
 
-use App\Models\Catalog\Good;
+use App\Models\Catalog\CatalogGood;
 use App\Services\Catalog\CatalogService;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
@@ -23,24 +23,29 @@ class GoodListLayout extends Table
     {
         return [
             TD::make('id', 'ID')->sort(),
-            TD::make('', 'Logo')->render(function (Good $good) {
+            TD::make('active', 'Активно')->active()->sort(),
+            TD::make('', 'Logo')->render(function (CatalogGood $good) {
                 return ViewField::make('')->view('admin.table_image')->value($this->service->getGoodLogo($good->id())?->getUrl());
             }),
-            TD::make('manufacturer_id', 'Производитель')->render(function (Good $good) {
-                return $this->service->getManufacturerName($good->manufacturer_id);
+            TD::make('manufacturer_id', 'Производитель')->render(function (CatalogGood $good) {
+                return $good->manufacturer_id ? $this->service->getManufacturerName($good->manufacturer_id) : null;
             })->sort(),
-            TD::make('type_id', 'Тип')->render(function (Good $good) {
-                return $this->service->getCatalogTypeById($good->type_id)->getName();
+            TD::make('group_id', 'Тип')->render(function (CatalogGood $good) {
+                return $this->service->getCatalogGroupById($good->group_id)->getName();
             })->sort(),
             TD::make('prefix', 'Префикс')->sort(),
-            TD::make('name')->render(function (Good $good) {
+            TD::make('name')->render(function (CatalogGood $good) {
                 return '<a href="' . route('catalog.good.details', ['id' => $good->id()]) . '" target="_blank">' . $good->getName() . '</a>';
             })->sort(),
             TD::make('string_id', 'Строковый ID')->sort(),
-            TD::make('link', 'Ссылка')->render(function (Good $good) {
-                return "<a href='{$good->link}' target='_blank'>link</a>";
+            TD::make('link', 'Ссылка')->render(function (CatalogGood $good) {
+                return $good->link ? "<a href='{$good->link}' target='_blank'>link</a>" : null;
             })->sort(),
-            TD::make('Json')->render(function (Good $good) {
+            TD::make('Json')->render(function (CatalogGood $good) {
+                if (!$good->sl) {
+                    return null;
+                }
+
                 return ModalToggle::make('')
                     ->icon('eye')
                     ->modalTitle('Json')
@@ -49,18 +54,18 @@ class GoodListLayout extends Table
             })->sort(),
 
             TD::make('created_at', 'Created')
-                ->render(fn(Good $good) => $good->created_at->format('d.m.Y'))
+                ->render(fn(CatalogGood $good) => $good->created_at->format('d.m.Y'))
                 ->sort()
                 ->defaultHidden(),
             TD::make('updated_at', 'Updated')
-                ->render(fn(Good $good) => $good->updated_at?->format('d.m.Y'))
+                ->render(fn(CatalogGood $good) => $good->updated_at?->format('d.m.Y'))
                 ->sort()
                 ->defaultHidden(),
 
             TD::make('#', '#')
                 ->align(TD::ALIGN_CENTER)
                 ->width('100px')
-                ->render(function (Good $good) {
+                ->render(function (CatalogGood $good) {
                     return DropDown::make()->icon('options-vertical')->list([
                         Button::make('удалить')
                             ->icon('trash')

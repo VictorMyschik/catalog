@@ -87,13 +87,6 @@ class purge extends Command
     private array $tableList = [
         'users',
         'countries',
-        'catalog_types',
-        //'catalog_group_attributes',
-        //'catalog_attributes',
-        //'catalog_attribute_values',
-        //'manufacturers',
-        //'goods',
-        //'good_attributes',
-        //'images',
+        'catalog_groups',
     ];
 }

@@ -11,7 +11,7 @@ use App\Models\ORM\ORM;
 use Orchid\Filters\Filterable;
 use Orchid\Screen\AsSource;
 
-class Good extends ORM
+class CatalogGood extends ORM
 {
     use AsSource;
     use Filterable;
@@ -19,7 +19,7 @@ class Good extends ORM
     use JsonFieldTrait;
     use DescriptionNullableFieldTrait;
 
-    protected $table = 'goods';
+    protected $table = 'catalog_goods';
 
     protected array $allowedSorts = [
         'id',
@@ -57,9 +57,9 @@ class Good extends ORM
         return $this->type_id;
     }
 
-    public function getGroup(): CatalogType
+    public function getGroup(): CatalogGroup
     {
-        return CatalogType::loadByOrDie($this->getTypeId());
+        return CatalogGroup::loadByOrDie($this->getTypeId());
     }
 
     public function getPrefix(): ?string

@@ -35,6 +35,6 @@ class CatalogControllerTest extends TestCase
         /** @var ImageUploadService $service */
         $service = app(ImageUploadService::class);
 
-        $service->uploadImage(1, $url);
+        $service->uploadImageByURL(1, $url);
     }
 }

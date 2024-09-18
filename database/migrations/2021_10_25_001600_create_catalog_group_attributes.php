@@ -12,11 +12,11 @@ return new class extends Migration {
     {
         Schema::create('catalog_group_attributes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('type_id');
+            $table->unsignedBigInteger('group_id')->index();
             $table->string('name', 100);
             $table->integer('sort')->default(0);
 
-            $table->foreign('type_id')->references('id')->on('catalog_types')->cascadeOnDelete();
+            $table->foreign('group_id')->references('id')->on('catalog_groups')->cascadeOnDelete();
         });
     }
 

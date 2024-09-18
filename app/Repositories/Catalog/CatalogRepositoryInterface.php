@@ -6,19 +6,19 @@ namespace App\Repositories\Catalog;
 
 use App\Models\Catalog\CatalogAttribute;
 use App\Models\Catalog\CatalogAttributeValue;
+use App\Models\Catalog\CatalogGood;
+use App\Models\Catalog\CatalogGroup;
 use App\Models\Catalog\CatalogGroupAttribute;
-use App\Models\Catalog\CatalogType;
-use App\Models\Catalog\Good;
-use App\Models\Catalog\Image;
+use App\Models\Catalog\CatalogImage;
 use App\Models\Catalog\Manufacturer;
 
 interface CatalogRepositoryInterface
 {
     public function isGoodExist(string $stringId): bool;
 
-    public function getCatalogTypeList(): array;
+    public function getCatalogGroupList(): array;
 
-    public function getCatalogTypeById(int $id): CatalogType;
+    public function getCatalogGroupById(int $id): CatalogGroup;
 
     public function saveGood(int $id, array $data): int;
 
@@ -34,7 +34,7 @@ interface CatalogRepositoryInterface
 
     public function deleteGood(int $id): void;
 
-    public function getGoodLogo(int $goodId): ?Image;
+    public function getGoodLogo(int $goodId): ?CatalogImage;
 
     public function getManufacturer(int $id): ?Manufacturer;
 
@@ -46,11 +46,17 @@ interface CatalogRepositoryInterface
 
     public function saveCatalogType(int $id, array $type): void;
 
-    public function getGoodById(int $id): ?Good;
+    public function getGoodById(int $id): ?CatalogGood;
 
     public function getGoodImages(int $goodId): array;
+
+    public function getGoodImageById(int $catalogImageId): ?CatalogImage;
 
     public function getGoodAttributes(int $goodId): array;
 
     public function getGoodsByIds(array $ids): array;
+
+    public function saveManufacturer(int $id, $data): int;
+
+    public function saveGoodImage(int $id, array $data): int;
 }

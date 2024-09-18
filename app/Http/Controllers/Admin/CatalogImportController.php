@@ -28,7 +28,7 @@ final class CatalogImportController extends Controller
             'complex'        => 'nullable|boolean',
         ])->validate();
 
-        $catalogType = $this->service->getCatalogTypeById((int)$input['type_id']);
+        $catalogType = $this->service->getCatalogGroupById((int)$input['type_id']);
 
         // Макс товаров
         $max = $input['max'] ?? 0;

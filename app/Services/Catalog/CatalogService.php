@@ -6,35 +6,65 @@ namespace App\Services\Catalog;
 
 use App\Models\Catalog\CatalogAttribute;
 use App\Models\Catalog\CatalogAttributeValue;
+use App\Models\Catalog\CatalogGood;
+use App\Models\Catalog\CatalogGroup;
 use App\Models\Catalog\CatalogGroupAttribute;
-use App\Models\Catalog\CatalogType;
-use App\Models\Catalog\Good;
-use App\Models\Catalog\Image;
+use App\Models\Catalog\CatalogImage;
 use App\Models\Catalog\Manufacturer;
+use App\Models\Orchid\Attachment;
+use App\Repositories\Catalog\CatalogCacheRepository;
 use App\Repositories\Catalog\CatalogRepositoryInterface;
+use App\Services\Catalog\Enum\CatalogImageTypeEnum;
 use App\Services\ImageUploader\Enum\ImageTypeEnum;
 use App\Services\ImageUploader\ImageUploadService;
+use Exception;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 final readonly class CatalogService
 {
     public function __construct(
         private CatalogRepositoryInterface $repository,
         private ImageUploadService         $imageUploader,
+        private CatalogCacheRepository     $cacheRepository,
     ) {}
+
+    public function saveGoodImage(CatalogGood $good, Attachment $attachment, CatalogImageTypeEnum $type): int
+    {
+        $path = Storage::path($attachment->getFullPath());
+
+        if (!file_exists($path) || !is_file($path)) {
+            Attachment::where('hash', $attachment->getHash())->delete();
+            throw new Exception('Ошибка при загрузке файла. Попробуйте ещё раз.');
+        }
+        $uploadedFile = new UploadedFile($path, $attachment->getOriginalName(), $attachment->getMime(), null, true);
+
+        $this->imageUploader->uploadImage($uploadedFile, $good->id(), $type);
+
+        $this->deleteAttachment($attachment);
+
+        return 999999;
+    }
+
+    private function deleteAttachment(Attachment $attachment): void
+    {
+        Attachment::where('hash', $attachment->getHash())->delete();
+        Storage::delete($attachment->getFullPath());
+    }
 
     public function isGoodExist(string $stringId): bool
     {
         return $this->repository->isGoodExist($stringId);
     }
 
-    public function getCatalogTypeList(): array
+    public function getCatalogGroupList(): array
     {
-        return $this->repository->getCatalogTypeList();
+        return $this->cacheRepository->getCatalogGroupList();
     }
 
-    public function getCatalogTypeById(int $id): CatalogType
+    public function getCatalogGroupById(int $id): CatalogGroup
     {
-        return $this->repository->getCatalogTypeById($id);
+        return $this->repository->getCatalogGroupById($id);
     }
 
     public function saveGood(int $id, array $data): int
@@ -73,7 +103,7 @@ final readonly class CatalogService
         $this->repository->deleteGood($id);
     }
 
-    public function getGoodLogo(int $goodId): ?Image
+    public function getGoodLogo(int $goodId): ?CatalogImage
     {
         return $this->repository->getGoodLogo($goodId);
     }
@@ -103,7 +133,7 @@ final readonly class CatalogService
         $this->repository->saveCatalogType($id, $type);
     }
 
-    public function getGoodById(int $id): ?Good
+    public function getGoodById(int $id): ?CatalogGood
     {
         return $this->repository->getGoodById($id);
     }
@@ -111,6 +141,11 @@ final readonly class CatalogService
     public function getGoodImages(int $goodId): array
     {
         return $this->repository->getGoodImages($goodId);
+    }
+
+    public function getGoodImageById(int $catalogImageId): ?CatalogImage
+    {
+        return $this->repository->getGoodImageById($catalogImageId);
     }
 
     public function deleteImage(int $imageId): void
@@ -151,5 +186,20 @@ final readonly class CatalogService
     public function getGoodsByIds(array $ids): array
     {
         return $this->repository->getGoodsByIds($ids);
+    }
+
+    public function saveManufacturer(int $id, $data): int
+    {
+        return $this->repository->saveManufacturer($id, $data);
+    }
+
+    public function getManufacturer(int $id): ?Manufacturer
+    {
+        return $this->repository->getManufacturer($id);
+    }
+
+    public function deleteAllGoodPhoto(int $good_id): void
+    {
+        $this->imageUploader->deleteImagesWithModels($good_id, ImageTypeEnum::Good);
     }
 }

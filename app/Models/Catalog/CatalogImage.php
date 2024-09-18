@@ -7,9 +7,9 @@ namespace App\Models\Catalog;
 use App\Models\ORM\ORM;
 use Illuminate\Support\Facades\Storage;
 
-class Image extends ORM
+class CatalogImage extends ORM
 {
-    protected $table = 'images';
+    protected $table = 'catalog_images';
 
     protected $fillable = [
         'file_name',
@@ -17,6 +17,8 @@ class Image extends ORM
         'original_url',
         'path',
         'hash',
+        'type',
+        'media_type',
     ];
 
     public const null UPDATED_AT = null;

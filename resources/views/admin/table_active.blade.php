@@ -1,14 +1,6 @@
 @if($active)
-    <x-orchid-icon width="{{ $active ? '2em' : '1.2em' }}"
-                   height="{{ $active ? '2em' : '1.2em' }}"
-                   class="{{ $active ? 'text-success' : 'text-danger' }}"
-                   path="{{ $active ? 'fa.check' : 'fa.ban' }}"/>
+    <x-orchid-icon width="1.3em" height="2em" class="text-success" path="fa.check"/>
 @else
-    <span class="m-1">
-    <x-orchid-icon width="{{ $active ? '2em' : '1.2em' }}"
-                   height="{{ $active ? '2em' : '1.2em' }}"
-                   class="{{ $active ? 'text-success' : 'text-danger' }}"
-                   path="{{ $active ? 'fa.check' : 'fa.ban' }}"/>
-</span>
+    <x-orchid-icon width="1.3em" height="2em" class="text-danger" path="fa.ban"/>
 @endif
 

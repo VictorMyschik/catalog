@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Orchid\Layouts\Catalog;
 
-use App\Models\Catalog\CatalogType;
+use App\Models\Catalog\CatalogGroup;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
 use Orchid\Screen\Actions\ModalToggle;
@@ -25,7 +25,7 @@ class CatalogTypeListLayout extends Table
             TD::make('#', '#')
                 ->align(TD::ALIGN_CENTER)
                 ->width('100px')
-                ->render(function (CatalogType $catalogType) {
+                ->render(function (CatalogGroup $catalogType) {
                     return DropDown::make()->icon('options-vertical')->list([
                         ModalToggle::make('изменить')
                             ->icon('pencil')

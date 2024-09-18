@@ -2,17 +2,17 @@
 
 namespace App\Models\Lego\Fields;
 
-use App\Models\Good\MrGood;
+use App\Models\Catalog\CatalogGood;
 
 trait MrGoodFieldTrait
 {
-  public function getGood(): MrGood
-  {
-    return MrGood::loadByOrDie($this->GoodID);
-  }
+    public function getGood(): CatalogGood
+    {
+        return CatalogGood::loadByOrDie($this->good_id);
+    }
 
-  public function setGoodID(int $value): void
-  {
-    $this->GoodID = $value;
-  }
+    public function setGoodID(int $value): void
+    {
+        $this->good_id = $value;
+    }
 }

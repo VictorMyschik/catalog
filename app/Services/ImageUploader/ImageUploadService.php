@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace App\Services\ImageUploader;
 
-use App\Models\Catalog\Image;
+use App\Models\Catalog\CatalogImage;
 use App\Repositories\Images\ImageRepositoryInterface;
+use App\Services\Catalog\Enum\CatalogImageTypeEnum;
+use App\Services\Catalog\Enum\ImageExtensionEnum;
+use App\Services\Catalog\Enum\MediaTypeEnum;
 use App\Services\ImageUploader\DTO\ImageDTO;
 use App\Services\ImageUploader\Enum\ImageTypeEnum;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Log;
 
 final readonly class ImageUploadService
@@ -20,29 +24,67 @@ final readonly class ImageUploadService
         private array                    $storageConfig
     ) {}
 
-    public function uploadImage(int $goodId, string $imageUrl): void
+    public function uploadImageByURL(int $goodId, string $imageUrl): void
     {
         try {
             $image = getimagesize($imageUrl);
 
             $fileName = $this->getImageNameByType($image['mime']);
 
-            $filePathWithName = $this->storageConfig['images'] . '/' . $goodId;
+            $path = $this->getPathToSave($goodId);
 
             $image = $this->imageRepository->addImage(
                 new ImageDTO(
                     file_name: $fileName,
                     good_id: $goodId,
                     original_url: $imageUrl,
-                    path: $filePathWithName,
+                    path: $path,
                     hash: md5_file($imageUrl),
+                    type: CatalogImageTypeEnum::PHOTO,
+                    media_type: MediaTypeEnum::IMAGE,
                 )
             );
 
-            //$this->filesystem->put($filePathWithName . '/' . $image->getFileName(), file_get_contents($imageUrl));
+            $this->filesystem->put($path . '/' . $image->getFileName(), file_get_contents($imageUrl));
         } catch (\Exception $e) {
             Log::error('Error upload image: ' . $e->getMessage(), ['good_id' => $goodId, 'image_url' => $imageUrl]);
         }
+    }
+
+    private function getPathToSave(int $goodId): string
+    {
+        return $this->storageConfig['images'] . '/' . $goodId;
+    }
+
+    public function uploadImage(UploadedFile $image, int $goodId, CatalogImageTypeEnum $type): CatalogImage
+    {
+        $path = $this->getPathToSave($goodId);
+        $this->filesystem->put($path . '/' . $image->getClientOriginalName(), $image->getContent());
+
+        return $this->imageRepository->addImage(
+            new ImageDTO(
+                file_name: $image->getClientOriginalName(),
+                good_id: $goodId,
+                original_url: null,
+                path: $path,
+                hash: md5_file($image->getPathname()),
+                type: $type,
+                media_type: $this->getMediaType($image->getClientMimeType()),
+            )
+        );
+    }
+
+    private function getMediaType(string $mime): MediaTypeEnum
+    {
+        if (in_array($mime, ImageExtensionEnum::getList())) {
+            return MediaTypeEnum::IMAGE;
+        }
+
+        if ($mime === 'video/mp4') {
+            return MediaTypeEnum::VIDEO;
+        }
+
+        throw new \Exception('Unknown media type');
     }
 
     public function deleteImagesWithModels(int $objectId, ImageTypeEnum $imageType): void
@@ -57,7 +99,7 @@ final readonly class ImageUploadService
         }
 
         $dir = '';
-        /** @var Image[] $images */
+        /** @var CatalogImage[] $images */
         foreach ($images as $image) {
             $dir = $image->getPath();
             $this->deleteImage($image);
@@ -88,7 +130,7 @@ final readonly class ImageUploadService
         };
     }
 
-    private function deleteImage(Image $image): void
+    private function deleteImage(CatalogImage $image): void
     {
         $this->deleteFile($image->getFilePathWithName());
         $this->imageRepository->deleteImage($image);

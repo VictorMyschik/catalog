@@ -4,31 +4,31 @@ declare(strict_types=1);
 
 namespace App\Repositories\Images;
 
-use App\Models\Catalog\Image;
+use App\Models\Catalog\CatalogImage;
 use App\Repositories\RepositoryBase;
 use App\Services\ImageUploader\DTO\ImageDTO;
 
 final readonly class ImageRepository extends RepositoryBase implements ImageRepositoryInterface
 {
-    public function addImage(ImageDTO $dto): Image
+    public function addImage(ImageDTO $dto): CatalogImage
     {
-        return Image::firstOrCreate([
+        return CatalogImage::firstOrCreate([
             'hash'    => $dto->hash,
             'good_id' => $dto->good_id,
-        ], (array)$dto);
+        ], $dto->toArray());
     }
 
-    public function getImageById(int $imageId): ?Image
+    public function getImageById(int $imageId): ?CatalogImage
     {
-        return Image::loadBy($imageId);
+        return CatalogImage::loadBy($imageId);
     }
 
     public function getImageListByGoodId(int $goodId): array
     {
-        return Image::where('good_id', $goodId)->get()->all();
+        return CatalogImage::where('good_id', $goodId)->get()->all();
     }
 
-    public function deleteImage(Image $image): void
+    public function deleteImage(CatalogImage $image): void
     {
         $image->delete();
     }

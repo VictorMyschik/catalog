@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->timestampTz('created_at')->useCurrent();
             $table->timestampTz('updated_at')->nullable()->useCurrentOnUpdate();
 
-            $table->foreign('good_id')->references('id')->on('goods')->cascadeOnDelete();
+            $table->foreign('good_id')->references('id')->on('catalog_goods')->cascadeOnDelete();
             $table->foreign('market_id')->references('id')->on('catalog_markets')->cascadeOnDelete();
         });
     }

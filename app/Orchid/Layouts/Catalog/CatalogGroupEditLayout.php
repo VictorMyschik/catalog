@@ -7,7 +7,7 @@ namespace App\Orchid\Layouts\Catalog;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Layouts\Rows;
 
-class CatalogTypeEditLayout extends Rows
+class CatalogGroupEditLayout extends Rows
 {
     public function fields(): array
     {
