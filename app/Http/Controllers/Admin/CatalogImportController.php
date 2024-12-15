@@ -23,12 +23,12 @@ final class CatalogImportController extends Controller
         abort('manual disable');
         $input = Validator::make($request->all(), [
             'url'            => 'required|max:255',
-            'type_id'        => 'required|integer|exists:catalog_types,id',
+            'type_id'        => 'required|integer|exists:catalog_groups,id',
             'is_load_images' => 'nullable|boolean',
             'complex'        => 'nullable|boolean',
         ])->validate();
 
-        $catalogType = $this->service->getCatalogGroupById((int)$input['type_id']);
+        $catalogGroup = $this->service->getCatalogGroupById((int)$input['type_id']);
 
         // Макс товаров
         $max = $input['max'] ?? 0;
@@ -65,7 +65,7 @@ final class CatalogImportController extends Controller
                 continue;
             }
 
-            $this->importOnlinerService->import($stringId, $catalogType, $url, $isLoadImages);
+            $this->importOnlinerService->import($stringId, $catalogGroup, $url, $isLoadImages);
 
             $i++;
         }

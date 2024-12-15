@@ -125,12 +125,12 @@ final readonly class CatalogService
 
     public function deleteCatalogType(int $typeId): void
     {
-        $this->repository->deleteCatalogType($typeId);
+        $this->repository->deleteCatalogGroup($typeId);
     }
 
-    public function saveCatalogType(int $id, array $type): void
+    public function saveCatalogGroup(int $id, array $type): void
     {
-        $this->repository->saveCatalogType($id, $type);
+        $this->repository->saveCatalogGroup($id, $type);
     }
 
     public function getGoodById(int $id): ?CatalogGood

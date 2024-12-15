@@ -39,9 +39,9 @@ readonly class CatalogDBRepository extends RepositoryBase implements CatalogRepo
         return $this->db->table(CatalogGood::getTableName())->insertGetId($data);
     }
 
-    public function getGroupAttributeOrCreateNew(int $typeId, string $groupName, int $sortOrder): CatalogGroupAttribute
+    public function getGroupAttributeOrCreateNew(int $groupId, string $groupName, int $sortOrder): CatalogGroupAttribute
     {
-        return CatalogGroupAttribute::firstOrCreate(['type_id' => $typeId, 'name' => $groupName], ['sort' => $sortOrder]);
+        return CatalogGroupAttribute::firstOrCreate(['group_id' => $groupId, 'name' => $groupName], ['sort' => $sortOrder]);
     }
 
     public function getCatalogAttributeOrCreateNew(CatalogGroupAttribute $group, string $title): CatalogAttribute
@@ -94,17 +94,17 @@ readonly class CatalogDBRepository extends RepositoryBase implements CatalogRepo
         $this->db->table(Manufacturer::getTableName())->where('id', $manufacturerId)->delete();
     }
 
-    public function deleteCatalogType(int $typeId): void
+    public function deleteCatalogGroup(int $groupId): void
     {
-        $this->db->table(CatalogGroup::getTableName())->where('id', $typeId)->delete();
+        $this->db->table(CatalogGroup::getTableName())->where('id', $groupId)->delete();
     }
 
-    public function saveCatalogType(int $id, array $type): void
+    public function saveCatalogGroup(int $id, array $data): void
     {
         if ($id > 0) {
-            $this->db->table(CatalogGroup::getTableName())->where('id', $id)->update($type);
+            $this->db->table(CatalogGroup::getTableName())->where('id', $id)->update($data);
         } else {
-            $this->db->table(CatalogGroup::getTableName())->insert($type);
+            $this->db->table(CatalogGroup::getTableName())->insert($data);
         }
     }
 

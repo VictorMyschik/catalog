@@ -1,0 +1,82 @@
+networks:
+  frontend:
+    external: true
+  backend:
+
+services:
+  nginx:
+    build: ./docker/nginx
+    container_name: nginx_catalog
+    volumes:
+      - ./docker/logs/nginx:/var/log/nginx
+      - .:/var/www/catalog
+    environment:
+      - VIRTUAL_HOST=catalog.test
+    ports:
+      - "80:80"
+    networks:
+      frontend:
+      backend:
+        aliases:
+          - catalog.test
+
+  php:
+    build: ./docker/php
+    container_name: php_catalog
+    networks:
+      - backend
+    environment:
+      - COMPOSER_MEMORY_LIMIT=2G
+      - XDEBUG_SESSION="PHPSTORM"
+    volumes:
+      - .:/var/www/catalog
+      - ./storage/logs:/var/log/php
+      - ./docker/php/php.ini:/usr/local/etc/php/php.ini
+
+  postgres:
+    image: postgres:latest
+    networks:
+      frontend:
+      backend:
+    ports:
+      - '5477:5432'
+    environment:
+      POSTGRES_DB: catalog
+      POSTGRES_USER: catalog
+      POSTGRES_PASSWORD: catalog
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+      - ./docker/postgres/catalog:/var/lib/postgresql/data
+
+  redis:
+    image: bitnami/redis:latest
+    networks:
+      - backend
+      - frontend
+    ports:
+      - '6380:6379'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+
+  supervisor:
+    build: ./docker/supervisor
+    container_name: supervisor_catalog
+    networks:
+      - backend
+    volumes:
+      - .:/var/www/catalog
+      - ./storage/logs:/var/log/php
+      - ./docker/php/php.ini:/usr/local/etc/php/php.ini
+      - ./docker/php/opcache.ini:/usr/local/etc/php/conf.d/opcache.ini
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports:
+      # AMQP protocol port
+      - '5679:5672'
+      # HTTP management UI
+      - '15679:15672'
+    volumes:
+      - ./docker/rabbitmq/data/:/var/lib/rabbitmq/
+    networks:
+      - backend

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Orchid\Screens\Catalog;
 
-use App\Jobs\Catalog\SearchGoodsByCatalogTypeJob;
+use App\Jobs\Catalog\SearchGoodsByCatalogGroupJob;
 use App\Models\Catalog\CatalogGroup;
 use App\Orchid\Filters\Catalog\CatalogTypeFilter;
 use App\Orchid\Layouts\Catalog\CatalogGroupEditLayout;
@@ -39,7 +39,7 @@ class CatalogGroupsScreen extends Screen
                 ->icon('plus')
                 ->modal('type_modal')
                 ->modalTitle('Создать новый тип')
-                ->method('saveCatalogType', ['type_id' => 0])
+                ->method('saveCatalogGroup', ['group_id' => 0])
         ];
     }
 
@@ -59,19 +59,19 @@ class CatalogGroupsScreen extends Screen
         ];
     }
 
-    public function saveCatalogType(Request $request, int $type_id): void
+    public function saveCatalogGroup(Request $request, int $group_id): void
     {
         $input = Validator::make($request->all(), [
             'type.name'      => 'required|string',
             'type.json_link' => 'required|string',
         ])->validate()['type'];
 
-        $this->service->saveCatalogType($type_id, $input);
+        $this->service->saveCatalogGroup($group_id, $input);
     }
 
-    public function remove(int $type_id): void
+    public function remove(int $group_id): void
     {
-        $this->service->deleteCatalogType($type_id);
+        $this->service->deleteCatalogType($group_id);
     }
 
     #region Filter
@@ -95,8 +95,8 @@ class CatalogGroupsScreen extends Screen
     }
     #endregion
 
-    public function updateGoods(int $type_id): void
+    public function updateGoods(int $group_id): void
     {
-        SearchGoodsByCatalogTypeJob::dispatch(CatalogGroup::loadByOrDie($type_id));
+        SearchGoodsByCatalogGroupJob::dispatch(CatalogGroup::loadByOrDie($group_id));
     }
 }

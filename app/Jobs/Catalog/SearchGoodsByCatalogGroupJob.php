@@ -13,7 +13,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class SearchGoodsByCatalogTypeJob implements ShouldQueue
+class SearchGoodsByCatalogGroupJob implements ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;
@@ -27,6 +27,6 @@ class SearchGoodsByCatalogTypeJob implements ShouldQueue
 
     public function handle(ImportOnlinerService $service): void
     {
-        $service->searchNewGoodsByCatalogType($this->catalogType);
+        $service->searchNewGoodsByCatalogGroup($this->catalogType);
     }
 }

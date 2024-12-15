@@ -9,7 +9,7 @@ return new class extends Migration {
     {
         Schema::create('catalog_goods', function (Blueprint $table) {
             $table->id();
-            $table->tinyInteger('type')->index();
+            $table->tinyInteger('type')->default(0)->index();
             $table->unsignedBigInteger('group_id')->index();
             $table->boolean('active')->default(false)->index();
             $table->string('prefix', 500)->nullable();

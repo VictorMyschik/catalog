@@ -17,20 +17,20 @@ class CatalogGroupAttribute extends ORM
 
     public $timestamps = false;
     protected $fillable = [
-        'type_id',
+        'group_id',
         'name',
         'sort',
     ];
 
     protected $casts = [
-        'id'      => 'int',
-        'type_id' => 'int',
-        'name'    => 'string',
-        'sort'    => 'int',
+        'id'       => 'int',
+        'group_id' => 'int',
+        'name'     => 'string',
+        'sort'     => 'int',
     ];
 
-    public function getTypeId(): int
+    public function getGroupID(): int
     {
-        return $this->type_id;
+        return $this->group_id;
     }
 }

@@ -23,7 +23,7 @@ class CatalogGood extends ORM
 
     protected array $allowedSorts = [
         'id',
-        'type_id',
+        'group_id',
         'prefix',
         'name',
         'parent_good_id',
@@ -36,7 +36,7 @@ class CatalogGood extends ORM
 
     protected $casts = [
         'id'               => 'integer',
-        'type_id'          => 'integer',
+        'group_id'          => 'integer',
         'prefix'           => 'string',
         'name'             => 'string',
         'short_info'       => 'string',
@@ -52,14 +52,14 @@ class CatalogGood extends ORM
         'updated_at'       => 'datetime',
     ];
 
-    public function getTypeId(): int
+    public function getGroupID(): int
     {
-        return $this->type_id;
+        return $this->group_id;
     }
 
     public function getGroup(): CatalogGroup
     {
-        return CatalogGroup::loadByOrDie($this->getTypeId());
+        return CatalogGroup::loadByOrDie($this->getGroupID());
     }
 
     public function getPrefix(): ?string

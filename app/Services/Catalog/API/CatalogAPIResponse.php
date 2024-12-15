@@ -106,7 +106,7 @@ final readonly class CatalogAPIResponse implements CatalogAPIInterface
         $group = $good->getGroup();
 
         return new CatalogGroupComponent(
-            id: $good->getTypeId(),
+            id: $good->getGroupID(),
             title: $group->getName(),
         );
     }

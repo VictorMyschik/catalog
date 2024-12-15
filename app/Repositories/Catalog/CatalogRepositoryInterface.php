@@ -22,7 +22,7 @@ interface CatalogRepositoryInterface
 
     public function saveGood(int $id, array $data): int;
 
-    public function getGroupAttributeOrCreateNew(int $typeId, string $groupName, int $sortOrder): CatalogGroupAttribute;
+    public function getGroupAttributeOrCreateNew(int $groupId, string $groupName, int $sortOrder): CatalogGroupAttribute;
 
     public function getCatalogAttributeOrCreateNew(CatalogGroupAttribute $group, string $title): CatalogAttribute;
 
@@ -42,9 +42,9 @@ interface CatalogRepositoryInterface
 
     public function deleteManufacturer(int $manufacturerId): void;
 
-    public function deleteCatalogType(int $typeId): void;
+    public function deleteCatalogGroup(int $groupId): void;
 
-    public function saveCatalogType(int $id, array $type): void;
+    public function saveCatalogGroup(int $id, array $data): void;
 
     public function getGoodById(int $id): ?CatalogGood;
 

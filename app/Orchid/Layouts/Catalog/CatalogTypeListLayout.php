@@ -25,24 +25,24 @@ class CatalogTypeListLayout extends Table
             TD::make('#', '#')
                 ->align(TD::ALIGN_CENTER)
                 ->width('100px')
-                ->render(function (CatalogGroup $catalogType) {
+                ->render(function (CatalogGroup $catalogGroup) {
                     return DropDown::make()->icon('options-vertical')->list([
                         ModalToggle::make('изменить')
                             ->icon('pencil')
                             ->modal('type_modal')
                             ->modalTitle('Изменить тип')
-                            ->method('saveCatalogType', ['type_id' => $catalogType->id()]),
+                            ->method('saveCatalogType', ['group_id' => $catalogGroup->id()]),
                         Button::make('обновить товары')
                             ->icon('upload')
                             ->confirm('This item will be removed permanently.')
                             ->method('updateGoods', [
-                                'type_id' => $catalogType->id(),
+                                'group_id' => $catalogGroup->id(),
                             ]),
                         Button::make('удалить')
                             ->icon('trash')
                             ->confirm('This item will be removed permanently.')
                             ->method('remove', [
-                                'type_id' => $catalogType->id(),
+                                'group_id' => $catalogGroup->id(),
                             ]),
                     ]);
                 }),

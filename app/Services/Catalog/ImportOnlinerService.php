@@ -6,7 +6,7 @@ namespace App\Services\Catalog;
 
 use App\Events\ESAddGoodEvent;
 use App\Jobs\Catalog\DownloadGoodJob;
-use App\Jobs\Catalog\SearchGoodsByCatalogTypeJob;
+use App\Jobs\Catalog\SearchGoodsByCatalogGroupJob;
 use App\Models\Catalog\CatalogGroup;
 use App\Services\HTTPClientService\HTTPClient;
 use App\Services\ImageUploader\ImageUploadService;
@@ -22,26 +22,26 @@ final class ImportOnlinerService
         private readonly ImageUploadService $imageService
     ) {}
 
-    public function import(string $stringId, CatalogGroup $type, string $url, bool $isLoadImages): int
+    public function import(string $stringId, CatalogGroup $group, string $url, bool $isLoadImages): int
     {
         $cleanData = $this->client->doGet($url);
 
         $parsedData = $this->parseAttributes((string)$cleanData);
         $parsedData['string_id'] = $stringId;
 
-        return $this->createGoodWithAllInfo($type, $parsedData, $url, (string)$cleanData, $isLoadImages);
+        return $this->createGoodWithAllInfo($group, $parsedData, $url, (string)$cleanData, $isLoadImages);
     }
 
-    private function createGoodWithAllInfo(CatalogGroup $type, array $parsedData, string $url, string $cleanData, bool $isLoadImages = true): int
+    private function createGoodWithAllInfo(CatalogGroup $group, array $parsedData, string $url, string $cleanData, bool $isLoadImages = true): int
     {
         $goodId = $this->catalogService->saveGood(0, [
-            'type_id'   => $type->id(),
+            'group_id'  => $group->id(),
             'name'      => $parsedData['good_name'],
             'string_id' => $parsedData['string_id'],
             'link'      => $url,
         ]);
 
-        $attributes = $this->createCatalogAttributes($parsedData['attributes'], $type);
+        $attributes = $this->createCatalogAttributes($parsedData['attributes'], $group);
 
         $this->insertGoodAttributes($goodId, $attributes);
 
@@ -132,13 +132,13 @@ final class ImportOnlinerService
         }
     }
 
-    private function createCatalogAttributes(array $data, CatalogGroup $type): array
+    private function createCatalogAttributes(array $data, CatalogGroup $group): array
     {
         $out = [];
 
         foreach ($data as $group_name => $sub_group) {
             $sortOrder = 1000;
-            $group = $this->catalogService->getGroupAttributeOrCreateNew($type->id(), $group_name, $sortOrder);
+            $group = $this->catalogService->getGroupAttributeOrCreateNew($group->id(), $group_name, $sortOrder);
 
             foreach ($sub_group as $title => $value) {
                 $catalogAttribute = $this->catalogService->getCatalogAttributeOrCreateNew($group, $title);
@@ -249,22 +249,22 @@ final class ImportOnlinerService
     {
         $list = $this->catalogService->getCatalogGroupList();
 
-        foreach ($list as $type) {
-            SearchGoodsByCatalogTypeJob::dispatch($type);
+        foreach ($list as $group) {
+            SearchGoodsByCatalogGroupJob::dispatch($group);
         }
     }
 
     /**
      * @throws Exception
      */
-    public function searchNewGoodsByCatalogType(CatalogGroup $type): void
+    public function searchNewGoodsByCatalogGroup(CatalogGroup $group): void
     {
-        if (!$type->getJsonLink()) {
-            throw new Exception('Поиск и добавление новых товаров в каталог: ' . $type->getName() . ' - нет ссылки на json');
+        if (!$group->getJsonLink()) {
+            throw new Exception('Поиск и добавление новых товаров в каталог: ' . $group->getName() . ' - нет ссылки на json');
         }
 
-        if (!$article = $type->getOnlinerArticleName()) {
-            throw new Exception('Поиск и добавление новых товаров в каталог: ' . $type->getName() . ' - нет артикула');
+        if (!$article = $group->getOnlinerArticleName()) {
+            throw new Exception('Поиск и добавление новых товаров в каталог: ' . $group->getName() . ' - нет артикула');
         }
 
         $link = "https://catalog.onliner.by/sdapi/catalog.api/search/$article?page=1";
@@ -280,12 +280,12 @@ final class ImportOnlinerService
             // Создание задач. Одна страница - одна задача
             for ($i = 1; $i <= $cntPage; $i++) {
                 $link = "https://catalog.onliner.by/sdapi/catalog.api/search/$article?page=$i";
-                DownloadGoodJob::dispatch($type, $link);
+                DownloadGoodJob::dispatch($group, $link);
             }
         }
     }
 
-    public function downloadGoods(CatalogGroup $type, string $link): void
+    public function downloadGoods(CatalogGroup $group, string $link): void
     {
         $data = (string)$this->client->doGet($link);
         $json = @json_decode($data, true);
@@ -294,23 +294,23 @@ final class ImportOnlinerService
             foreach ($json['products'] as $product) {
                 // Постановка в очередь проверки и скачки новых товаров
                 if ($this->catalogService->hasGoodByIntId((int)$product['id'])) {
-                    Log::warning($type->getName() . ' int_id ' . (int)$product['id'] . " " . $product['name'] . ' уже есть в базе');
+                    Log::warning($group->getName() . ' int_id ' . (int)$product['id'] . " " . $product['name'] . ' уже есть в базе');
                     continue;
                 }
 
                 if ($product['html_url'] ?? null) {
                     // Найден новый товар - постановка задачи на скачивание
-                    $this->import(stringId: $product['key'], type: $type, url: (string)$product['html_url'], isLoadImages: true);
+                    $this->import(stringId: $product['key'], group: $group, url: (string)$product['html_url'], isLoadImages: true);
                 } else {
                     Log::info('Новый товар ' . $product['id'] . " без HTML ссылки", [
                         'product' => $product,
-                        'type'    => $type->getName(),
+                        'group'   => $group->getName(),
                         'link'    => $link,
                     ]);
                 }
             }
         } else {
-            Log::info($type->getName() . " не нашёл товаров вообще", ['json' => $json, 'link' => $link]);
+            Log::info($group->getName() . " не нашёл товаров вообще", ['json' => $json, 'link' => $link]);
         }
     }
 }
