@@ -11,6 +11,7 @@ use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
 use App\Orchid\Screens\System\CacheScreen;
 use App\Orchid\Screens\System\CronScreen;
+use App\Orchid\Screens\System\FailedJobsScreen;
 use App\Orchid\Screens\System\PurgeScreen;
 use App\Orchid\Screens\System\SettingsScreen;
 use App\Orchid\Screens\User\UserEditScreen;
@@ -76,6 +77,7 @@ Route::screen('system/settings/list', SettingsScreen::class)->name('system.setti
 Route::screen('system/cache', CacheScreen::class)->name('system.cache');
 Route::screen('system/cron', CronScreen::class)->name('system.info.cron');
 Route::screen('system/purge', PurgeScreen::class)->name('system.purge');
+Route::screen('system/failed-jobs', FailedJobsScreen::class)->name('system.failed.jobs');
 
 // Catalog
 Route::screen('catalog/goods/list', CatalogGoodsScreen::class)->name('catalog.goods.list');

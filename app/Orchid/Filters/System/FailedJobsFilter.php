@@ -2,7 +2,7 @@
 
 namespace App\Orchid\Filters\System;
 
-use App\Enums\QueueNameEnum;
+use App\Jobs\Enums\QueueJobEnum;
 use App\Models\System\FailedJobs;
 use App\Orchid\Layouts\Lego\ActionFilterPanel;
 use Illuminate\Database\Eloquent\Builder;
@@ -30,6 +30,11 @@ class FailedJobsFilter extends Filter
         return self::$fields;
     }
 
+    public static function runQuery()
+    {
+        return FailedJobs::filters([self::class])->paginate(20);
+    }
+
     public function run(Builder $builder): Builder
     {
         $input = $this->request->all();
@@ -42,8 +47,8 @@ class FailedJobsFilter extends Filter
             }
         }
 
-        if (isset($input['queue']) && isset(QueueNameEnum::getValues()[$input['queue']])) {
-            $builder->where('queue', QueueNameEnum::getValues()[$input['queue']]);
+        if (isset($input['queue']) && isset(QueueJobEnum::getValues()[$input['queue']])) {
+            $builder->where('queue', QueueJobEnum::getValues()[$input['queue']]);
         }
 
         return $builder;
@@ -54,10 +59,6 @@ class FailedJobsFilter extends Filter
         return self::$fields;
     }
 
-    public static function query()
-    {
-        return FailedJobs::filters([self::class])->paginate(20);
-    }
 
     public static function displayFilterCard(): Rows
     {
@@ -66,7 +67,7 @@ class FailedJobsFilter extends Filter
                 Input::make('payload')->maxlength(50)->value(request()->get('payload'))->title('Payload'),
 
                 Select::make('queue')
-                    ->options([null => 'all'] + QueueNameEnum::getValues())
+                    ->options([null => 'all'] + QueueJobEnum::getValues())
                     ->value(is_null(request()->get('queue')) ? null : (int)request()->get('queue'))
                     ->title('Queue'),
             ]),

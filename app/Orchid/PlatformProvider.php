@@ -30,6 +30,7 @@ class PlatformProvider extends OrchidServiceProvider
                 Menu::make('Cron')->icon('calendar')->route('system.info.cron'),
                 Menu::make('Cache')->icon('database')->route('system.cache'),
                 Menu::make('Settings')->icon('settings')->route('system.settings.list'),
+                Menu::make('Failed jobs')->route('system.failed.jobs'),
                 Menu::make('Purge')->icon('database')->route('system.purge'),
             ])->divider(),
 

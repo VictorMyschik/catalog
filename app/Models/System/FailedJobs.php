@@ -18,5 +18,10 @@ class FailedJobs extends ORM
         'connection',
         'failed_at',
         'queue',
+        'exception',
+    ];
+
+    protected $casts = [
+        'failed_at' => 'datetime',
     ];
 }
