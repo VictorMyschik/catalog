@@ -6,9 +6,9 @@ namespace App\Models\Catalog;
 
 use App\Models\ORM\ORM;
 
-class CatalogGoodAttribute extends ORM
+class OnCatalogGoodAttribute extends ORM
 {
-    protected $table = 'good_attributes';
+    protected $table = 'on_good_attributes';
 
     protected $casts = [
         'good_id'            => 'int',

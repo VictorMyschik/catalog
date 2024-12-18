@@ -3,13 +3,15 @@
 declare(strict_types=1);
 
 use App\Jobs\Catalog\SearchGoodsByCatalogGroupJob;
-use App\Models\Catalog\CatalogGroup;
+use App\Models\Catalog\OnCatalogGroup;
 use Tests\TestCase;
 
 class MyTest extends TestCase
 {
     public function testMyUpdate()
     {
-        SearchGoodsByCatalogGroupJob::dispatch(CatalogGroup::loadByOrDie(1));
+        foreach(OnCatalogGroup::all() as $group) {
+            SearchGoodsByCatalogGroupJob::dispatch($group);
+        }
     }
 }

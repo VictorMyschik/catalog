@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Repositories\Images;
 
-use App\Models\Catalog\CatalogImage;
+use App\Models\Catalog\OnCatalogImage;
 
 interface ImageRepositoryInterface
 {
-    public function getImageById(int $imageId): ?CatalogImage;
+    public function getImageById(int $imageId): ?OnCatalogImage;
 
     public function getImageListByGoodId(int $goodId): array;
 
-    public function deleteImage(CatalogImage $image): void;
+    public function deleteImage(OnCatalogImage $image): void;
 }

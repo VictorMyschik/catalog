@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Orchid\Layouts\Catalog;
 
-use App\Models\Catalog\CatalogImage;
+use App\Models\Catalog\OnCatalogImage;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Upload;
 use Orchid\Screen\Layouts\Rows;
@@ -13,7 +13,7 @@ class GoodUploadEditLayout extends Rows
 {
     public function fields(): array
     {
-        /** @var CatalogImage $image */
+        /** @var OnCatalogImage $image */
         $image = $this->query->get('image');
         if (!$image) {
             $out[] = Upload::make('images')->groups('photo')->maxFiles(20)->path('goods');

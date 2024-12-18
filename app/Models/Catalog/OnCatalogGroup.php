@@ -10,14 +10,14 @@ use App\Models\ORM\ORM;
 use Orchid\Filters\Filterable;
 use Orchid\Screen\AsSource;
 
-class CatalogGroup extends ORM
+class OnCatalogGroup extends ORM
 {
     use AsSource;
     use Filterable;
     use NameFieldTrait;
     use JsonFieldTrait;
 
-    protected $table = 'catalog_groups';
+    protected $table = 'on_catalog_groups';
 
     protected array $allowedSorts = [
         'id',

@@ -10,7 +10,7 @@ use App\Http\Controllers\Api\v1\Catalog\Response\Components\AttributeGroupCompon
 use App\Http\Controllers\Api\v1\Catalog\Response\Components\AttributeValueComponent;
 use App\Http\Controllers\Api\v1\Catalog\Response\Components\CatalogGroupComponent;
 use App\Http\Controllers\Api\v1\Catalog\Response\Components\ManufacturerComponent;
-use App\Models\Catalog\CatalogGood;
+use App\Models\Catalog\OnCatalogGood;
 use App\Services\Catalog\CatalogService;
 use App\Services\Elasticsearch\ESService;
 
@@ -34,7 +34,7 @@ final readonly class CatalogAPIResponse implements CatalogAPIInterface
         return $goods;
     }
 
-    private function buildGoodResponse(CatalogGood $good): CatalogGoodResponse
+    private function buildGoodResponse(OnCatalogGood $good): CatalogGoodResponse
     {
         return new CatalogGoodResponse(
             id: $good->id(),
@@ -87,7 +87,7 @@ final readonly class CatalogAPIResponse implements CatalogAPIInterface
         return $out;
     }
 
-    private function buildManufacturerComponent(CatalogGood $good): ?ManufacturerComponent
+    private function buildManufacturerComponent(OnCatalogGood $good): ?ManufacturerComponent
     {
         $manufacturer = $good->getManufacturer();
         if (!$manufacturer) {
@@ -101,7 +101,7 @@ final readonly class CatalogAPIResponse implements CatalogAPIInterface
         );
     }
 
-    private function buildGroupComponent(CatalogGood $good): CatalogGroupComponent
+    private function buildGroupComponent(OnCatalogGood $good): CatalogGroupComponent
     {
         $group = $good->getGroup();
 

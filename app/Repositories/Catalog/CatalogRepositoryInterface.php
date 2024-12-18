@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Repositories\Catalog;
 
-use App\Models\Catalog\CatalogAttribute;
-use App\Models\Catalog\CatalogAttributeValue;
-use App\Models\Catalog\CatalogGood;
-use App\Models\Catalog\CatalogGroup;
-use App\Models\Catalog\CatalogGroupAttribute;
-use App\Models\Catalog\CatalogImage;
-use App\Models\Catalog\Manufacturer;
+use App\Models\Catalog\OnCatalogAttribute;
+use App\Models\Catalog\OnCatalogAttributeValue;
+use App\Models\Catalog\OnCatalogGood;
+use App\Models\Catalog\OnCatalogGroup;
+use App\Models\Catalog\OnCatalogGroupAttribute;
+use App\Models\Catalog\OnCatalogImage;
+use App\Models\Catalog\OnManufacturer;
 
 interface CatalogRepositoryInterface
 {
@@ -18,27 +18,27 @@ interface CatalogRepositoryInterface
 
     public function getCatalogGroupList(): array;
 
-    public function getCatalogGroupById(int $id): CatalogGroup;
+    public function getCatalogGroupById(int $id): OnCatalogGroup;
 
     public function saveGood(int $id, array $data): int;
 
-    public function getGroupAttributeOrCreateNew(int $groupId, string $groupName, int $sortOrder): CatalogGroupAttribute;
+    public function getGroupAttributeOrCreateNew(int $groupId, string $groupName, int $sortOrder): OnCatalogGroupAttribute;
 
-    public function getCatalogAttributeOrCreateNew(CatalogGroupAttribute $group, string $title): CatalogAttribute;
+    public function getCatalogAttributeOrCreateNew(OnCatalogGroupAttribute $group, string $title): OnCatalogAttribute;
 
-    public function getCatalogAttributeValueOrCreateNew(CatalogAttribute $attribute, ?string $value): CatalogAttributeValue;
+    public function getCatalogAttributeValueOrCreateNew(OnCatalogAttribute $attribute, ?string $value): OnCatalogAttributeValue;
 
     public function createGoodAttributes(array $goodAttributes): void;
 
-    public function getManufacturerOrCreateNew(array $data): Manufacturer;
+    public function getManufacturerOrCreateNew(array $data): OnManufacturer;
 
     public function deleteGood(int $id): void;
 
-    public function getGoodLogo(int $goodId): ?CatalogImage;
+    public function getGoodLogo(int $goodId): ?OnCatalogImage;
 
-    public function getManufacturer(int $id): ?Manufacturer;
+    public function getManufacturer(int $id): ?OnManufacturer;
 
-    public function hasGoodByIntId(int $intId): bool;
+    public function hasGoodByStringId(string $stringId): bool;
 
     public function deleteManufacturer(int $manufacturerId): void;
 
@@ -46,11 +46,11 @@ interface CatalogRepositoryInterface
 
     public function saveCatalogGroup(int $id, array $data): void;
 
-    public function getGoodById(int $id): ?CatalogGood;
+    public function getGoodById(int $id): ?OnCatalogGood;
 
     public function getGoodImages(int $goodId): array;
 
-    public function getGoodImageById(int $catalogImageId): ?CatalogImage;
+    public function getGoodImageById(int $catalogImageId): ?OnCatalogImage;
 
     public function getGoodAttributes(int $goodId): array;
 

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Orchid\Layouts\Catalog;
 
-use App\Models\Catalog\CatalogGood;
-use App\Models\Catalog\Manufacturer;
+use App\Models\Catalog\OnCatalogGood;
+use App\Models\Catalog\OnManufacturer;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
 use Orchid\Screen\Actions\ModalToggle;
@@ -22,12 +22,12 @@ class ManufacturerListLayout extends Table
             TD::make('id', 'ID')->sort(),
             TD::make('name')->sort(),
             TD::make('address', 'Адрес')->sort(),
-            TD::make('created_at', 'Created')->render(fn(Manufacturer $manufacturer) => $manufacturer->created_at->format('d.m.Y'))->sort(),
+            TD::make('created_at', 'Created')->render(fn(OnManufacturer $manufacturer) => $manufacturer->created_at->format('d.m.Y'))->sort(),
 
             TD::make('#', '#')
                 ->align(TD::ALIGN_CENTER)
                 ->width('100px')
-                ->render(function (Manufacturer $manufacturer) {
+                ->render(function (OnManufacturer $manufacturer) {
                     return DropDown::make()->icon('options-vertical')->list([
                         ModalToggle::make('изменить')->modal('edit_manufacturer_modal')
                             ->modalTitle('Изменить производителя')

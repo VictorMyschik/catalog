@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Orchid\Layouts\Catalog;
 
-use App\Models\Catalog\CatalogGroup;
+use App\Models\Catalog\OnCatalogGroup;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
 
-class CatalogTypeListLayout extends Table
+class CatalogGroupListLayout extends Table
 {
     protected $target = 'list';
 
@@ -25,7 +25,7 @@ class CatalogTypeListLayout extends Table
             TD::make('#', '#')
                 ->align(TD::ALIGN_CENTER)
                 ->width('100px')
-                ->render(function (CatalogGroup $catalogGroup) {
+                ->render(function (OnCatalogGroup $catalogGroup) {
                     return DropDown::make()->icon('options-vertical')->list([
                         ModalToggle::make('изменить')
                             ->icon('pencil')

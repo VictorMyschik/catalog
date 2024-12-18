@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Orchid\Filters\Catalog;
 
-use App\Models\Catalog\CatalogGood;
-use App\Models\Catalog\Manufacturer;
+use App\Models\Catalog\OnCatalogGood;
+use App\Models\Catalog\OnManufacturer;
 use App\Orchid\Layouts\Lego\ActionFilterPanel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -28,7 +28,7 @@ class CatalogGoodsFilter extends Filter
 
     public static function runQuery()
     {
-        return CatalogGood::filters([self::class])->paginate(20);
+        return OnCatalogGood::filters([self::class])->paginate(20);
     }
 
     public function run(Builder $builder): Builder
@@ -63,7 +63,7 @@ class CatalogGoodsFilter extends Filter
             Input::make('string_id')->value((string)$input['string_id'])->title('Строковый ID'),
             Input::make('name')->value((string)$input['name'])->title('Название'),
             Relation::make('manufacturer_id')
-                ->fromModel(Manufacturer::class, 'name')
+                ->fromModel(OnManufacturer::class, 'name')
                 ->value((int)$input['manufacturer_id'])
                 ->title('Производитель'),
         ]);

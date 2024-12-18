@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Orchid\Screens\Catalog;
 
-use App\Models\Catalog\CatalogGood;
+use App\Models\Catalog\OnCatalogGood;
 use App\Orchid\Filters\Catalog\CatalogGoodsFilter;
 use App\Orchid\Layouts\Catalog\CatalogGoodAddNewLayout;
 use App\Orchid\Layouts\Catalog\GoodListLayout;
@@ -54,7 +54,7 @@ class CatalogGoodsScreen extends Screen
 
     public function asyncGetGood(int $id = 0): array
     {
-        return ['body' => CatalogGood::loadByOrDie($id)->sl];
+        return ['body' => OnCatalogGood::loadByOrDie($id)->sl];
     }
 
     public function asyncNewGood(int $group_id = 0): array

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Orchid\Filters\Catalog;
 
-use App\Models\Catalog\Manufacturer;
+use App\Models\Catalog\OnManufacturer;
 use App\Orchid\Layouts\Lego\ActionFilterPanel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -25,7 +25,7 @@ class ManufacturerFilter extends Filter
 
     public static function runQuery()
     {
-        return Manufacturer::filters([self::class])->paginate(20);
+        return OnManufacturer::filters([self::class])->paginate(20);
     }
 
     public function run(Builder $builder): Builder

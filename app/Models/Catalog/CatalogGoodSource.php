@@ -16,7 +16,7 @@ class CatalogGoodSource extends ORM
     use DescriptionNullableFieldTrait;
     use JsonFieldTrait;
 
-    protected $table = 'catalog_good_sources';
+    protected $table = 'on_catalog_good_sources';
 
     protected $casts = [
         'id'          => 'int',

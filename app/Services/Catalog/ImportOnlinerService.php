@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Services\Catalog;
 
-use App\Events\ESAddGoodEvent;
 use App\Jobs\Catalog\DownloadGoodJob;
 use App\Jobs\Catalog\SearchGoodsByCatalogGroupJob;
-use App\Models\Catalog\CatalogGroup;
+use App\Models\Catalog\OnCatalogGroup;
 use App\Services\HTTPClientService\HTTPClient;
 use App\Services\ImageUploader\ImageUploadService;
 use Exception;
@@ -22,7 +21,7 @@ final class ImportOnlinerService
         private readonly ImageUploadService $imageService
     ) {}
 
-    public function import(string $stringId, CatalogGroup $group, string $url, bool $isLoadImages): int
+    public function import(string $stringId, OnCatalogGroup $group, string $url, bool $isLoadImages): int
     {
         $cleanData = $this->client->doGet($url);
 
@@ -32,7 +31,7 @@ final class ImportOnlinerService
         return $this->createGoodWithAllInfo($group, $parsedData, $url, (string)$cleanData, $isLoadImages);
     }
 
-    private function createGoodWithAllInfo(CatalogGroup $group, array $parsedData, string $url, string $cleanData, bool $isLoadImages = true): int
+    private function createGoodWithAllInfo(OnCatalogGroup $group, array $parsedData, string $url, string $cleanData, bool $isLoadImages = true): int
     {
         $goodId = $this->catalogService->saveGood(0, [
             'group_id'  => $group->id(),
@@ -132,15 +131,15 @@ final class ImportOnlinerService
         }
     }
 
-    private function createCatalogAttributes(array $data, CatalogGroup $group): array
+    private function createCatalogAttributes(array $data, OnCatalogGroup $catalogGroup): array
     {
         $out = [];
 
-        foreach ($data as $group_name => $sub_group) {
+        foreach ($data as $groupName => $subGroup) {
             $sortOrder = 1000;
-            $group = $this->catalogService->getGroupAttributeOrCreateNew($group->id(), $group_name, $sortOrder);
+            $group = $this->catalogService->getGroupAttributeOrCreateNew($catalogGroup->id(), $groupName, $sortOrder);
 
-            foreach ($sub_group as $title => $value) {
+            foreach ($subGroup as $title => $value) {
                 $catalogAttribute = $this->catalogService->getCatalogAttributeOrCreateNew($group, $title);
 
                 $this->catalogService->getCatalogAttributeValueOrCreateNew($catalogAttribute, null);
@@ -257,7 +256,7 @@ final class ImportOnlinerService
     /**
      * @throws Exception
      */
-    public function searchNewGoodsByCatalogGroup(CatalogGroup $group): void
+    public function searchNewGoodsByCatalogGroup(OnCatalogGroup $group): void
     {
         if (!$group->getJsonLink()) {
             throw new Exception('Поиск и добавление новых товаров в каталог: ' . $group->getName() . ' - нет ссылки на json');
@@ -285,7 +284,7 @@ final class ImportOnlinerService
         }
     }
 
-    public function downloadGoods(CatalogGroup $group, string $link): void
+    public function downloadGoods(OnCatalogGroup $group, string $link): void
     {
         $data = (string)$this->client->doGet($link);
         $json = @json_decode($data, true);
@@ -293,7 +292,7 @@ final class ImportOnlinerService
         if (isset($json['products']) && count($json['products'])) {
             foreach ($json['products'] as $product) {
                 // Постановка в очередь проверки и скачки новых товаров
-                if ($this->catalogService->hasGoodByIntId((int)$product['id'])) {
+                if ($this->catalogService->hasGoodByStringId((string)$product['key'])) {
                     Log::warning($group->getName() . ' int_id ' . (int)$product['id'] . " " . $product['name'] . ' уже есть в базе');
                     continue;
                 }

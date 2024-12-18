@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Elasticsearch;
 
-use App\Models\Catalog\CatalogGood;
+use App\Models\Catalog\OnCatalogGood;
 use Illuminate\Support\Facades\Log;
 
 final readonly class ESService
@@ -22,7 +22,7 @@ final readonly class ESService
 
     public function __construct(private ESClient $client) {}
 
-    public function addGood(CatalogGood $good): void
+    public function addGood(OnCatalogGood $good): void
     {
         $body = [
             'id'           => $good->id(),

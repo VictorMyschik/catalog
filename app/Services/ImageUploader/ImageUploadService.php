@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\ImageUploader;
 
-use App\Models\Catalog\CatalogImage;
+use App\Models\Catalog\OnCatalogImage;
 use App\Repositories\Images\ImageRepositoryInterface;
 use App\Services\Catalog\Enum\CatalogImageTypeEnum;
 use App\Services\Catalog\Enum\ImageExtensionEnum;
@@ -56,7 +56,7 @@ final readonly class ImageUploadService
         return $this->storageConfig['images'] . '/' . $goodId;
     }
 
-    public function uploadImage(UploadedFile $image, int $goodId, CatalogImageTypeEnum $type): CatalogImage
+    public function uploadImage(UploadedFile $image, int $goodId, CatalogImageTypeEnum $type): OnCatalogImage
     {
         $path = $this->getPathToSave($goodId);
         $this->filesystem->put($path . '/' . $image->getClientOriginalName(), $image->getContent());
@@ -99,7 +99,7 @@ final readonly class ImageUploadService
         }
 
         $dir = '';
-        /** @var CatalogImage[] $images */
+        /** @var OnCatalogImage[] $images */
         foreach ($images as $image) {
             $dir = $image->getPath();
             $this->deleteImage($image);
@@ -130,7 +130,7 @@ final readonly class ImageUploadService
         };
     }
 
-    private function deleteImage(CatalogImage $image): void
+    private function deleteImage(OnCatalogImage $image): void
     {
         $this->deleteFile($image->getFilePathWithName());
         $this->imageRepository->deleteImage($image);

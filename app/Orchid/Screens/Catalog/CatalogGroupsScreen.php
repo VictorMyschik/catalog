@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace App\Orchid\Screens\Catalog;
 
 use App\Jobs\Catalog\SearchGoodsByCatalogGroupJob;
-use App\Models\Catalog\CatalogGroup;
+use App\Models\Catalog\OnCatalogGroup;
 use App\Orchid\Filters\Catalog\CatalogTypeFilter;
 use App\Orchid\Layouts\Catalog\CatalogGroupEditLayout;
-use App\Orchid\Layouts\Catalog\CatalogTypeListLayout;
+use App\Orchid\Layouts\Catalog\CatalogGroupListLayout;
 use App\Services\Catalog\CatalogService;
-use App\Services\Catalog\ImportOnlinerService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -47,7 +46,7 @@ class CatalogGroupsScreen extends Screen
     {
         return [
             CatalogTypeFilter::displayFilterCard($this->request),
-            CatalogTypeListLayout::class,
+            CatalogGroupListLayout::class,
             Layout::modal('type_modal', CatalogGroupEditLayout::class)->async('asyncGetType'),
         ];
     }
@@ -55,7 +54,7 @@ class CatalogGroupsScreen extends Screen
     public function asyncGetType(int $type_id = 0): array
     {
         return [
-            'type' => CatalogGroup::loadBy($type_id),
+            'type' => OnCatalogGroup::loadBy($type_id),
         ];
     }
 
@@ -93,10 +92,11 @@ class CatalogGroupsScreen extends Screen
     {
         return redirect()->route('catalog.type.list');
     }
+
     #endregion
 
     public function updateGoods(int $group_id): void
     {
-        SearchGoodsByCatalogGroupJob::dispatch(CatalogGroup::loadByOrDie($group_id));
+        SearchGoodsByCatalogGroupJob::dispatch(OnCatalogGroup::loadByOrDie($group_id));
     }
 }

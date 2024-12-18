@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Jobs\Catalog;
 
 use App\Jobs\JobsEnum;
-use App\Models\Catalog\CatalogGroup;
+use App\Models\Catalog\OnCatalogGroup;
 use App\Services\Catalog\ImportOnlinerService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -20,7 +20,7 @@ class SearchGoodsByCatalogGroupJob implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    public function __construct(public CatalogGroup $catalogType)
+    public function __construct(public OnCatalogGroup $catalogType)
     {
         $this->queue = JobsEnum::Update_catalog->value;
     }

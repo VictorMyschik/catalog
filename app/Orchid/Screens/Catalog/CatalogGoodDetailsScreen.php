@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Orchid\Screens\Catalog;
 
-use App\Models\Catalog\CatalogGood;
-use App\Models\Catalog\Manufacturer;
+use App\Models\Catalog\OnCatalogGood;
+use App\Models\Catalog\OnManufacturer;
 use App\Models\Orchid\Attachment;
 use App\Orchid\Layouts\Catalog\GoodUploadEditLayout;
 use App\Orchid\Layouts\Lego\ActionDeleteModelLayout;
@@ -35,7 +35,7 @@ class CatalogGoodDetailsScreen extends Screen
 {
     public function __construct(private readonly CatalogService $service) {}
 
-    public ?CatalogGood $good = null;
+    public ?OnCatalogGood $good = null;
 
     public function name(): ?string
     {
@@ -116,7 +116,7 @@ class CatalogGoodDetailsScreen extends Screen
             Group::make([
                 Switcher::make('good.active')->sendTrueOrFalse()->title('Активно'),
                 Select::make('good.type')->title('Тип')->options(CatalogTypeEnum::getSelectList()),
-                Relation::make('good.parent_good_id')->title('Родительский товар')->allowEmpty()->fromModel(CatalogGood::class, 'name'),
+                Relation::make('good.parent_good_id')->title('Родительский товар')->allowEmpty()->fromModel(OnCatalogGood::class, 'name'),
             ]),
             Input::make('good.name')->required()->title('Наименование'),
             Input::make('good.prefix')->title('Префикс'),
@@ -128,7 +128,7 @@ class CatalogGoodDetailsScreen extends Screen
     private function getAdditionalLayout(): Rows
     {
         return Layout::rows([
-            Relation::make('good.manufacturer_id')->title('Производитель')->fromModel(Manufacturer::class, 'name'),
+            Relation::make('good.manufacturer_id')->title('Производитель')->fromModel(OnManufacturer::class, 'name'),
             Switcher::make('good.is_certification')->sendTrueOrFalse()->title('Требование сертификации')->horizontal(),
             Group::make([
                 Label::make('')->title('Json данные при импорте'),
@@ -174,7 +174,7 @@ class CatalogGoodDetailsScreen extends Screen
     public function asyncGetGood(int $id = 0): array
     {
         return [
-            'body' => CatalogGood::loadByOrDie($id)->getSL(),
+            'body' => OnCatalogGood::loadByOrDie($id)->getSL(),
         ];
     }
 
@@ -202,7 +202,7 @@ class CatalogGoodDetailsScreen extends Screen
     public function saveGoodPhoto(Request $request, int $good_id): void
     {
         $imageAttachIds = $request->get('images', []);
-        $good = CatalogGood::loadByOrDie($good_id);
+        $good = OnCatalogGood::loadByOrDie($good_id);
 
         foreach ($imageAttachIds as $imageAttachId) {
             $attachment = Attachment::loadByOrDie((int)$imageAttachId);

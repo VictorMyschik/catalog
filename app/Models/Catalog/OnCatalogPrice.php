@@ -6,9 +6,9 @@ namespace App\Models\Catalog;
 
 use App\Models\ORM\ORM;
 
-class CatalogPrice extends ORM
+class OnCatalogPrice extends ORM
 {
-    protected $table = 'prices';
+    protected $table = 'on_prices';
 
     protected $casts = [
         'id'         => 'integer',

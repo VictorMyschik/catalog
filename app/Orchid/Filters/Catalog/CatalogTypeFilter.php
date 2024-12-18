@@ -4,16 +4,13 @@ declare(strict_types=1);
 
 namespace App\Orchid\Filters\Catalog;
 
-use App\Models\Catalog\CatalogGroup;
-use App\Models\Catalog\CatalogGood;
-use App\Models\Catalog\Manufacturer;
+use App\Models\Catalog\OnCatalogGroup;
 use App\Orchid\Layouts\Lego\ActionFilterPanel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Orchid\Filters\Filter;
 use Orchid\Screen\Fields\Group;
 use Orchid\Screen\Fields\Input;
-use Orchid\Screen\Fields\Relation;
 use Orchid\Screen\Fields\ViewField;
 use Orchid\Screen\Layouts\Rows;
 use Orchid\Support\Facades\Layout;
@@ -28,7 +25,7 @@ class CatalogTypeFilter extends Filter
 
     public static function runQuery()
     {
-        return CatalogGroup::filters([self::class])->paginate(20);
+        return OnCatalogGroup::filters([self::class])->paginate(20);
     }
 
     public function run(Builder $builder): Builder

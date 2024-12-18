@@ -9,13 +9,13 @@ use App\Models\Lego\Fields\NameFieldTrait;
 use App\Models\Lego\Fields\SortFieldTrait;
 use App\Models\ORM\ORM;
 
-class CatalogAttribute extends ORM
+class OnCatalogAttribute extends ORM
 {
     use NameFieldTrait;
     use SortFieldTrait;
     use DescriptionNullableFieldTrait;
 
-    protected $table = 'catalog_attributes';
+    protected $table = 'on_catalog_attributes';
     public $timestamps = false;
     protected $fillable = [
         'group_attribute_id',

@@ -9,13 +9,13 @@ use App\Models\ORM\ORM;
 use Orchid\Filters\Filterable;
 use Orchid\Screen\AsSource;
 
-class Manufacturer extends ORM
+class OnManufacturer extends ORM
 {
     use AsSource;
     use Filterable;
     use NameFieldTrait;
 
-    protected $table = 'manufacturers';
+    protected $table = 'on_manufacturers';
 
     protected array $allowedSorts = [
         'id',

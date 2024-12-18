@@ -7,9 +7,9 @@ namespace App\Models\Catalog;
 use App\Models\ORM\ORM;
 use Illuminate\Support\Facades\Storage;
 
-class CatalogImage extends ORM
+class OnCatalogImage extends ORM
 {
-    protected $table = 'catalog_images';
+    protected $table = 'on_catalog_images';
 
     protected $fillable = [
         'file_name',

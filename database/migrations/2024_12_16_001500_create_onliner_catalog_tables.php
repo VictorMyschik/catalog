@@ -1,5 +1,15 @@
 <?php
 
+use App\Models\Catalog\OnCatalogPrice;
+use App\Models\Catalog\OnCatalogMarket;
+use App\Models\Catalog\OnCatalogImage;
+use App\Models\Catalog\OnCatalogGoodAttribute;
+use App\Models\Catalog\OnCatalogGood;
+use App\Models\Catalog\OnCatalogAttributeValue;
+use App\Models\Catalog\OnCatalogAttribute;
+use App\Models\Catalog\OnCatalogGroupAttribute;
+use App\Models\Catalog\OnCatalogGroup;
+use App\Models\Catalog\OnManufacturer;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -7,50 +17,50 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('manufacturers', function (Blueprint $table) {
+        Schema::create(OnManufacturer::getTableName(), function (Blueprint $table) {
             $table->id();
             $table->string('name')->index();
             $table->string('address', 1000)->nullable();
 
             $table->timestampTz('created_at')->useCurrent();
         });
-        Schema::create('catalog_groups', function (Blueprint $table) {
+        Schema::create(OnCatalogGroup::getTableName(), function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique()->index();
             $table->jsonb('sl')->nullable();
             $table->string('json_link')->nullable();
         });
 
-        Schema::create('catalog_group_attributes', function (Blueprint $table) {
+        Schema::create(OnCatalogGroupAttribute::getTableName(), function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('group_id')->index();
             $table->string('name', 100);
             $table->integer('sort')->default(0);
 
-            $table->foreign('group_id')->references('id')->on('catalog_groups')->cascadeOnDelete();
+            $table->foreign('group_id')->references('id')->on(OnCatalogGroup::getTableName())->cascadeOnDelete();
         });
 
-        Schema::create('catalog_attributes', function (Blueprint $table) {
+        Schema::create(OnCatalogAttribute::getTableName(), function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('group_attribute_id')->index();
             $table->string('name', 100);
             $table->string('description', 8000)->nullable();
             $table->integer('sort')->default(0);
 
-            $table->foreign('group_attribute_id')->references('id')->on('catalog_group_attributes')->cascadeOnDelete();
+            $table->foreign('group_attribute_id')->references('id')->on(OnCatalogGroupAttribute::getTableName())->cascadeOnDelete();
         });
 
-        Schema::create('catalog_attribute_values', function (Blueprint $table) {
+        Schema::create(OnCatalogAttributeValue::getTableName(), function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('catalog_attribute_id')->index();
             $table->string('text_value', 8000)->nullable()->index();
 
             $table->unique(['catalog_attribute_id', 'text_value']);
 
-            $table->foreign('catalog_attribute_id')->references('id')->on('catalog_attributes')->cascadeOnDelete();
+            $table->foreign('catalog_attribute_id')->references('id')->on(OnCatalogAttribute::getTableName())->cascadeOnDelete();
         });
 
-        Schema::create('catalog_goods', function (Blueprint $table) {
+        Schema::create(OnCatalogGood::getTableName(), function (Blueprint $table) {
             $table->id();
             $table->tinyInteger('type')->default(0)->index();
             $table->unsignedBigInteger('group_id')->index();
@@ -71,11 +81,11 @@ return new class extends Migration {
             $table->timestampTz('created_at')->useCurrent();
             $table->timestampTz('updated_at')->nullable()->useCurrentOnUpdate();
 
-            $table->foreign('group_id')->references('id')->on('catalog_groups')->cascadeOnDelete();
-            $table->foreign('manufacturer_id')->references('id')->on('manufacturers')->onDelete('set null');
+            $table->foreign('group_id')->references('id')->on(OnCatalogGroup::getTableName())->cascadeOnDelete();
+            $table->foreign('manufacturer_id')->references('id')->on(OnManufacturer::getTableName())->onDelete('set null');
         });
 
-        Schema::create('good_attributes', function (Blueprint $table) {
+        Schema::create(OnCatalogGoodAttribute::getTableName(), function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('good_id')->index();
             $table->unsignedBigInteger('attribute_value_id')->index();
@@ -83,11 +93,11 @@ return new class extends Migration {
 
             $table->unique(['good_id', 'attribute_value_id']);
 
-            $table->foreign('good_id')->references('id')->on('catalog_goods')->cascadeOnDelete();
-            $table->foreign('attribute_value_id')->references('id')->on('catalog_attribute_values')->cascadeOnDelete();
+            $table->foreign('good_id')->references('id')->on(OnCatalogGood::getTableName())->cascadeOnDelete();
+            $table->foreign('attribute_value_id')->references('id')->on(OnCatalogAttributeValue::getTableName())->cascadeOnDelete();
         });
 
-        Schema::create('catalog_images', function (Blueprint $table): void {
+        Schema::create(OnCatalogImage::getTableName(), function (Blueprint $table): void {
             $table->id();
             $table->string('file_name', 50);
             $table->unsignedBigInteger('good_id')->index();
@@ -99,10 +109,10 @@ return new class extends Migration {
 
             $table->timestampTz('created_at')->useCurrent();
 
-            $table->foreign('good_id')->references('id')->on('catalog_goods')->onDelete('cascade');
+            $table->foreign('good_id')->references('id')->on(OnCatalogGood::getTableName())->onDelete('cascade');
         });
 
-        Schema::create('catalog_markets', function (Blueprint $table) {
+        Schema::create(OnCatalogMarket::getTableName(), function (Blueprint $table) {
             $table->id();
             $table->integer('market_id')->index();
             $table->string('name');
@@ -111,7 +121,7 @@ return new class extends Migration {
             $table->timestampTz('updated_at')->nullable()->useCurrentOnUpdate();
         });
 
-        Schema::create('prices', function (Blueprint $table) {
+        Schema::create(OnCatalogPrice::getTableName(), function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('good_id')->index();
             $table->unsignedBigInteger('market_id')->index();
@@ -120,22 +130,10 @@ return new class extends Migration {
             $table->timestampTz('created_at')->useCurrent();
             $table->timestampTz('updated_at')->nullable()->useCurrentOnUpdate();
 
-            $table->foreign('good_id')->references('id')->on('catalog_goods')->cascadeOnDelete();
-            $table->foreign('market_id')->references('id')->on('catalog_markets')->cascadeOnDelete();
+            $table->foreign('good_id')->references('id')->on(OnCatalogGood::getTableName())->cascadeOnDelete();
+            $table->foreign('market_id')->references('id')->on(OnCatalogMarket::getTableName())->cascadeOnDelete();
         });
     }
 
-    public function down(): void
-    {
-        Schema::dropIfExists('catalog_markets');
-        Schema::dropIfExists('manufacturers');
-        Schema::dropIfExists('catalog_images');
-        Schema::dropIfExists('good_attributes');
-        Schema::dropIfExists('prices');
-        Schema::dropIfExists('catalog_goods');
-        Schema::dropIfExists('catalog_attribute_values');
-        Schema::dropIfExists('catalog_attributes');
-        Schema::dropIfExists('catalog_group_attributes');
-        Schema::dropIfExists('catalog_groups');
-    }
+    public function down(): void {}
 };

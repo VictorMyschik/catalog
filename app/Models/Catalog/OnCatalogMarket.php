@@ -7,11 +7,11 @@ namespace App\Models\Catalog;
 use App\Models\Lego\Fields\NameFieldTrait;
 use App\Models\ORM\ORM;
 
-class CatalogMarket extends ORM
+class OnCatalogMarket extends ORM
 {
     use NameFieldTrait;
 
-    protected $table = 'catalog_markets';
+    protected $table = 'on_catalog_markets';
 
     protected $casts = [
         'id'         => 'int',

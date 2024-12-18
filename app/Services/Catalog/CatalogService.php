@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Services\Catalog;
 
-use App\Models\Catalog\CatalogAttribute;
-use App\Models\Catalog\CatalogAttributeValue;
-use App\Models\Catalog\CatalogGood;
-use App\Models\Catalog\CatalogGroup;
-use App\Models\Catalog\CatalogGroupAttribute;
-use App\Models\Catalog\CatalogImage;
-use App\Models\Catalog\Manufacturer;
+use App\Models\Catalog\OnCatalogAttribute;
+use App\Models\Catalog\OnCatalogAttributeValue;
+use App\Models\Catalog\OnCatalogGood;
+use App\Models\Catalog\OnCatalogGroup;
+use App\Models\Catalog\OnCatalogGroupAttribute;
+use App\Models\Catalog\OnCatalogImage;
+use App\Models\Catalog\OnManufacturer;
 use App\Models\Orchid\Attachment;
 use App\Repositories\Catalog\CatalogCacheRepository;
 use App\Repositories\Catalog\CatalogRepositoryInterface;
@@ -29,7 +29,7 @@ final readonly class CatalogService
         private CatalogCacheRepository     $cacheRepository,
     ) {}
 
-    public function saveGoodImage(CatalogGood $good, Attachment $attachment, CatalogImageTypeEnum $type): int
+    public function saveGoodImage(OnCatalogGood $good, Attachment $attachment, CatalogImageTypeEnum $type): int
     {
         $path = Storage::path($attachment->getFullPath());
 
@@ -62,7 +62,7 @@ final readonly class CatalogService
         return $this->cacheRepository->getCatalogGroupList();
     }
 
-    public function getCatalogGroupById(int $id): CatalogGroup
+    public function getCatalogGroupById(int $id): OnCatalogGroup
     {
         return $this->repository->getCatalogGroupById($id);
     }
@@ -72,17 +72,17 @@ final readonly class CatalogService
         return $this->repository->saveGood($id, $data);
     }
 
-    public function getGroupAttributeOrCreateNew(int $id, string $groupName, int $sortOrder): CatalogGroupAttribute
+    public function getGroupAttributeOrCreateNew(int $id, string $groupName, int $sortOrder): OnCatalogGroupAttribute
     {
         return $this->repository->getGroupAttributeOrCreateNew($id, $groupName, $sortOrder);
     }
 
-    public function getCatalogAttributeOrCreateNew(CatalogGroupAttribute $group, string $title): CatalogAttribute
+    public function getCatalogAttributeOrCreateNew(OnCatalogGroupAttribute $group, string $title): OnCatalogAttribute
     {
         return $this->repository->getCatalogAttributeOrCreateNew($group, $title);
     }
 
-    public function getCatalogAttributeValueOrCreateNew(CatalogAttribute $attribute, ?string $value): CatalogAttributeValue
+    public function getCatalogAttributeValueOrCreateNew(OnCatalogAttribute $attribute, ?string $value): OnCatalogAttributeValue
     {
         return $this->repository->getCatalogAttributeValueOrCreateNew($attribute, $value);
     }
@@ -92,7 +92,7 @@ final readonly class CatalogService
         $this->repository->createGoodAttributes($goodAttributes);
     }
 
-    public function getManufacturerOrCreateNew(array $data): Manufacturer
+    public function getManufacturerOrCreateNew(array $data): OnManufacturer
     {
         return $this->repository->getManufacturerOrCreateNew($data);
     }
@@ -103,7 +103,7 @@ final readonly class CatalogService
         $this->repository->deleteGood($id);
     }
 
-    public function getGoodLogo(int $goodId): ?CatalogImage
+    public function getGoodLogo(int $goodId): ?OnCatalogImage
     {
         return $this->repository->getGoodLogo($goodId);
     }
@@ -113,9 +113,9 @@ final readonly class CatalogService
         return $this->repository->getManufacturer($manufacturerId)?->name ?? null;
     }
 
-    public function hasGoodByIntId(int $intId): bool
+    public function hasGoodByStringId(string $intId): bool
     {
-        return $this->repository->hasGoodByIntId($intId);
+        return $this->repository->hasGoodByStringId($intId);
     }
 
     public function deleteManufacturer(int $manufacturerId): void
@@ -133,7 +133,7 @@ final readonly class CatalogService
         $this->repository->saveCatalogGroup($id, $type);
     }
 
-    public function getGoodById(int $id): ?CatalogGood
+    public function getGoodById(int $id): ?OnCatalogGood
     {
         return $this->repository->getGoodById($id);
     }
@@ -143,7 +143,7 @@ final readonly class CatalogService
         return $this->repository->getGoodImages($goodId);
     }
 
-    public function getGoodImageById(int $catalogImageId): ?CatalogImage
+    public function getGoodImageById(int $catalogImageId): ?OnCatalogImage
     {
         return $this->repository->getGoodImageById($catalogImageId);
     }
@@ -193,7 +193,7 @@ final readonly class CatalogService
         return $this->repository->saveManufacturer($id, $data);
     }
 
-    public function getManufacturer(int $id): ?Manufacturer
+    public function getManufacturer(int $id): ?OnManufacturer
     {
         return $this->repository->getManufacturer($id);
     }
