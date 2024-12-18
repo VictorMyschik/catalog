@@ -88,7 +88,7 @@ class purge extends Command
         'settings',
         'users',
         'on_catalog_groups',
-        /*'role_users',
+        'role_users',
         'roles',
         'countries',
         'cron',
@@ -101,6 +101,6 @@ class purge extends Command
         'on_catalog_goods',
         'on_good_attributes',
         'on_catalog_images',
-        'on_prices',*/
+        'on_prices',
     ];
 }

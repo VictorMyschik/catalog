@@ -2,5 +2,5 @@
     <link href="/favicon.ico" id="favicon" rel="icon">
 @endpush
 <p class="v-center">
-    <img src="/images/logo.svg" alt="">
+    <img src="/images/logo.png" alt="">
 </p>
