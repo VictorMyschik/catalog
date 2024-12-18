@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use App\Jobs\Catalog\SearchGoodsByCatalogGroupJob;
-use App\Models\Catalog\OnCatalogGroup;
+use App\Models\Catalog\Onliner\OnCatalogGroup;
 use Tests\TestCase;
 
 class MyTest extends TestCase

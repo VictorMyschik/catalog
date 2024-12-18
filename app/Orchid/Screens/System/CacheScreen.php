@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Orchid\Screens\System;
 
-use App\Classes\Cache\CacheRedisClass;
+use App\Services\System\Cache\CacheRedisClass;
 use Illuminate\Http\RedirectResponse;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Screen;
-use Orchid\Support\Color;
 use Orchid\Support\Facades\Layout;
 
 class CacheScreen extends Screen

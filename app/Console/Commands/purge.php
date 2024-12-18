@@ -85,8 +85,22 @@ class purge extends Command
     }
 
     private array $tableList = [
+        'settings',
         'users',
+        'on_catalog_groups',
+        /*'role_users',
+        'roles',
         'countries',
-        'catalog_groups',
+        'cron',
+        'on_catalog_groups',
+        'on_catalog_group_attributes',
+        'on_catalog_attributes',
+        'on_catalog_markets',
+        'on_catalog_attribute_values',
+        'on_manufacturers',
+        'on_catalog_goods',
+        'on_good_attributes',
+        'on_catalog_images',
+        'on_prices',*/
     ];
 }

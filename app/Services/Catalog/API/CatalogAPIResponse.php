@@ -10,7 +10,7 @@ use App\Http\Controllers\Api\v1\Catalog\Response\Components\AttributeGroupCompon
 use App\Http\Controllers\Api\v1\Catalog\Response\Components\AttributeValueComponent;
 use App\Http\Controllers\Api\v1\Catalog\Response\Components\CatalogGroupComponent;
 use App\Http\Controllers\Api\v1\Catalog\Response\Components\ManufacturerComponent;
-use App\Models\Catalog\OnCatalogGood;
+use App\Models\Catalog\Onliner\OnCatalogGood;
 use App\Services\Catalog\CatalogService;
 use App\Services\Elasticsearch\ESService;
 

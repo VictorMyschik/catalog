@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Orchid\Filters\Catalog;
 
-use App\Models\Catalog\OnCatalogGroup;
+use App\Models\Catalog\Onliner\OnCatalogGroup;
 use App\Orchid\Layouts\Lego\ActionFilterPanel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;

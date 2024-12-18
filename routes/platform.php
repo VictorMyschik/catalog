@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
-use App\Orchid\Screens\Catalog\CatalogGoodDetailsScreen;
-use App\Orchid\Screens\Catalog\CatalogGoodsScreen;
-use App\Orchid\Screens\Catalog\CatalogGroupsScreen;
-use App\Orchid\Screens\Catalog\ManufacturerScreen;
+use App\Orchid\Screens\Catalog\Onliner\OnlinerCatalogGoodDetailsScreen;
+use App\Orchid\Screens\Catalog\Onliner\OnlinerCatalogGoodsScreen;
+use App\Orchid\Screens\Catalog\Onliner\OnlinerCatalogGroupsScreen;
+use App\Orchid\Screens\Catalog\Onliner\OnlinerManufacturerScreen;
+use App\Orchid\Screens\Catalog\Wildberries\WBCatalogCountriesScreen;
+use App\Orchid\Screens\Catalog\Wildberries\WBCatalogGoodsScreen;
 use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
@@ -79,8 +81,12 @@ Route::screen('system/cron', CronScreen::class)->name('system.info.cron');
 Route::screen('system/purge', PurgeScreen::class)->name('system.purge');
 Route::screen('system/failed-jobs', FailedJobsScreen::class)->name('system.failed.jobs');
 
-// Catalog
-Route::screen('catalog/goods/list', CatalogGoodsScreen::class)->name('catalog.goods.list');
-Route::screen('catalog/good/{id}/details', CatalogGoodDetailsScreen::class)->name('catalog.good.details');
-Route::screen('catalog/manufacturers/list', ManufacturerScreen::class)->name('catalog.manufacturer.list');
-Route::screen('catalog/types/list', CatalogGroupsScreen::class)->name('catalog.type.list');
+// Catalog Onliner
+Route::screen('catalog/onliner/goods/list', OnlinerCatalogGoodsScreen::class)->name('catalog.goods.list');
+Route::screen('catalog/onliner/good/{id}/details', OnlinerCatalogGoodDetailsScreen::class)->name('catalog.good.details');
+Route::screen('catalog/onliner/manufacturers/list', OnlinerManufacturerScreen::class)->name('catalog.manufacturer.list');
+Route::screen('catalog/onliner/types/list', OnlinerCatalogGroupsScreen::class)->name('catalog.type.list');
+
+// Catalog Wildberries
+Route::screen('catalog/wildberries/countries/list', WBCatalogCountriesScreen::class)->name('wb.countries.list');
+//Route::screen('catalog/wildberries/goods/list', WBCatalogGoodsScreen::class)->name('wb.catalog.goods.list');

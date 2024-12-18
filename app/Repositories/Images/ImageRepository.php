@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories\Images;
 
-use App\Models\Catalog\OnCatalogImage;
+use App\Models\Catalog\Onliner\OnCatalogImage;
 use App\Repositories\RepositoryBase;
 use App\Services\ImageUploader\DTO\ImageDTO;
 

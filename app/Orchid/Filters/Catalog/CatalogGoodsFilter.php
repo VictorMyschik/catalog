@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Orchid\Filters\Catalog;
 
-use App\Models\Catalog\OnCatalogGood;
-use App\Models\Catalog\OnManufacturer;
+use App\Models\Catalog\Onliner\OnCatalogGood;
+use App\Models\Catalog\Onliner\OnManufacturer;
 use App\Orchid\Layouts\Lego\ActionFilterPanel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;

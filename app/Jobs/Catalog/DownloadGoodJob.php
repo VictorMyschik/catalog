@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Jobs\Catalog;
 
 use App\Jobs\JobsEnum;
-use App\Models\Catalog\OnCatalogGroup;
+use App\Models\Catalog\Onliner\OnCatalogGroup;
 use App\Services\Catalog\ImportOnlinerService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;

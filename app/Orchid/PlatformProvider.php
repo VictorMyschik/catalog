@@ -22,9 +22,14 @@ class PlatformProvider extends OrchidServiceProvider
     public function menu(): array
     {
         return [
-            Menu::make('Товары')->icon('list')->route('catalog.goods.list'),
-            Menu::make('Группы товаров')->icon('list')->route('catalog.type.list'),
-            Menu::make('Производители')->icon('list')->route('catalog.manufacturer.list')->divider(),
+            Menu::make('Onliner')->icon('info')->list([
+                Menu::make('Товары')->icon('list')->route('catalog.goods.list'),
+                Menu::make('Группы товаров')->icon('list')->route('catalog.type.list'),
+                Menu::make('Производители')->icon('list')->route('catalog.manufacturer.list')->divider(),
+            ])->divider(),
+            Menu::make('Wildberries')->icon('info')->list([
+                Menu::make('Страны')->route('wb.countries.list'),
+            ])->divider(),
 
             Menu::make('System')->icon('info')->list([
                 Menu::make('Cron')->icon('calendar')->route('system.info.cron'),

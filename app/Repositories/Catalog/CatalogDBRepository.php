@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Repositories\Catalog;
 
-use App\Models\Catalog\OnCatalogAttribute;
-use App\Models\Catalog\OnCatalogAttributeValue;
-use App\Models\Catalog\OnCatalogGood;
-use App\Models\Catalog\OnCatalogGoodAttribute;
-use App\Models\Catalog\OnCatalogGroup;
-use App\Models\Catalog\OnCatalogGroupAttribute;
-use App\Models\Catalog\OnCatalogImage;
-use App\Models\Catalog\OnManufacturer;
+use App\Models\Catalog\Onliner\OnCatalogAttribute;
+use App\Models\Catalog\Onliner\OnCatalogAttributeValue;
+use App\Models\Catalog\Onliner\OnCatalogGood;
+use App\Models\Catalog\Onliner\OnCatalogGoodAttribute;
+use App\Models\Catalog\Onliner\OnCatalogGroup;
+use App\Models\Catalog\Onliner\OnCatalogGroupAttribute;
+use App\Models\Catalog\Onliner\OnCatalogImage;
+use App\Models\Catalog\Onliner\OnManufacturer;
 use App\Repositories\RepositoryBase;
 use Illuminate\Support\Facades\DB;
 

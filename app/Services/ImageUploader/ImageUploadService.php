@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\ImageUploader;
 
-use App\Models\Catalog\OnCatalogImage;
+use App\Models\Catalog\Onliner\OnCatalogImage;
 use App\Repositories\Images\ImageRepositoryInterface;
 use App\Services\Catalog\Enum\CatalogImageTypeEnum;
 use App\Services\Catalog\Enum\ImageExtensionEnum;
@@ -45,7 +45,7 @@ final readonly class ImageUploadService
                 )
             );
 
-            $this->filesystem->put($path . '/' . $image->getFileName(), file_get_contents($imageUrl));
+            //$this->filesystem->put($path . '/' . $image->getFileName(), file_get_contents($imageUrl));
         } catch (\Exception $e) {
             Log::error('Error upload image: ' . $e->getMessage(), ['good_id' => $goodId, 'image_url' => $imageUrl]);
         }

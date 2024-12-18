@@ -2,7 +2,7 @@
 
 namespace App\Models\Lego\Fields;
 
-use App\Models\Catalog\OnCatalogGood;
+use App\Models\Catalog\Onliner\OnCatalogGood;
 
 trait MrGoodFieldTrait
 {

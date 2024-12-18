@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Elasticsearch;
 
-use App\Models\Catalog\OnCatalogGood;
+use App\Models\Catalog\Onliner\OnCatalogGood;
 use Illuminate\Support\Facades\Log;
 
 final readonly class ESService

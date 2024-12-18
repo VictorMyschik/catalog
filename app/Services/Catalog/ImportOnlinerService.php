@@ -6,7 +6,7 @@ namespace App\Services\Catalog;
 
 use App\Jobs\Catalog\DownloadGoodJob;
 use App\Jobs\Catalog\SearchGoodsByCatalogGroupJob;
-use App\Models\Catalog\OnCatalogGroup;
+use App\Models\Catalog\Onliner\OnCatalogGroup;
 use App\Services\HTTPClientService\HTTPClient;
 use App\Services\ImageUploader\ImageUploadService;
 use Exception;
@@ -52,7 +52,7 @@ final class ImportOnlinerService
 
         Log::info('Создан товар: ' . $parsedData['good_name'] . '. ID' . $goodId);
 
-        event(new ESAddGoodEvent($this->catalogService->getGoodById($goodId)));
+        //event(new ESAddGoodEvent($this->catalogService->getGoodById($goodId)));
         return $goodId;
     }
 
@@ -277,7 +277,7 @@ final class ImportOnlinerService
             $cntPage = $data['page']['last'] ?? 2;
 
             // Создание задач. Одна страница - одна задача
-            for ($i = 1; $i <= $cntPage; $i++) {
+            for ($i = 1; $i <= 1; $i++) {
                 $link = "https://catalog.onliner.by/sdapi/catalog.api/search/$article?page=$i";
                 DownloadGoodJob::dispatch($group, $link);
             }

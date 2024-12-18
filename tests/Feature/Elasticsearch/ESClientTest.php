@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Elasticsearch;
 
-use App\Models\Catalog\OnCatalogGood;
+use App\Models\Catalog\Onliner\OnCatalogGood;
 use Exception;
 use Tests\TestCase;
 
