@@ -7,7 +7,6 @@ namespace App\Models\Catalog\Wildberries;
 use App\Models\Lego\Fields\DescriptionNullableFieldTrait;
 use App\Models\Lego\Fields\TitleFieldTrait;
 use App\Models\ORM\ORM;
-use App\Models\Shop\Marketplace\Market;
 use Orchid\Filters\Filterable;
 use Orchid\Screen\AsSource;
 
@@ -28,7 +27,6 @@ class WBCatalogGood extends ORM
 
     protected $fillable = [
         'id',
-        'market_id',
         'nm_id',
         'imt_id',
         'subject_id',
@@ -42,7 +40,6 @@ class WBCatalogGood extends ORM
 
     protected array $allowedSorts = [
         'id',
-        'market_id',
         'nm_id',
         'imt_id',
         'subject_id',
