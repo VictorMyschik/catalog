@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Orchid\Layouts\Catalog\Onliner;
 
 use App\Models\Catalog\Onliner\OnCatalogGood;
-use App\Services\Catalog\CatalogService;
+use App\Services\Catalog\Onliner\OnlinerCatalogService;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
 use Orchid\Screen\Actions\ModalToggle;
@@ -17,7 +17,7 @@ class GoodListLayout extends Table
 {
     protected $target = 'list';
 
-    public function __construct(private readonly CatalogService $service) {}
+    public function __construct(private readonly OnlinerCatalogService $service) {}
 
     protected function columns(): iterable
     {

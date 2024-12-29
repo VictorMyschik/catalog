@@ -26,15 +26,16 @@ return new class extends Migration {
 
         Schema::create(WBCatalogBrand::getTableName(), function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique()->index();
+            $table->unsignedBigInteger('supplier_id')->unique()->index();
+            $table->string('name')->index();
             $table->timestampTz('created_at')->useCurrent();
-            $table->timestampTz('updated_at')->nullable()->useCurrentOnUpdate();
         });
 
         Schema::create(WBCatalogGroup::getTableName(), function (Blueprint $table): void {
             $table->id();
             $table->string('name')->index();
             $table->unsignedBigInteger('parent_id')->index()->nullable();
+            $table->boolean('has_goods')->default(false);
             $table->timestampTz('created_at')->useCurrent();
 
             $table->foreign('parent_id')->references('id')->on(WBCatalogGroup::getTableName())->cascadeOnDelete();
@@ -42,19 +43,17 @@ return new class extends Migration {
 
         Schema::create(WBCatalogGood::getTableName(), function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('market_id')->index();
             $table->unsignedBigInteger('nm_id')->index();
             $table->unsignedBigInteger('imt_id')->index();
             $table->unsignedBigInteger('subject_id')->index();
             $table->string('vendor_code');
             $table->unsignedBigInteger('brand_id')->index();
-            $table->string('title')->index();
+            $table->string('title', 1000)->index();
             $table->string('description', 8000)->nullable();
-            $table->timestampTz('downloaded_at');
+            $table->jsonb('sl')->nullable();
             $table->timestampTz('created_at')->useCurrent();
-            $table->timestampTz('updated_at')->nullable()->useCurrentOnUpdate();
 
-            $table->unique(['market_id', 'imt_id', 'nm_id']);
+            $table->unique(['imt_id', 'nm_id']);
             $table->foreign('subject_id')->references('id')->on(WBCatalogGroup::getTableName());
             $table->foreign('brand_id')->references('id')->on(WBCatalogBrand::getTableName());
         });

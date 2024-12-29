@@ -6,7 +6,7 @@ namespace App\Jobs\Catalog;
 
 use App\Jobs\JobsEnum;
 use App\Models\Catalog\Onliner\OnCatalogGroup;
-use App\Services\Catalog\ImportOnlinerService;
+use App\Services\Catalog\Onliner\ImportOnlinerService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -22,7 +22,7 @@ class SearchGoodsByCatalogGroupJob implements ShouldQueue
 
     public function __construct(public OnCatalogGroup $catalogType)
     {
-        $this->queue = JobsEnum::Update_catalog->value;
+        $this->queue = JobsEnum::UpdateCatalog->value;
     }
 
     public function handle(ImportOnlinerService $service): void

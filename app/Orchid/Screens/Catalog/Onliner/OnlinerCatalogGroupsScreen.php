@@ -9,7 +9,7 @@ use App\Models\Catalog\Onliner\OnCatalogGroup;
 use App\Orchid\Filters\Catalog\CatalogTypeFilter;
 use App\Orchid\Layouts\Catalog\Onliner\CatalogGroupEditLayout;
 use App\Orchid\Layouts\Catalog\Onliner\CatalogGroupListLayout;
-use App\Services\Catalog\CatalogService;
+use App\Services\Catalog\Onliner\OnlinerCatalogService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -21,7 +21,7 @@ class OnlinerCatalogGroupsScreen extends Screen
 {
     protected $name = 'Список товаров';
 
-    public function __construct(private Request $request, private readonly CatalogService $service) {}
+    public function __construct(private Request $request, private readonly OnlinerCatalogService $service) {}
 
     public function query(): iterable
     {

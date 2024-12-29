@@ -9,7 +9,7 @@ use App\Orchid\Filters\Catalog\CatalogGoodsFilter;
 use App\Orchid\Layouts\Catalog\Onliner\CatalogGoodAddNewLayout;
 use App\Orchid\Layouts\Catalog\Onliner\GoodListLayout;
 use App\Orchid\Layouts\Lego\InfoModalLayout;
-use App\Services\Catalog\CatalogService;
+use App\Services\Catalog\Onliner\OnlinerCatalogService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -22,7 +22,7 @@ class OnlinerCatalogGoodsScreen extends Screen
 {
     protected string $name = 'Список товаров';
 
-    public function __construct(private readonly Request $request, private readonly CatalogService $service) {}
+    public function __construct(private readonly Request $request, private readonly OnlinerCatalogService $service) {}
 
     public function query(): iterable
     {

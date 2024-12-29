@@ -6,7 +6,7 @@ namespace App\Services\System;
 
 use App\Models\System\Cron;
 use App\Orchid\Screens\System\Enum\CronKeyEnum;
-use App\Services\Catalog\ImportOnlinerService;
+use App\Services\Catalog\Onliner\ImportOnlinerService;
 use DateInterval;
 use Exception;
 use Illuminate\Support\Facades\Log;

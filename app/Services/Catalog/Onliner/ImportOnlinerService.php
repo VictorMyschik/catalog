@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Catalog;
+namespace App\Services\Catalog\Onliner;
 
 use App\Jobs\Catalog\DownloadGoodJob;
 use App\Jobs\Catalog\SearchGoodsByCatalogGroupJob;
@@ -16,9 +16,9 @@ use Symfony\Component\DomCrawler\Crawler;
 final class ImportOnlinerService
 {
     public function __construct(
-        private readonly HTTPClient         $client,
-        private readonly CatalogService     $catalogService,
-        private readonly ImageUploadService $imageService
+        private readonly HTTPClient            $client,
+        private readonly OnlinerCatalogService $catalogService,
+        private readonly ImageUploadService    $imageService
     ) {}
 
     public function import(string $stringId, OnCatalogGroup $group, string $url, bool $isLoadImages): int

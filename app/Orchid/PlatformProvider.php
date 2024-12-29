@@ -35,8 +35,8 @@ class PlatformProvider extends OrchidServiceProvider
                 Menu::make('Cron')->icon('calendar')->route('system.info.cron'),
                 Menu::make('Cache')->icon('database')->route('system.cache'),
                 Menu::make('Settings')->icon('settings')->route('system.settings.list'),
-                Menu::make('Failed jobs')->route('system.failed.jobs'),
-                Menu::make('Purge')->icon('database')->route('system.purge'),
+                Menu::make('Failed jobs')->icon('database')->route('system.failed.jobs'),
+                Menu::make('Purge')->icon('trash')->route('system.purge'),
             ])->divider(),
 
             Menu::make(__('Users'))->icon('bs.people')->route('platform.systems.users')->permission('platform.systems.users')->title(__('Access Controls')),

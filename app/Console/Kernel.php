@@ -2,7 +2,7 @@
 
 namespace App\Console;
 
-use App\Services\Catalog\ImportOnlinerService;
+use App\Services\Catalog\Onliner\ImportOnlinerService;
 use App\Services\System\CronService;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;

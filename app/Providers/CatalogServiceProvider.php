@@ -9,7 +9,6 @@ use App\Repositories\Images\ImageRepositoryInterface;
 use App\Services\Catalog\API\CatalogAPICache;
 use App\Services\Catalog\API\CatalogAPIInterface;
 use App\Services\Catalog\API\CatalogAPIResponse;
-use App\Services\Catalog\CatalogService;
 use App\Services\ImageUploader\ImageUploadService;
 use Elasticsearch\ClientBuilder;
 use Illuminate\Cache\Repository;

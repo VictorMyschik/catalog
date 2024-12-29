@@ -101,5 +101,8 @@ class purge extends Command
         'on_good_attributes',
         'on_catalog_images',
         'on_prices',
+        'wb_catalog_reference_attributes',
+        'wb_catalog_groups',
+        'wb_catalog_attributes',
     ];
 }

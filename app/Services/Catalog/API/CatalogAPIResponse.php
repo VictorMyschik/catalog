@@ -11,12 +11,12 @@ use App\Http\Controllers\Api\v1\Catalog\Response\Components\AttributeValueCompon
 use App\Http\Controllers\Api\v1\Catalog\Response\Components\CatalogGroupComponent;
 use App\Http\Controllers\Api\v1\Catalog\Response\Components\ManufacturerComponent;
 use App\Models\Catalog\Onliner\OnCatalogGood;
-use App\Services\Catalog\CatalogService;
+use App\Services\Catalog\Onliner\OnlinerCatalogService;
 use App\Services\Elasticsearch\ESService;
 
 final readonly class CatalogAPIResponse implements CatalogAPIInterface
 {
-    public function __construct(private CatalogService $repository, private ESService $elastic) {}
+    public function __construct(private OnlinerCatalogService $repository, private ESService $elastic) {}
 
     public function searchGoods(string $query, int $limit): array
     {

@@ -20,9 +20,7 @@ class WBCatalogGood extends ORM
     protected $table = 'wb_catalog_goods';
 
     protected $casts = [
-        'downloaded_at' => 'datetime',
         'created_at'    => 'datetime',
-        'updated_at'    => 'datetime',
     ];
 
     protected $fillable = [

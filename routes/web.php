@@ -12,7 +12,7 @@ Route::get('/clear', function () {
     Artisan::call('view:clear');
     Artisan::call('route:clear');
     Artisan::call('config:clear');
-
+    file_put_contents(storage_path('logs/laravel.log'), '');
     return back();
 })->name('clear');
 Auth::routes();

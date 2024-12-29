@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Services\Catalog\CatalogService;
-use App\Services\Catalog\ImportOnlinerService;
+use App\Services\Catalog\Onliner\ImportOnlinerService;
+use App\Services\Catalog\Onliner\OnlinerCatalogService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -15,7 +15,7 @@ final class CatalogImportController extends Controller
 {
     public function __construct(
         private readonly ImportOnlinerService $importOnlinerService,
-        private readonly CatalogService       $service
+        private readonly OnlinerCatalogService $service
     ) {}
 
     public function importLink(Request $request): RedirectResponse

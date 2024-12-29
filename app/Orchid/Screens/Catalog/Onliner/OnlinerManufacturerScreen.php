@@ -7,7 +7,7 @@ namespace App\Orchid\Screens\Catalog\Onliner;
 use App\Orchid\Filters\Catalog\ManufacturerFilter;
 use App\Orchid\Layouts\Catalog\Onliner\ManufacturerEditLayout;
 use App\Orchid\Layouts\Catalog\Onliner\ManufacturerListLayout;
-use App\Services\Catalog\CatalogService;
+use App\Services\Catalog\Onliner\OnlinerCatalogService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -19,7 +19,7 @@ class OnlinerManufacturerScreen extends Screen
 {
     protected $name = 'Список производителей';
 
-    public function __construct(private readonly Request $request, private readonly CatalogService $service) {}
+    public function __construct(private readonly Request $request, private readonly OnlinerCatalogService $service) {}
 
     public function query(): iterable
     {

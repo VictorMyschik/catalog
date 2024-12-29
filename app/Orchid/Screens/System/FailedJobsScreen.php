@@ -8,6 +8,7 @@ use App\Models\System\FailedJobs;
 use App\Orchid\Filters\System\FailedJobsFilter;
 use App\Orchid\Layouts\Lego\ShowLayout;
 use App\Orchid\Layouts\System\FailedJobsListLayout;
+use Illuminate\Support\Facades\Queue;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Layouts\Modal;
 use Orchid\Screen\Screen;
@@ -24,6 +25,10 @@ class FailedJobsScreen extends Screen
     {
         return [
             // deleteAllFailedJobs
+            Button::make('Retry all')
+                ->icon('retry')
+                ->confirm('Retry all failed jobs?')
+                ->method('retryAllFailedJobs'),
             Button::make('Delete all')
                 ->icon('trash')
                 ->confirm('Delete all failed jobs?')
@@ -72,7 +77,15 @@ class FailedJobsScreen extends Screen
     public function retryFailedJob(int $failed_job_id): void
     {
         $job = FailedJobs::findOrFail($failed_job_id);
-        dispatch($job->payload);
+        Queue::connection($job->connection)->pushRaw($job->payload, $job->queue);
         $job->delete();
+    }
+
+    public function retryAllFailedJobs(): void
+    {
+        foreach (FailedJobs::all() as $job) {
+            Queue::connection($job->connection)->pushRaw($job->payload, $job->queue);
+            $job->delete();
+        }
     }
 }

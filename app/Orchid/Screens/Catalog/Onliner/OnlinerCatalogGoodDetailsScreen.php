@@ -10,9 +10,9 @@ use App\Models\Orchid\Attachment;
 use App\Orchid\Layouts\Catalog\Onliner\GoodUploadEditLayout;
 use App\Orchid\Layouts\Lego\ActionDeleteModelLayout;
 use App\Orchid\Layouts\Lego\InfoModalLayout;
-use App\Services\Catalog\CatalogService;
 use App\Services\Catalog\Enum\CatalogImageTypeEnum;
 use App\Services\Catalog\Enum\CatalogTypeEnum;
+use App\Services\Catalog\Onliner\OnlinerCatalogService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -33,7 +33,7 @@ use Orchid\Support\Facades\Layout;
 
 class OnlinerCatalogGoodDetailsScreen extends Screen
 {
-    public function __construct(private readonly CatalogService $service) {}
+    public function __construct(private readonly OnlinerCatalogService $service) {}
 
     public ?OnCatalogGood $good = null;
 

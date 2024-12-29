@@ -13,7 +13,7 @@ class WBCatalogGroup extends ORM
 
     protected $table = 'wb_catalog_groups';
 
-    public bool $updated_at = false;
+    public const UPDATED_AT = null;
 
     protected $fillable = [
         'id',

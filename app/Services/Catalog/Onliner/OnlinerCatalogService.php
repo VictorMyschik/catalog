@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Catalog;
+namespace App\Services\Catalog\Onliner;
 
 use App\Models\Catalog\Onliner\OnCatalogAttribute;
 use App\Models\Catalog\Onliner\OnCatalogAttributeValue;
@@ -21,7 +21,7 @@ use Exception;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
-final readonly class CatalogService
+final readonly class OnlinerCatalogService
 {
     public function __construct(
         private CatalogRepositoryInterface $repository,

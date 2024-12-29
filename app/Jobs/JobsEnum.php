@@ -6,5 +6,5 @@ namespace App\Jobs;
 
 enum JobsEnum: string
 {
-    case Update_catalog = 'update_catalog';
+    case UpdateCatalog = 'update_catalog';
 }

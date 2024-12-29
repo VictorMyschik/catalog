@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Admin\CatalogImportController;
-use App\Services\Catalog\CatalogService;
-use App\Services\Catalog\ImportOnlinerService;
+use App\Services\Catalog\Onliner\ImportOnlinerService;
+use App\Services\Catalog\Onliner\OnlinerCatalogService;
 use App\Services\ImageUploader\ImageUploadService;
 use Illuminate\Http\Request;
 use Tests\TestCase;
@@ -15,7 +15,7 @@ class CatalogControllerTest extends TestCase
     {
         $controller = new CatalogImportController(
             app(ImportOnlinerService::class),
-            app(CatalogService::class),
+            app(OnlinerCatalogService::class),
         );
 
         $request = new Request([
