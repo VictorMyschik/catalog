@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Orchid\Screens\System\Enum;
+namespace App\Services\System\Enum;
 
 enum CronKeyEnum: string
 {

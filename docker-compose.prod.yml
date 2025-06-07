@@ -12,7 +12,7 @@ services:
     environment:
       - VIRTUAL_HOST=catalog.test
     ports:
-      - "8090:8090"
+      - "8091:8090"
     networks:
       frontend:
       backend:
@@ -68,7 +68,7 @@ services:
   rabbitmq:
       image: rabbitmq:3-management-alpine
       ports:
-          - '5679:5672'
+          - '5678:5672'
           - '15679:15672'
       volumes:
           - ./docker/rabbitmq/data/:/var/lib/rabbitmq/
