@@ -38,7 +38,7 @@ services:
       frontend:
       backend:
     ports:
-      - '5437:5432'
+      - '5436:5432'
     environment:
       POSTGRES_DB: ${DB_DATABASE}
       POSTGRES_USER: ${DB_USERNAME}
