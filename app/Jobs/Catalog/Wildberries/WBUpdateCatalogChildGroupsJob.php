@@ -19,7 +19,7 @@ class WBUpdateCatalogChildGroupsJob implements ShouldQueue
 
     public function __construct(public int $wbId)
     {
-        $this->queue = JobsEnum::WBUpdateCatalogGroups->value;
+        $this->queue = JobsEnum::WBCatalog->value;
     }
 
     public function handle(WBImportService $service): void

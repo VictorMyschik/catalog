@@ -6,6 +6,6 @@ namespace App\Jobs;
 
 enum JobsEnum: string
 {
-    case UpdateCatalog = 'update_catalog';
-    case WBUpdateCatalogGroups = 'wb_update_catalog_groups';
+    case OnlinerCatalog = 'onliner_catalog';
+    case WBCatalog = 'wb_catalog';
 }

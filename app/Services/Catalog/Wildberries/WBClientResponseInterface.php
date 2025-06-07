@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Catalog\Wildberries\API;
+namespace App\Services\Catalog\Wildberries;
 
 interface WBClientResponseInterface
 {

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Repositories\Catalog\Wildberries;
 
-use App\Services\Catalog\Wildberries\Response\Components\ChildGroupComponent;
-use App\Services\Catalog\Wildberries\Response\Components\GroupComponent;
+use App\Services\Catalog\Wildberries\API\Response\Components\ChildGroupComponent;
+use App\Services\Catalog\Wildberries\API\Response\Components\GroupComponent;
 
 interface WBCatalogInterface
 {

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Services\Catalog\Wildberries\API;
 
+use App\Services\Catalog\Wildberries\API\Response\AttributesResponse;
+use App\Services\Catalog\Wildberries\API\Response\ChildGroupsResponse;
+use App\Services\Catalog\Wildberries\API\Response\ParentGroupsResponse;
 use App\Services\Catalog\Wildberries\Factory\ResponseFactory;
-use App\Services\Catalog\Wildberries\Response\AttributesResponse;
-use App\Services\Catalog\Wildberries\Response\ChildGroupsResponse;
-use App\Services\Catalog\Wildberries\Response\GoodResponse;
-use App\Services\Catalog\Wildberries\Response\ParentGroupsResponse;
+use App\Services\Catalog\Wildberries\WBClientResponseInterface;
 use App\Services\Traits\LogTrait;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Request;

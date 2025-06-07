@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Catalog\Wildberries\Response\Components;
+namespace App\Services\Catalog\Wildberries\API\Response\Components;
 
 final readonly class ChildGroupComponent
 {

@@ -22,7 +22,7 @@ class SearchGoodsByCatalogGroupJob implements ShouldQueue
 
     public function __construct(public OnCatalogGroup $catalogType)
     {
-        $this->queue = JobsEnum::UpdateCatalog->value;
+        $this->queue = JobsEnum::OnlinerCatalog->value;
     }
 
     public function handle(ImportOnlinerService $service): void

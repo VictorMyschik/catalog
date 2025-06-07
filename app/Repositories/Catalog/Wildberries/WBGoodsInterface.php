@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Repositories\Catalog\Wildberries;
 
 use App\Models\Catalog\Wildberries\WBCatalogGroup;
+use App\Services\Catalog\Wildberries\API\Response\Components\AttributeComponent;
+use App\Services\Catalog\Wildberries\API\Response\Components\ChildGroupComponent;
+use App\Services\Catalog\Wildberries\API\Response\Components\GroupComponent;
 use App\Services\Catalog\Wildberries\DTO\WBGoodDto;
 use App\Services\Catalog\Wildberries\Enum\WBCatalogAttributeGroupEnum;
-use App\Services\Catalog\Wildberries\Response\Components\AttributeComponent;
-use App\Services\Catalog\Wildberries\Response\Components\ChildGroupComponent;
-use App\Services\Catalog\Wildberries\Response\Components\GroupComponent;
 
 interface WBGoodsInterface
 {

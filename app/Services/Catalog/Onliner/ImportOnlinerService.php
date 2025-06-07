@@ -7,7 +7,7 @@ namespace App\Services\Catalog\Onliner;
 use App\Jobs\Catalog\Onliner\DownloadGoodJob;
 use App\Jobs\Catalog\Onliner\SearchGoodsByCatalogGroupJob;
 use App\Models\Catalog\Onliner\OnCatalogGroup;
-use App\Services\HTTPClientService\HTTPClient;
+use App\Services\Catalog\Onliner\API\OnlinerClient;
 use App\Services\ImageUploader\ImageUploadService;
 use Exception;
 use Illuminate\Support\Facades\Log;
@@ -16,7 +16,7 @@ use Symfony\Component\DomCrawler\Crawler;
 final class ImportOnlinerService
 {
     public function __construct(
-        private readonly HTTPClient            $client,
+        private readonly OnlinerClient         $client,
         private readonly OnlinerCatalogService $catalogService,
         private readonly ImageUploadService    $imageService
     ) {}

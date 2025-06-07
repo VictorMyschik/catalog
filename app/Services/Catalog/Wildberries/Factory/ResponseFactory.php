@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Catalog\Wildberries\Factory;
 
-use App\Services\Catalog\Wildberries\API\WBClientResponseInterface;
+use App\Services\Catalog\Wildberries\WBClientResponseInterface;
 use Psr\Http\Message\ResponseInterface;
 use RuntimeException;
 

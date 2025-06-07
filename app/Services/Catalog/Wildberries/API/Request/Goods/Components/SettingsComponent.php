@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Services\Wildberries\Import\Catalog\Request\Goods\Components;
+namespace App\Services\Catalog\Wildberries\API\Request\Goods\Components;
 
 final readonly class SettingsComponent
 {

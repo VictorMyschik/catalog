@@ -20,7 +20,7 @@ class WBDownloadGoodImagesJob implements ShouldQueue
 
     public function __construct(public int $shopId, public int $goodId, public array $urls)
     {
-        $this->queue = JobsEnum::UpdateCatalog->value;
+        $this->queue = JobsEnum::OnlinerCatalog->value;
     }
 
     public function handle(WBImportGoodService $service, WBGoodsCacheRepository $cacheRepository): void

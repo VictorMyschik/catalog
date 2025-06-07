@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Wildberries\Enum;
+namespace App\Services\Catalog\Wildberries\Enum;
 
 // https://openapi.wildberries.ru/statistics/api/ru/#tag/Statistika/paths/~1api~1v1~1supplier~1orders/get
 enum WBOrderTypeEnum: int

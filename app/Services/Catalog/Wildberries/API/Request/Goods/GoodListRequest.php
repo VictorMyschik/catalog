@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Wildberries\Import\Catalog\Request\Goods;
+namespace App\Services\Catalog\Wildberries\API\Request\Goods;
 
-use App\Services\Wildberries\Import\Catalog\Request\Goods\Components\SettingsComponent;
+use App\Services\Catalog\Wildberries\API\Request\Goods\Components\SettingsComponent;
 
 final readonly class GoodListRequest
 {

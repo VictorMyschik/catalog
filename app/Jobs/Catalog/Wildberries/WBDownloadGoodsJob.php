@@ -19,7 +19,7 @@ class WBDownloadGoodsJob implements ShouldQueue
 
     public function __construct(public int $wbGoodId)
     {
-        $this->queue = JobsEnum::UpdateCatalog->value;
+        $this->queue = JobsEnum::WBCatalog->value;
     }
 
     public function handle(WBImportService $service): void

@@ -10,10 +10,10 @@ use App\Models\Catalog\Wildberries\WBCatalogGood;
 use App\Models\Catalog\Wildberries\WBCatalogGroup;
 use App\Models\Catalog\Wildberries\WBCatalogImage;
 use App\Models\Catalog\Wildberries\WBCatalogReferenceAttribute;
+use App\Services\Catalog\Wildberries\API\Response\Components\AttributeComponent;
+use App\Services\Catalog\Wildberries\API\Response\Components\ChildGroupComponent;
 use App\Services\Catalog\Wildberries\DTO\WBGoodDto;
 use App\Services\Catalog\Wildberries\Enum\WBCatalogAttributeGroupEnum;
-use App\Services\Catalog\Wildberries\Response\Components\AttributeComponent;
-use App\Services\Catalog\Wildberries\Response\Components\ChildGroupComponent;
 use Illuminate\Database\DatabaseManager;
 
 readonly class WBRepository implements WBCatalogInterface, WBGoodsInterface

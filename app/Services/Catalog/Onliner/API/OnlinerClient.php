@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Services\HTTPClientService;
+namespace App\Services\Catalog\Onliner\API;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use Psr\Http\Message\StreamInterface;
 
-final readonly class HTTPClient
+final readonly class OnlinerClient
 {
     public function __construct(private Client $client) {}
 

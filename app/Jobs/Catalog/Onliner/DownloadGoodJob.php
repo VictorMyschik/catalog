@@ -25,7 +25,7 @@ class DownloadGoodJob implements ShouldQueue
 
     public function __construct(public OnCatalogGroup $kind, public string $link)
     {
-        $this->queue = JobsEnum::UpdateCatalog->value;
+        $this->queue = JobsEnum::OnlinerCatalog->value;
     }
 
     /**

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Catalog\Wildberries\Response;
+namespace App\Services\Catalog\Wildberries\API\Response;
 
 
-use App\Services\Catalog\Wildberries\API\WBClientResponseInterface;
-use App\Services\Catalog\Wildberries\Response\Components\AttributeComponent;
+use App\Services\Catalog\Wildberries\API\Response\Components\AttributeComponent;
+use App\Services\Catalog\Wildberries\WBClientResponseInterface;
 
 final readonly class AttributesResponse implements WBClientResponseInterface
 {
