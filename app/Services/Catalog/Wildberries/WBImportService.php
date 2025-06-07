@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services\Catalog\Wildberries;
 
-use App\Jobs\Catalog\Wildberries\WBUpdateAttributesJob;
 use App\Jobs\Catalog\Wildberries\WBUpdateCatalogChildGroupsJob;
+use App\Models\Catalog\Wildberries\WBCatalogNotFound;
 use App\Repositories\Catalog\Wildberries\WBGoodsInterface;
 use App\Services\Catalog\Wildberries\API\WBClient;
 use App\Services\Catalog\Wildberries\DTO\WBGoodDto;
@@ -76,7 +76,7 @@ final readonly class WBImportService
                 // WBUpdateAttributesJob::dispatch($childGroup->subjectID);
             }
         } catch (\Throwable $e) {
-            WBUpdateCatalogChildGroupsJob::dispatch($wbId);
+            // WBUpdateCatalogChildGroupsJob::dispatch($wbId);
         }
     }
 
@@ -115,23 +115,26 @@ final readonly class WBImportService
         $url = $this->generateUrl($wbId);
         $response = $this->client->getGood($url);
 
-        if (empty($response['media'])) {
+        if (empty($response['media']) || empty($response['selling']['supplier_id'])) {
+            WBCatalogNotFound::create(['wb_id' => $wbId]);
+
             return;
         }
+
         $groupId = $this->getGroupId($response);
 
         $goodDto = new WBGoodDto(
             nm_id: (int)$response['nm_id'],
             imt_id: (int)$response['imt_id'],
             subject_id: (int)$groupId,
-            vendor_code: $response['vendor_code'],
+            vendor_code: $response['vendor_code'] ?? null,
             brand_id: $this->repository->getOrCreate($response['selling']),
             title: $response['imt_name'],
             description: $response['description'] ?? null,
             sl: json_encode($response),
         );
 
-       $this->repository->saveGood(0, $goodDto);
+        $this->repository->saveGood(0, $goodDto);
     }
 
     private function getGroupId(array $response): int

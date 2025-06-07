@@ -5,6 +5,7 @@ use App\Models\Catalog\Wildberries\WBCatalogBrand;
 use App\Models\Catalog\Wildberries\WBCatalogGood;
 use App\Models\Catalog\Wildberries\WBCatalogGroup;
 use App\Models\Catalog\Wildberries\WBCatalogImage;
+use App\Models\Catalog\Wildberries\WBCatalogNotFound;
 use App\Models\Catalog\Wildberries\WBCatalogReferenceAttribute;
 use App\Models\Catalog\Wildberries\WBCountry;
 use Illuminate\Database\Migrations\Migration;
@@ -46,7 +47,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('nm_id')->index();
             $table->unsignedBigInteger('imt_id')->index();
             $table->unsignedBigInteger('subject_id')->index();
-            $table->string('vendor_code');
+            $table->string('vendor_code')->nullable()->index();
             $table->unsignedBigInteger('brand_id')->index();
             $table->string('title', 1000)->index();
             $table->string('description', 8000)->nullable();
@@ -83,6 +84,11 @@ return new class extends Migration {
 
             $table->foreign('catalog_group_id')->references('id')->on(WBCatalogGroup::getTableName())->cascadeOnDelete();
             $table->foreign('attribute_id')->references('id')->on(WBCatalogReferenceAttribute::getTableName())->cascadeOnDelete();
+        });
+
+        Schema::create(WBCatalogNotFound::getTablename(), function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('wb_id')->index();
         });
 
       /*  Schema::create(WBCatalogAttributeValue::getTablename(), function (Blueprint $table) {

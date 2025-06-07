@@ -50,15 +50,10 @@ final readonly class CronService
         $cron = Cron::loadByOrDie($id);
 
         match ($cron->getCronKey()) {
-            CronKeyEnum::UPDATE_CATALOG_GOODS => $this->runUpdateCatalogGoods(),
+            CronKeyEnum::UPDATE_CATALOG_GOODS => $this->importOnlinerService->updateCatalogGoods(),
         };
 
         $cron->setLastWork(now());
         $cron->save();
-    }
-
-    private function runUpdateCatalogGoods(): void
-    {
-        $this->importOnlinerService->updateCatalogGoods();
     }
 }

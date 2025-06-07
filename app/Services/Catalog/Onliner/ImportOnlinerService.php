@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services\Catalog\Onliner;
 
-use App\Jobs\Catalog\DownloadGoodJob;
-use App\Jobs\Catalog\SearchGoodsByCatalogGroupJob;
+use App\Jobs\Catalog\Onliner\DownloadGoodJob;
+use App\Jobs\Catalog\Onliner\SearchGoodsByCatalogGroupJob;
 use App\Models\Catalog\Onliner\OnCatalogGroup;
 use App\Services\HTTPClientService\HTTPClient;
 use App\Services\ImageUploader\ImageUploadService;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Jobs\Catalog;
+namespace App\Jobs\Catalog\Onliner;
 
 use App\Jobs\JobsEnum;
 use App\Models\Catalog\Onliner\OnCatalogGroup;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Orchid\Screens\Catalog\Onliner;
 
-use App\Jobs\Catalog\SearchGoodsByCatalogGroupJob;
+use App\Jobs\Catalog\Onliner\SearchGoodsByCatalogGroupJob;
 use App\Models\Catalog\Onliner\OnCatalogGroup;
 use App\Orchid\Filters\Catalog\CatalogTypeFilter;
 use App\Orchid\Layouts\Catalog\Onliner\CatalogGroupEditLayout;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Jobs\Catalog\SearchGoodsByCatalogGroupJob;
+use App\Jobs\Catalog\Onliner\SearchGoodsByCatalogGroupJob;
 use App\Models\Catalog\Onliner\OnCatalogGroup;
 use Tests\TestCase;
 

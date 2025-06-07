@@ -2,8 +2,9 @@
 
 namespace Tests\Feature\WB;
 
-use App\Models\Catalog\Wildberries\WBCatalogGroup;
-use App\Services\Catalog\Wildberries\API\WBClient;
+use App\Jobs\Catalog\Wildberries\WBDownloadGoodsJob;
+use App\Models\Catalog\Wildberries\WBCatalogGood;
+use App\Models\Catalog\Wildberries\WBCatalogNotFound;
 use App\Services\Catalog\Wildberries\WBImportService;
 use Tests\TestCase;
 
@@ -18,20 +19,17 @@ class ImportWBCatalogTest extends TestCase
 
     public function testImport(): void
     {
-        $list = WBCatalogGroup::all();
-
-        $client = app(WBClient::class);
-
-
-        foreach ($list as $group) {
-            $id = $group->id();
-            $response = $client->getGoodByGroup($id);
-
-            $result = $response['data']['total'] ?? null;
-
-            if ($result) {
-                WBCatalogGroup::where('id', $group->id())->update(['has_goods' => true]);
+        for ($i = 700000; $i <= 800000; $i++) {
+            if (WBCatalogGood::where('nm_id', $i)->exists() || WBCatalogNotFound::where('wb_id', $i)->exists()) {
+                continue;
             }
+
+            try {
+                WBDownloadGoodsJob::dispatch($i);
+            } catch (\Exception $e) {
+                echo $e->getMessage();
+            }
+
         }
     }
 }

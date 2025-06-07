@@ -26,7 +26,7 @@ final readonly class WBClient
 
     public function getGood(string $url): array
     {
-        return $this->sendPublicRequest('GET', $url, null, GoodResponse::class, __FUNCTION__);
+        return $this->sendPublicRequest('GET', $url, null, __FUNCTION__);
     }
 
     #region Catalog
@@ -70,7 +70,7 @@ final readonly class WBClient
     {
         $requestId = Uuid::v4()->toRfc4122();
         $payload = $request ? json_encode($request) : null;
-        $this->logRequest($requestId, $payload, $method, $url, []);
+        $this->logRequest($requestId, $payload, $method, $url);
         $time = microtime(true);
 
         try {
