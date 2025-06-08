@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Orchid\Filters\System;
 
 use App\Models\System\Settings;
@@ -15,7 +17,7 @@ use Orchid\Support\Facades\Layout;
 
 class SettingsFilter extends Filter
 {
-    private static array $fields = [
+    public const array FIELDS = [
         'active',
         'category',
         'code_key',
@@ -26,11 +28,6 @@ class SettingsFilter extends Filter
     public function name(): string
     {
         return 'Settings';
-    }
-
-    public function parameters(): ?array
-    {
-        return self::$fields;
     }
 
     public function run(Builder $builder): Builder
@@ -76,12 +73,7 @@ class SettingsFilter extends Filter
         return $builder;
     }
 
-    public static function getFilterFields(): array
-    {
-        return self::$fields;
-    }
-
-    public static function query()
+    public function query(): iterable
     {
         return Settings::filters([self::class])->paginate(20);
     }

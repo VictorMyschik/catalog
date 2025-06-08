@@ -89,7 +89,7 @@ class SettingsScreen extends Screen
     public function runFiltering(Request $request): RedirectResponse
     {
         $list = [];
-        foreach (SettingsFilter::getFilterFields() as $item) {
+        foreach (SettingsFilter::FIELDS as $item) {
             if (!is_null($request->get($item))) {
                 $list[$item] = $request->get($item);
             }

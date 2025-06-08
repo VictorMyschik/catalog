@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories\Catalog\Wildberries;
 
-use App\Services\Wildberries\Import\Catalog\Response\Catalog\Components\ChildGroupComponent;
+use App\Services\Catalog\Wildberries\API\Response\Components\ChildGroupComponent;
 use Psr\SimpleCache\CacheInterface;
 
 final readonly class WBCatalogCacheRepository implements WBCatalogInterface

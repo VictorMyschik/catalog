@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Wildberries\Enum;
+namespace App\Services\Catalog\Wildberries\Enum;
 
 use UnitEnum;
 
