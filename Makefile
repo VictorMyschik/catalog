@@ -13,5 +13,8 @@ supervisor:
 init-prod:
 	docker-compose -f docker-compose.prod.yml down && docker-compose -f docker-compose.prod.yml up -d --remove-orphans --build
 
+supervisor-prod:
+	docker-compose -f docker-compose.prod.yml down && docker-compose -f docker-compose.prod.yml up -d --remove-orphans --build
+
 stop-prod:
 	docker-compose -f docker-compose.prod.yml down
