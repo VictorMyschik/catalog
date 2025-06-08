@@ -277,7 +277,7 @@ final class ImportOnlinerService
             $cntPage = $data['page']['last'] ?? 2;
 
             // Создание задач. Одна страница - одна задача
-            for ($i = 1; $i <= 1; $i++) {
+            for ($i = 1; $i <= $cntPage; $i++) {
                 $link = "https://catalog.onliner.by/sdapi/catalog.api/search/$article?page=$i";
                 DownloadGoodJob::dispatch($group, $link);
             }
