@@ -143,7 +143,7 @@ class OnlinerCatalogGoodDetailsScreen extends Screen
         ]);
     }
 
-    private function getImageBtnLayout()
+    private function getImageBtnLayout(): Group
     {
         return Group::make([
             ModalToggle::make('Загрузить фото')

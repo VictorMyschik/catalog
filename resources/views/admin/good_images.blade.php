@@ -2,7 +2,7 @@
     @foreach($value as $image)
         <div class="slider-item">
             <a class="slider-item--link" href="{{$image->getUrl()}}" target="_blank">
-                <img src="{{$image->getUrl()}}" alt="">
+                <img src="{{$image->getOriginalUrl()}}" alt="">
             </a>
             <div class="slider-item--block">
                 <div class="slider-item--desc p-1">
