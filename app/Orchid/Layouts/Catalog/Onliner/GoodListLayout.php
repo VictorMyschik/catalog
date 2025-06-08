@@ -25,7 +25,9 @@ class GoodListLayout extends Table
             TD::make('id', 'ID')->sort(),
             TD::make('active', 'Активно')->active()->sort(),
             TD::make('', 'Logo')->render(function (OnCatalogGood $good) {
-                return ViewField::make('')->view('admin.table_image')->value($this->service->getGoodLogo($good->id())?->getUrl());
+                // TODO: пока не скачиваем картинки, показываем по прямой ссылке
+                return ViewField::make('')->view('admin.table_image')->value($this->service->getGoodLogo($good->id())?->getOriginalUrl());
+                //return ViewField::make('')->view('admin.table_image')->value($this->service->getGoodLogo($good->id())?->getUrl());
             }),
             TD::make('manufacturer_id', 'Производитель')->render(function (OnCatalogGood $good) {
                 return $good->manufacturer_id ? $this->service->getManufacturerName($good->manufacturer_id) : null;
