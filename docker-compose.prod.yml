@@ -12,7 +12,7 @@ services:
     environment:
       - VIRTUAL_HOST=catalog.test
     ports:
-      - "8081:8081"
+      - "81:80"
     networks:
       frontend:
       backend:
@@ -55,25 +55,25 @@ services:
       - REDIS_PASSWORD=${REDIS_PASSWORD}
 
   supervisor:
-      build: ./docker/supervisor
-      container_name: supervisor_catalog
-      networks:
-          - backend
-      volumes:
-          - .:/var/www/catalog
-          - ./storage/logs:/var/log/php
-          - ./docker/php/php.ini:/usr/local/etc/php/php.ini
-          - ./docker/php/opcache.ini:/usr/local/etc/php/conf.d/opcache.ini
+    build: ./docker/supervisor
+    container_name: supervisor_catalog
+    networks:
+      - backend
+    volumes:
+      - .:/var/www/catalog
+      - ./storage/logs:/var/log/php
+      - ./docker/php/php.ini:/usr/local/etc/php/php.ini
+      - ./docker/php/opcache.ini:/usr/local/etc/php/conf.d/opcache.ini
 
   rabbitmq:
-      image: rabbitmq:3-management-alpine
-      ports:
-          - '5678:5672'
-          - '15678:15672'
-      volumes:
-          - ./docker/rabbitmq/data/:/var/lib/rabbitmq/
-      networks:
-        frontend:
-        backend:
-          aliases:
-            - rabbitmq.catalog.test
+    image: rabbitmq:3-management-alpine
+    ports:
+      - '5678:5672'
+      - '15678:15672'
+    volumes:
+      - ./docker/rabbitmq/data/:/var/lib/rabbitmq/
+    networks:
+      frontend:
+      backend:
+        aliases:
+          - rabbitmq.catalog.test
