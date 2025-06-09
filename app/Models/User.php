@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 use Orchid\Filters\Types\Like;
 use Orchid\Filters\Types\Where;
 use Orchid\Filters\Types\WhereDateStartEnd;
@@ -9,6 +11,8 @@ use Orchid\Platform\Models\User as Authenticatable;
 
 class User extends Authenticatable
 {
+    use Notifiable, HasApiTokens;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -66,4 +70,9 @@ class User extends Authenticatable
         'updated_at',
         'created_at',
     ];
+
+    public function id(): int
+    {
+        return $this->id;
+    }
 }

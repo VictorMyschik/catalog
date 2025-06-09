@@ -43,7 +43,7 @@ class PlatformProvider extends OrchidServiceProvider
             ])->divider(),
 
             Menu::make('API documentation')->icon('database')->target('_blank')->href('/api/documentation'),
-            Menu::make('Documentation')->icon('bs.box-arrow-up-right')->url('https://orchid.software/en/docs')->target('_blank'),
+            Menu::make('API documentation NEW')->icon('database')->target('_blank')->href('/api/docs'),
         ];
     }
 

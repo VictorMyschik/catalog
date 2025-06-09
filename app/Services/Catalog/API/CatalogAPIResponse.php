@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Services\Catalog\API;
 
-use App\Http\Controllers\Api\v1\Catalog\Response\CatalogGoodResponse;
-use App\Http\Controllers\Api\v1\Catalog\Response\Components\AttributeComponent;
-use App\Http\Controllers\Api\v1\Catalog\Response\Components\AttributeGroupComponent;
-use App\Http\Controllers\Api\v1\Catalog\Response\Components\AttributeValueComponent;
-use App\Http\Controllers\Api\v1\Catalog\Response\Components\CatalogGroupComponent;
-use App\Http\Controllers\Api\v1\Catalog\Response\Components\ManufacturerComponent;
+use App\Http\Controllers\Api\V1\Catalog\Response\CatalogGoodResponse;
+use App\Http\Controllers\Api\V1\Catalog\Response\Components\AttributeComponent;
+use App\Http\Controllers\Api\V1\Catalog\Response\Components\AttributeGroupComponent;
+use App\Http\Controllers\Api\V1\Catalog\Response\Components\AttributeValueComponent;
+use App\Http\Controllers\Api\V1\Catalog\Response\Components\CatalogGroupComponent;
+use App\Http\Controllers\Api\V1\Catalog\Response\Components\ManufacturerComponent;
 use App\Models\Catalog\Onliner\OnCatalogGood;
 use App\Services\Catalog\Onliner\OnlinerCatalogService;
 use App\Services\Elasticsearch\ESService;
