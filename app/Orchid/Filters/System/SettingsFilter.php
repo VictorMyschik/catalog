@@ -20,14 +20,14 @@ class SettingsFilter extends Filter
     public const array FIELDS = [
         'active',
         'category',
-        'code_key',
+        'codeKey',
         'name',
         'value',
     ];
 
-    public function name(): string
+    public static function queryQuery(): iterable
     {
-        return 'Settings';
+        return Settings::filters([self::class])->paginate(20);
     }
 
     public function run(Builder $builder): Builder
@@ -42,8 +42,8 @@ class SettingsFilter extends Filter
             }
         }
 
-        if (isset($input['code_key'])) {
-            $value = htmlspecialchars((string)$input['code_key'], ENT_QUOTES);
+        if (isset($input['codeKey'])) {
+            $value = htmlspecialchars((string)$input['codeKey'], ENT_QUOTES);
 
             if ($value !== '') {
                 $builder->where('code_key', 'LIKE', '%' . $value . '%');
@@ -73,28 +73,23 @@ class SettingsFilter extends Filter
         return $builder;
     }
 
-    public function query(): iterable
-    {
-        return Settings::filters([self::class])->paginate(20);
-    }
-
     public static function displayFilterCard(): Rows
     {
         return Layout::rows([
             Group::make([
                 Select::make('active')
-                    ->options([null => 'all', 1 => 'active', 0 => 'not active'])
+                    ->options([null => 'Все', 1 => 'active', 0 => 'not active'])
                     ->value(request()->get('active'))
-                    ->title('Active'),
+                    ->title('Активно'),
 
                 Select::make('category')
                     ->options(self::getCategoryList())
                     ->multiple()
                     ->value(request()->get('category'))
-                    ->title('Category'),
+                    ->title('Категория'),
 
-                Input::make('name')->value(request()->get('name'))->title('Name'),
-                Input::make('code_key')->value(request()->get('code_key'))->title('Key (in code)'),
+                Input::make('name')->value(request()->get('name'))->title('Наименование'),
+                Input::make('code_key')->value(request()->get('codeKey'))->title('Key (in code)'),
                 Input::make('value')->value(request()->get('value'))->title('Value'),
             ]),
 

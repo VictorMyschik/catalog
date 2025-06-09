@@ -8,18 +8,17 @@ use App\Models\System\Settings;
 use App\Orchid\Filters\System\SettingsFilter;
 use App\Orchid\Layouts\System\Settings\SettingsEditLayout;
 use App\Orchid\Layouts\System\Settings\SettingsListLayout;
-use App\Repositories\System\SettingsRepositoryInterface;
+use App\Services\System\SettingsService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Screen;
-use Orchid\Support\Color;
 use Orchid\Support\Facades\Layout;
 use Orchid\Support\Facades\Toast;
 
 class SettingsScreen extends Screen
 {
-    public function __construct(private readonly SettingsRepositoryInterface $repository) {}
+    public function __construct(private readonly SettingsService $service) {}
 
     public function name(): string
     {
@@ -34,14 +33,14 @@ class SettingsScreen extends Screen
     public function query(): iterable
     {
         return [
-            'list' => SettingsFilter::query(),
+            'list' => SettingsFilter::queryQuery(),
         ];
     }
 
     public function commandBar(): iterable
     {
         return [
-            ModalToggle::make('Add')
+            ModalToggle::make('add')
                 ->class('mr-btn-success')
                 ->icon('plus')
                 ->modal('setup_modal')
@@ -71,17 +70,17 @@ class SettingsScreen extends Screen
         $id = (int)$request->get('id');
         $setupIn = (array)$request->get('setup');
 
-        $id = $this->repository->saveSetting($id, $setupIn);
+        $this->service->saveSetting($id, $setupIn);
 
-        Toast::success('Saved with ID' . $id);
+        Toast::success('Saved')->delay(1000);
     }
 
     public function remove(Request $request): void
     {
         $setup = Settings::loadByOrDie((int)$request->get('id'));
-        $setup->deleteMr();
+        $setup->delete();
 
-        Toast::warning(__('Settings was removed'));
+        Toast::warning(__('Settings was removed'))->delay(1000);
     }
     #endregion
 

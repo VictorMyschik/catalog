@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Orchid\Layouts\Lego;
 
 use Orchid\Screen\Actions\Button;
