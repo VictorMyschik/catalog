@@ -6,7 +6,7 @@
             </a>
             <div class="slider-item--block">
                 <div class="slider-item--desc p-1">
-                    {{$image->getFileName()}}
+
                 </div>
                 <div class="slider-item--footer p-1">
                     {{$image->btn}}

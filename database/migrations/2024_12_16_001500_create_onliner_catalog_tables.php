@@ -62,7 +62,6 @@ return new class extends Migration {
 
         Schema::create(OnCatalogGood::getTableName(), function (Blueprint $table) {
             $table->id();
-            $table->tinyInteger('type')->default(0)->index();
             $table->unsignedBigInteger('group_id')->index();
             $table->boolean('active')->default(false)->index();
             $table->string('prefix', 500)->nullable();
@@ -99,7 +98,6 @@ return new class extends Migration {
 
         Schema::create(OnCatalogImage::getTableName(), function (Blueprint $table): void {
             $table->id();
-            $table->string('file_name', 50);
             $table->unsignedBigInteger('good_id')->index();
             $table->string('original_url')->nullable();
             $table->string('path');

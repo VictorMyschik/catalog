@@ -16,7 +16,7 @@ class GoodUploadEditLayout extends Rows
         /** @var OnCatalogImage $image */
         $image = $this->query->get('image');
         if (!$image) {
-            $out[] = Upload::make('images')->groups('photo')->maxFiles(20)->path('goods');
+            $out[] = Upload::make('images')->groups('photo')->maxFiles(20)->path('/goods');
         } else {
             $out[] = Input::make('image.alt')->value($image?->getAlt())->title('alt')->type('text');
         }

@@ -16,7 +16,7 @@ use App\Repositories\Catalog\CatalogCacheRepository;
 use App\Repositories\Catalog\CatalogRepositoryInterface;
 use App\Services\Catalog\Enum\CatalogImageTypeEnum;
 use App\Services\ImageUploader\Enum\ImageTypeEnum;
-use App\Services\ImageUploader\ImageUploadService;
+use App\Services\ImageUploader\ImageUploaderInterface;
 use Exception;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -25,7 +25,7 @@ final readonly class OnlinerCatalogService
 {
     public function __construct(
         private CatalogRepositoryInterface $repository,
-        private ImageUploadService         $imageUploader,
+        private ImageUploaderInterface     $imageUploader,
         private CatalogCacheRepository     $cacheRepository,
     ) {}
 

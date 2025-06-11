@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f9e41721b09c961398a652abe0e383de",
+    "content-hash": "7e789450830e2923352a2b2a99cb0cbe",
     "packages": [
         {
             "name": "brick/math",
@@ -1470,16 +1470,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v12.17.0",
+            "version": "v12.18.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "8729d084510480fdeec9b6ad198180147d4a7f06"
+                "reference": "7d264a0dad2bfc5c154240b38e8ce9b2c4cdd14d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/8729d084510480fdeec9b6ad198180147d4a7f06",
-                "reference": "8729d084510480fdeec9b6ad198180147d4a7f06",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/7d264a0dad2bfc5c154240b38e8ce9b2c4cdd14d",
+                "reference": "7d264a0dad2bfc5c154240b38e8ce9b2c4cdd14d",
                 "shasum": ""
             },
             "require": {
@@ -1681,7 +1681,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2025-06-03T14:04:18+00:00"
+            "time": "2025-06-10T14:48:34+00:00"
         },
         {
             "name": "laravel/prompts",
@@ -4889,16 +4889,16 @@
         },
         {
             "name": "swagger-api/swagger-ui",
-            "version": "v5.24.0",
+            "version": "v5.24.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swagger-api/swagger-ui.git",
-                "reference": "4680916cd91d4c9e7caabef0a1c677e2ab011118"
+                "reference": "f2c454a65227388889994fd80d53fa28bd2831d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/4680916cd91d4c9e7caabef0a1c677e2ab011118",
-                "reference": "4680916cd91d4c9e7caabef0a1c677e2ab011118",
+                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/f2c454a65227388889994fd80d53fa28bd2831d9",
+                "reference": "f2c454a65227388889994fd80d53fa28bd2831d9",
                 "shasum": ""
             },
             "type": "library",
@@ -4944,9 +4944,9 @@
             ],
             "support": {
                 "issues": "https://github.com/swagger-api/swagger-ui/issues",
-                "source": "https://github.com/swagger-api/swagger-ui/tree/v5.24.0"
+                "source": "https://github.com/swagger-api/swagger-ui/tree/v5.24.1"
             },
-            "time": "2025-06-05T09:32:44+00:00"
+            "time": "2025-06-10T06:06:19+00:00"
         },
         {
             "name": "symfony/clock",
@@ -5250,26 +5250,26 @@
         },
         {
             "name": "symfony/dom-crawler",
-            "version": "6.4.x-dev",
+            "version": "8.0.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dom-crawler.git",
-                "reference": "19073e3e0bb50cbc1cb286077069b3107085206f"
+                "reference": "7e2433555ccca2dcca3e3b0193350ddb0478f037"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/19073e3e0bb50cbc1cb286077069b3107085206f",
-                "reference": "19073e3e0bb50cbc1cb286077069b3107085206f",
+                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/7e2433555ccca2dcca3e3b0193350ddb0478f037",
+                "reference": "7e2433555ccca2dcca3e3b0193350ddb0478f037",
                 "shasum": ""
             },
             "require": {
                 "masterminds/html5": "^2.6",
-                "php": ">=8.1",
-                "symfony/polyfill-ctype": "~1.8",
-                "symfony/polyfill-mbstring": "~1.0"
+                "php": ">=8.4",
+                "symfony/polyfill-ctype": "^1.8",
+                "symfony/polyfill-mbstring": "^1.0"
             },
             "require-dev": {
-                "symfony/css-selector": "^5.4|^6.0|^7.0"
+                "symfony/css-selector": "^7.4|^8.0"
             },
             "type": "library",
             "autoload": {
@@ -5297,7 +5297,7 @@
             "description": "Eases DOM navigation for HTML and XML documents",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/dom-crawler/tree/6.4"
+                "source": "https://github.com/symfony/dom-crawler/tree/8.0"
             },
             "funding": [
                 {
@@ -5313,7 +5313,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-02-14T17:58:34+00:00"
+            "time": "2025-06-03T12:29:50+00:00"
         },
         {
             "name": "symfony/error-handler",

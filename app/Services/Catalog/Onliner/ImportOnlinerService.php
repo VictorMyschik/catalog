@@ -6,9 +6,10 @@ namespace App\Services\Catalog\Onliner;
 
 use App\Jobs\Catalog\Onliner\DownloadGoodJob;
 use App\Jobs\Catalog\Onliner\SearchGoodsByCatalogGroupJob;
+use App\Models\Catalog\Onliner\OnCatalogGood;
 use App\Models\Catalog\Onliner\OnCatalogGroup;
 use App\Services\Catalog\Onliner\API\OnlinerClient;
-use App\Services\ImageUploader\ImageUploadService;
+use App\Services\ImageUploader\ImageUploaderInterface;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\DomCrawler\Crawler;
@@ -16,9 +17,9 @@ use Symfony\Component\DomCrawler\Crawler;
 final class ImportOnlinerService
 {
     public function __construct(
-        private readonly OnlinerClient         $client,
-        private readonly OnlinerCatalogService $catalogService,
-        private readonly ImageUploadService    $imageService
+        private readonly OnlinerClient          $client,
+        private readonly OnlinerCatalogService  $catalogService,
+        private readonly ImageUploaderInterface $imageService
     ) {}
 
     public function import(string $stringId, OnCatalogGroup $group, string $url, bool $isLoadImages): int
@@ -69,19 +70,41 @@ final class ImportOnlinerService
     {
         $crawler = new Crawler($data);
 
-        $tmp_link = $crawler->filter('div > .product-gallery__thumb')->each(function ($link) {
-            return $link->attr('data-original');
+        $scripts = $crawler->filter('script')->each(function (Crawler $node) {
+            if (str_contains($node->text(), 'window.__NUXT__') && str_contains($node->text(), 'imgproxy')) {
+                return $node->text();
+            }
+
+            return null;
         });
 
-        $links = array();
+        $scripts = array_filter($scripts);
+        $scriptText = reset($scripts);
 
-        foreach ($tmp_link as $item) {
-            if (str_contains((string)$item, 'https://imgproxy.onliner.by') !== false) {
-                $links[] = $item;
+        $url_pattern = '/(\w+):\s*"(https:\\\\u002F\\\\u002F[^"]+)"/';
+
+        preg_match_all($url_pattern, $scriptText, $matches, PREG_SET_ORDER);
+
+        $result = [];
+        foreach ($matches as $match) {
+            $key = $match[1]; // main, retina, or thumbnail
+            $url = json_decode('"' . $match[2] . '"');
+            if ($key === 'retina'){
+                $result[] = $url;
             }
         }
 
-        return $links;
+        return $result;
+    }
+
+    public function reloadGoods(OnCatalogGood $good): void
+    {
+        $url = $good->getJsonField('html_url');
+
+        $cleanData = $this->client->doGet($url);
+
+        $this->catalogService->deleteAllGoodPhoto($good->id());
+        $this->importOnlinerImagesCatalog($good->id(), (string)$cleanData);
     }
 
     private function updateGoodWithManufacturer(int $goodId, string $stringId): void

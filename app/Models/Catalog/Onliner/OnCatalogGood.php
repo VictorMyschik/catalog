@@ -36,13 +36,13 @@ class OnCatalogGood extends ORM
 
     protected $casts = [
         'id'               => 'integer',
-        'group_id'          => 'integer',
+        'group_id'         => 'integer',
         'prefix'           => 'string',
         'name'             => 'string',
         'short_info'       => 'string',
         'description'      => 'string',
         'manufacturer_id'  => 'integer',
-        'parent_good_id'   => 'integer',
+        'parent_good_id'   => 'string',
         'is_certification' => 'boolean',
         'sl'               => 'json',
         'int_id'           => 'integer',
@@ -77,7 +77,7 @@ class OnCatalogGood extends ORM
         return $this->manufacturer_id;
     }
 
-    public function getParentGoodId(): ?int
+    public function getParentGoodId(): ?string
     {
         return $this->parent_good_id;
     }

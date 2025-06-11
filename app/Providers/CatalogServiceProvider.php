@@ -9,6 +9,7 @@ use App\Repositories\Images\ImageRepositoryInterface;
 use App\Services\Catalog\API\CatalogAPICache;
 use App\Services\Catalog\API\CatalogAPIInterface;
 use App\Services\Catalog\API\CatalogAPIResponse;
+use App\Services\ImageUploader\ImageUploaderInterface;
 use App\Services\ImageUploader\ImageUploadService;
 use Elasticsearch\ClientBuilder;
 use Illuminate\Cache\Repository;
@@ -27,7 +28,7 @@ class CatalogServiceProvider extends ServiceProvider
             );
         });
 
-        $this->app->bind(ImageUploadService::class, function (Application $application) {
+        $this->app->bind(ImageUploaderInterface::class, function (Application $application) {
             $config = $application->make(\Illuminate\Config\Repository::class);
 
             return new ImageUploadService(

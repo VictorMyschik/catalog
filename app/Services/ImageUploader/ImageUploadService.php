@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Log;
 
-final readonly class ImageUploadService
+final readonly class ImageUploadService implements ImageUploaderInterface
 {
     public function __construct(
         private Filesystem               $filesystem,
@@ -31,11 +31,10 @@ final readonly class ImageUploadService
 
             $fileName = $this->getImageNameByType($image['mime']);
 
-            $path = $this->getPathToSave($goodId);
+            $path = $this->getPathToSave($goodId) . '/' . $fileName;
 
             $image = $this->imageRepository->addImage(
                 new ImageDTO(
-                    file_name: $fileName,
                     good_id: $goodId,
                     original_url: $imageUrl,
                     path: $path,
@@ -63,10 +62,9 @@ final readonly class ImageUploadService
 
         return $this->imageRepository->addImage(
             new ImageDTO(
-                file_name: $image->getClientOriginalName(),
                 good_id: $goodId,
                 original_url: null,
-                path: $path,
+                path: $path . '/' . $image->getClientOriginalName(),
                 hash: md5_file($image->getPathname()),
                 type: $type,
                 media_type: $this->getMediaType($image->getClientMimeType()),
@@ -140,5 +138,10 @@ final readonly class ImageUploadService
     {
         $image = $this->imageRepository->getImageById($id);
         $image && $this->deleteImage($image);
+    }
+
+    public function deleteImageWithModel(int $objectId, ImageTypeEnum $imageType): void
+    {
+        // TODO: Implement deleteImageWithModel() method.
     }
 }

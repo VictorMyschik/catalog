@@ -23,9 +23,7 @@ trait JsonFieldTrait
             return null;
         }
 
-        $data = json_decode((string)$this->getSL(), true);
-
-        return $data[$field] ?? null;
+        return $this->getSL()[$field] ?? null;
     }
 
     public function setJsonField(string $field, mixed $value): void

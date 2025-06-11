@@ -19,7 +19,7 @@ use Orchid\Support\Facades\Layout;
 
 class OnlinerCatalogGroupsScreen extends Screen
 {
-    protected $name = 'Список товаров';
+    protected $name = 'Список групп каталога';
 
     public function __construct(private Request $request, private readonly OnlinerCatalogService $service) {}
 

@@ -12,11 +12,13 @@ use App\Orchid\Layouts\Lego\ActionDeleteModelLayout;
 use App\Orchid\Layouts\Lego\InfoModalLayout;
 use App\Services\Catalog\Enum\CatalogImageTypeEnum;
 use App\Services\Catalog\Enum\CatalogTypeEnum;
+use App\Services\Catalog\Onliner\ImportOnlinerService;
 use App\Services\Catalog\Onliner\OnlinerCatalogService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Orchid\Screen\Actions\Button;
+use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Fields\Group;
 use Orchid\Screen\Fields\Input;
@@ -33,7 +35,10 @@ use Orchid\Support\Facades\Layout;
 
 class OnlinerCatalogGoodDetailsScreen extends Screen
 {
-    public function __construct(private readonly OnlinerCatalogService $service) {}
+    public function __construct(
+        private readonly OnlinerCatalogService $service,
+        private readonly ImportOnlinerService  $importService,
+    ) {}
 
     public ?OnCatalogGood $good = null;
 
@@ -58,6 +63,7 @@ class OnlinerCatalogGoodDetailsScreen extends Screen
     {
         return [
             Button::make('Сохранить')->class('mr-btn-success')->method('saveGood')->parameters(['id' => $this->good->id()]),
+            Link::make('Назад')->icon('arrow-up')->route('catalog.goods.list'),
         ];
     }
 
@@ -115,8 +121,7 @@ class OnlinerCatalogGoodDetailsScreen extends Screen
         return Layout::rows([
             Group::make([
                 Switcher::make('good.active')->sendTrueOrFalse()->title('Активно'),
-                Select::make('good.type')->title('Тип')->options(CatalogTypeEnum::getSelectList()),
-                Relation::make('good.parent_good_id')->title('Родительский товар')->allowEmpty()->fromModel(OnCatalogGood::class, 'name'),
+                Relation::make('good.parent_good_id')->title('Родительский товар')->allowEmpty()->fromModel(OnCatalogGood::class, 'string_id', 'string_id'),
             ]),
             Input::make('good.name')->required()->title('Наименование'),
             Input::make('good.prefix')->title('Префикс'),
@@ -137,6 +142,7 @@ class OnlinerCatalogGoodDetailsScreen extends Screen
                     ->modal('view_good')
                     ->parameters(['id' => $this->good->id()]),
             ])->autoWidth(),
+            Link::make('link')->title('Ссылка на страницу Onliner')->horizontal()->icon('link')->target('_blank')->href($this->good->link),
             Input::make('good.string_id')->title('Строковый ID')->horizontal(),
             Input::make('good.int_id')->title('Числовой ID')->horizontal(),
             Input::make('good.vendor_code')->title('Наш артикул')->horizontal(),
@@ -150,14 +156,18 @@ class OnlinerCatalogGoodDetailsScreen extends Screen
                 ->class('mr-btn-success')
                 ->modal('upload_good_photo')
                 ->modalTitle('Загрузить фото')
-                ->canSee((bool)$this->good)
                 ->method('saveGoodPhoto', ['good_id' => $this->good?->id(), 'catalog_image_id' => 0]),
+
+            Button::make('Перезагрузить фото')
+                ->method('reUploadGoodPhotos')
+                ->novalidate()
+                ->class('mr-btn-success')
+                ->confirm('Вы уверены, что хотите перезагрузить все картинки с сайта Onliner?'),
 
             Button::make('Удалить все фото')
                 ->method('deleteAllGoodPhoto')
                 ->novalidate()
                 ->class('mr-btn-danger')
-                ->canSee(true)
                 ->confirm('Вы уверены, что хотите удалить все фото?')
                 ->parameters(['good_id' => $this->good?->id()]),
         ])->autoWidth();
@@ -178,10 +188,14 @@ class OnlinerCatalogGoodDetailsScreen extends Screen
         ];
     }
 
+    public function reUploadGoodPhotos(): void
+    {
+        $this->importService->reloadGoods($this->good);
+    }
+
     public function saveGood(Request $request, int $id): void
     {
         $input = Validator::make($request->all(), [
-            'good.type'             => 'required|integer',
             'good.active'           => 'boolean',
             'good.name'             => 'required',
             'good.prefix'           => 'nullable',
@@ -193,7 +207,7 @@ class OnlinerCatalogGoodDetailsScreen extends Screen
             'good.string_id'        => 'nullable|string',
             'good.link'             => 'nullable|string',
             'good.vendor_code'      => 'nullable|string',
-            'good.parent_good_id'   => 'nullable|integer|exists:catalog_goods,id|not_in:' . $id,
+            'good.parent_good_id'   => 'nullable|string|exists:on_catalog_goods,string_id|not_in:' . $this->good->getParentGoodId(),
         ])->validate()['good'];
 
         $this->service->saveGood($id, $input);

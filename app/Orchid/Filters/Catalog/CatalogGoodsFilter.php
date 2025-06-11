@@ -24,6 +24,7 @@ class CatalogGoodsFilter extends Filter
         'string_id',
         'manufacturer_id',
         'prefix',
+        'group_id',
     ];
 
     public static function runQuery()

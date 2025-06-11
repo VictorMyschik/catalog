@@ -27,19 +27,18 @@ class OnCatalogImage extends ORM
         'created_at' => 'datetime',
     ];
 
-    public function getFileName(): string
-    {
-        return $this->file_name;
-    }
-
-    public function getGoodId(): int
-    {
-        return $this->good_id;
-    }
-
-    public function getOriginalUrl(): string
+    public function getOriginalUrl(): ?string
     {
         return $this->original_url;
+    }
+
+    public function getOriginalUrlExt(): string
+    {
+        if (!$this->getOriginalUrl()) {
+            return $this->getUrl();
+        }
+
+        return $this->getOriginalUrl();
     }
 
     public function getPath(): string
@@ -47,18 +46,13 @@ class OnCatalogImage extends ORM
         return $this->path;
     }
 
-    public function getHash(): string
-    {
-        return $this->hash;
-    }
-
     public function getUrl(): string
     {
-        return Storage::url($this->getPath() . '/' . $this->getFileName());
+        return Storage::url($this->getPath());
     }
 
     public function getFilePathWithName(): string
     {
-        return $this->getPath() . '/' . $this->getFileName();
+        return $this->getPath();
     }
 }
