@@ -22,7 +22,12 @@ final readonly class CatalogAPIResponse implements CatalogAPIInterface
     {
         $esResult = $this->elastic->searchGoods($query, $limit);
 
-        $ids = array_map(fn($item) => (int)$item['_id'], $esResult['hits']['hits']);
+        $hits = $esResult['hits']['hits'] ?? [];
+
+        $ids = array_map(
+            fn(array $hit) => (int)$hit['_source']['id'],
+            $hits
+        );
 
         $goodList = $this->repository->getGoodsByIds($ids);
 

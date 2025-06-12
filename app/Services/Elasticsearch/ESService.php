@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Services\Elasticsearch;
 
+use App\Events\ClearCacheEvent;
 use App\Models\Catalog\Onliner\OnCatalogGood;
-use Elastic\Elasticsearch\Response\Elasticsearch;
+use App\Services\Catalog\API\CatalogAPICache;
 use Illuminate\Support\Facades\Log;
 
 final readonly class ESService
@@ -41,6 +42,8 @@ final readonly class ESService
         }
 
         Log::info('Good ' . $good->id() . ' успешно добавлен в ES', $body);
+
+        event(new ClearCacheEvent(CatalogAPICache::class, 'clearCache'));
     }
 
     public function addBulkGoods(array $goods): void
@@ -65,8 +68,13 @@ final readonly class ESService
         return $this->client->getById(self::INDEX, $id);
     }
 
-    public function searchGoods(string $query, int $limit): Elasticsearch
+    public function searchGoods(string $query, int $limit): array
     {
         return $this->client->search(query: $query, index: self::INDEX, limit: $limit);
+    }
+
+    public function clearByIndex(): void
+    {
+        $this->client->clearByIndex(self::INDEX);
     }
 }

@@ -6,8 +6,6 @@ use App\Http\Controllers\Api\V1\Catalog\CatalogController;
 use App\Http\Controllers\Api\V1\User\UsersController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/catalog/search', [CatalogController::class, 'searchGoods'])->name('search.goods');
-
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/reset-password/code', [AuthController::class, 'resetPasswordCode']);
@@ -24,7 +22,7 @@ Route::middleware('auth:sanctum')->group(static function () {
     Route::get('/user', [UsersController::class, 'profile']);
 
     Route::middleware('api-verified')->group(static function () {
-
+        Route::post('/catalog/search', [CatalogController::class, 'searchGoods'])->name('search.goods');
     });
 });
 

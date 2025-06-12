@@ -15,6 +15,7 @@ use App\Orchid\Screens\System\CacheScreen;
 use App\Orchid\Screens\System\CronScreen;
 use App\Orchid\Screens\System\DatabaseScreen;
 use App\Orchid\Screens\System\DatabaseTableScreen;
+use App\Orchid\Screens\System\ElasticsearchScreen;
 use App\Orchid\Screens\System\FailedJobsScreen;
 use App\Orchid\Screens\System\PurgeScreen;
 use App\Orchid\Screens\System\SettingsScreen;
@@ -84,6 +85,7 @@ Route::screen('system/purge', PurgeScreen::class)->name('system.purge');
 Route::screen('system/failed-jobs', FailedJobsScreen::class)->name('system.failed.jobs');
 Route::screen('system/database', DatabaseScreen::class)->name('system.database');
 Route::screen('system/database/table/{table}', DatabaseTableScreen::class)->name('system.database.table');
+Route::screen('system/elasticsearch', ElasticsearchScreen::class)->name('system.elasticsearch');
 
 // Catalog Onliner
 Route::screen('catalog/onliner/goods/list', OnlinerCatalogGoodsScreen::class)->name('catalog.goods.list');

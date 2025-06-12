@@ -6,7 +6,6 @@ namespace App\Services\Elasticsearch;
 
 
 use Elastic\Elasticsearch\Client;
-use Elastic\Elasticsearch\Response\Elasticsearch;
 
 final readonly class ESClient
 {
@@ -81,5 +80,20 @@ final readonly class ESClient
         $response = $this->client->search($params);
 
         return $response->asArray();
+    }
+
+    public function clearByIndex(string $index): void
+    {
+        $params = [
+            'index'     => $index,
+            'body'      => [
+                'query' => [
+                    'match_all' => new \stdClass()
+                ]
+            ],
+            'conflicts' => 'proceed'
+        ];
+
+        $this->client->deleteByQuery($params);
     }
 }

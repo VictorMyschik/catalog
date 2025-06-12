@@ -95,7 +95,7 @@ final readonly class CatalogGoodResponse
         public ?string               $short_info,
         public ?string               $description,
         public ManufacturerComponent $manufacturer,
-        public ?int                  $parent_good_id,
+        public ?string               $parent_good_id,
         public ?bool                 $is_certification,
         public array                 $attributes, // AttributeComponent[]
         public string                $created_at, // Atom format
