@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Orchid\Screens\Catalog\Onliner;
 
 use App\Models\Catalog\Onliner\OnCatalogGood;
-use App\Orchid\Filters\Catalog\CatalogGoodsFilter;
+use App\Orchid\Filters\Catalog\Onliner\CatalogGoodsFilter;
 use App\Orchid\Layouts\Catalog\Onliner\CatalogGoodAddNewLayout;
 use App\Orchid\Layouts\Catalog\Onliner\GoodListLayout;
 use App\Orchid\Layouts\Lego\InfoModalLayout;
@@ -93,12 +93,12 @@ class OnlinerCatalogGoodsScreen extends Screen
             }
         }
 
-        return redirect()->route('catalog.goods.list', $list);
+        return redirect()->route('onliner.goods.list', $list);
     }
 
     public function clearFilter(): RedirectResponse
     {
-        return redirect()->route('catalog.goods.list');
+        return redirect()->route('onliner.goods.list');
     }
     #endregion
 }

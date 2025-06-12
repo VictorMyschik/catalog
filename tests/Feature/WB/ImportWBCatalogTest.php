@@ -14,7 +14,7 @@ class ImportWBCatalogTest extends TestCase
     {
         /** @var WBImportService $service */
         $service = app(WBImportService::class);
-        $service->updateCatalogGroups();
+        $service->loadGood(314380902);
     }
 
     public function testImport(): void

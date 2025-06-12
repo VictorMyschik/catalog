@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Orchid\Screens\Catalog\Onliner;
 
-use App\Orchid\Filters\Catalog\ManufacturerFilter;
+use App\Orchid\Filters\Catalog\Onliner\ManufacturerFilter;
 use App\Orchid\Layouts\Catalog\Onliner\ManufacturerEditLayout;
 use App\Orchid\Layouts\Catalog\Onliner\ManufacturerListLayout;
 use App\Services\Catalog\Onliner\OnlinerCatalogService;
@@ -78,12 +78,12 @@ class OnlinerManufacturerScreen extends Screen
             }
         }
 
-        return redirect()->route('catalog.manufacturer.list', $list);
+        return redirect()->route('onliner.manufacturer.list', $list);
     }
 
     public function clearFilter(): RedirectResponse
     {
-        return redirect()->route('catalog.manufacturer.list');
+        return redirect()->route('onliner.manufacturer.list');
     }
     #endregion
 }

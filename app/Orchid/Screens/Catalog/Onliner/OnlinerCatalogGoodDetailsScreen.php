@@ -63,7 +63,7 @@ class OnlinerCatalogGoodDetailsScreen extends Screen
     {
         return [
             Button::make('Сохранить')->class('mr-btn-success')->method('saveGood')->parameters(['id' => $this->good->id()]),
-            Link::make('Назад')->icon('arrow-up')->route('catalog.goods.list'),
+            Link::make('Назад')->icon('arrow-up')->route('onliner.goods.list'),
         ];
     }
 
@@ -233,7 +233,7 @@ class OnlinerCatalogGoodDetailsScreen extends Screen
     {
         $this->service->deleteGood($id);
 
-        return redirect()->route('catalog.goods.list');
+        return redirect()->route('onliner.goods.list');
     }
 
     public function deleteAllGoodPhoto(int $good_id): void

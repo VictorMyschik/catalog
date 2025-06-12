@@ -6,7 +6,7 @@ namespace App\Orchid\Screens\Catalog\Onliner;
 
 use App\Jobs\Catalog\Onliner\SearchGoodsByCatalogGroupJob;
 use App\Models\Catalog\Onliner\OnCatalogGroup;
-use App\Orchid\Filters\Catalog\CatalogTypeFilter;
+use App\Orchid\Filters\Catalog\Onliner\CatalogTypeFilter;
 use App\Orchid\Layouts\Catalog\Onliner\CatalogGroupEditLayout;
 use App\Orchid\Layouts\Catalog\Onliner\CatalogGroupListLayout;
 use App\Services\Catalog\Onliner\OnlinerCatalogService;
@@ -85,12 +85,12 @@ class OnlinerCatalogGroupsScreen extends Screen
             }
         }
 
-        return redirect()->route('catalog.type.list', $list);
+        return redirect()->route('onliner.type.list', $list);
     }
 
     public function clearFilter(): RedirectResponse
     {
-        return redirect()->route('catalog.type.list');
+        return redirect()->route('onliner.type.list');
     }
 
     #endregion

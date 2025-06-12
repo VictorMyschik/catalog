@@ -88,11 +88,11 @@ Route::screen('system/database/table/{table}', DatabaseTableScreen::class)->name
 Route::screen('system/elasticsearch', ElasticsearchScreen::class)->name('system.elasticsearch');
 
 // Catalog Onliner
-Route::screen('catalog/onliner/goods/list', OnlinerCatalogGoodsScreen::class)->name('catalog.goods.list');
-Route::screen('catalog/onliner/good/{id}/details', OnlinerCatalogGoodDetailsScreen::class)->name('catalog.good.details');
-Route::screen('catalog/onliner/manufacturers/list', OnlinerManufacturerScreen::class)->name('catalog.manufacturer.list');
-Route::screen('catalog/onliner/types/list', OnlinerCatalogGroupsScreen::class)->name('catalog.type.list');
+Route::screen('catalog/onliner/goods/list', OnlinerCatalogGoodsScreen::class)->name('onliner.goods.list');
+Route::screen('catalog/onliner/good/{id}/details', OnlinerCatalogGoodDetailsScreen::class)->name('onliner.goods.details');
+Route::screen('catalog/onliner/manufacturers/list', OnlinerManufacturerScreen::class)->name('onliner.manufacturer.list');
+Route::screen('catalog/onliner/types/list', OnlinerCatalogGroupsScreen::class)->name('onliner.type.list');
 
 // Catalog Wildberries
 Route::screen('catalog/wildberries/countries/list', WBCatalogCountriesScreen::class)->name('wb.countries.list');
-//Route::screen('catalog/wildberries/goods/list', WBCatalogGoodsScreen::class)->name('wb.catalog.goods.list');
+Route::screen('catalog/wildberries/goods/list', WBCatalogGoodsScreen::class)->name('wb.goods.list');

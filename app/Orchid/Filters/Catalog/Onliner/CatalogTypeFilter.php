@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Orchid\Filters\Catalog;
+namespace App\Orchid\Filters\Catalog\Onliner;
 
 use App\Models\Catalog\Onliner\OnCatalogGroup;
 use App\Orchid\Layouts\Lego\ActionFilterPanel;

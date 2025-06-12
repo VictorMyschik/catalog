@@ -23,12 +23,13 @@ class PlatformProvider extends OrchidServiceProvider
     {
         return [
             Menu::make('Onliner')->icon('info')->list([
-                Menu::make('Товары')->icon('list')->route('catalog.goods.list'),
-                Menu::make('Группы товаров')->icon('list')->route('catalog.type.list'),
-                Menu::make('Производители')->icon('list')->route('catalog.manufacturer.list')->divider(),
+                Menu::make('Товары')->icon('list')->route('onliner.goods.list'),
+                Menu::make('Группы товаров')->icon('list')->route('onliner.type.list'),
+                Menu::make('Производители')->icon('list')->route('onliner.manufacturer.list')->divider(),
             ])->divider(),
             Menu::make('Wildberries')->icon('info')->list([
-                Menu::make('Страны')->route('wb.countries.list'),
+                Menu::make('Товары')->icon('list')->route('wb.goods.list'),
+                //Menu::make('Страны')->route('wb.countries.list'),
             ])->divider(),
 
             Menu::make('System')->icon('info')->list([
