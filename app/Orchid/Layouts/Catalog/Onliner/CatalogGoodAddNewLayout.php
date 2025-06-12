@@ -16,14 +16,7 @@ class CatalogGoodAddNewLayout extends Rows
     public function fields(): array
     {
         return [
-            Group::make([
-                Switcher::make('good.active')->sendTrueOrFalse()->title('Активно'),
-                Select::make('good.type')
-                    ->options(CatalogTypeEnum::getSelectList())
-                    ->value(request()->get('group_id'))
-                    ->required()
-                    ->title('Тип каталога'),
-            ]),
+            Switcher::make('good.active')->sendTrueOrFalse()->title('Активно'),
             Select::make('good.group_id')
                 ->options($this->query->get('options', []))
                 ->value(request()->get('group_id'))

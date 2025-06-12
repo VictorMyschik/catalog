@@ -124,4 +124,15 @@ readonly class WBRepository implements WBCatalogInterface, WBGoodsInterface
     {
         return WBCatalogGroup::loadBy($id);
     }
+
+    public function getGoodById(int $goodId): ?WBCatalogGood
+    {
+        return WBCatalogGood::loadBy($goodId);
+    }
+
+    public function deleteGood(int $id): void
+    {
+        $this->db->table(WBCatalogGood::getTableName())->where('id', $id)->delete();
+        $this->db->table(WBCatalogImage::getTableName())->where('good_id', $id)->delete();
+    }
 }

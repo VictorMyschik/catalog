@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories\Catalog\Wildberries;
 
+use App\Models\Catalog\Wildberries\WBCatalogGood;
 use App\Models\Catalog\Wildberries\WBCatalogGroup;
 use App\Services\Catalog\Wildberries\API\Response\Components\AttributeComponent;
 use App\Services\Catalog\Wildberries\API\Response\Components\ChildGroupComponent;
@@ -13,11 +14,15 @@ use App\Services\Catalog\Wildberries\Enum\WBCatalogAttributeGroupEnum;
 
 interface WBGoodsInterface
 {
+    public function getGoodById(int $goodId): ?WBCatalogGood;
+
     public function getExistingGoods(int $marketId): array;
 
     public function saveGoods(int $marketId, array $data): void;
 
     public function saveGood(int $goodId, WBGoodDto $data): int;
+
+    public function deleteGood(int $id): void;
 
     public function getBrandList(): array;
 
@@ -43,4 +48,6 @@ interface WBGoodsInterface
     public function getOrCreate(array $selling): int;
 
     public function getGroupById(int $id): ?WBCatalogGroup;
+
+    public function saveGoodImage();
 }

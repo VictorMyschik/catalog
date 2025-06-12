@@ -10,7 +10,6 @@ use App\Jobs\Catalog\Onliner\SearchGoodsByCatalogGroupJob;
 use App\Models\Catalog\Onliner\OnCatalogGood;
 use App\Models\Catalog\Onliner\OnCatalogGroup;
 use App\Services\Catalog\Onliner\API\OnlinerClient;
-use App\Services\ImageUploader\ImageUploaderInterface;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\DomCrawler\Crawler;

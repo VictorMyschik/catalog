@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services\ImageUploader\DTO;
+namespace App\Services\Catalog\Onliner\DTO;
 
 use App\Services\Catalog\Enum\CatalogImageTypeEnum;
 use App\Services\Catalog\Enum\MediaTypeEnum;

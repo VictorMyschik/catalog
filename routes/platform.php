@@ -7,6 +7,7 @@ use App\Orchid\Screens\Catalog\Onliner\OnlinerCatalogGoodsScreen;
 use App\Orchid\Screens\Catalog\Onliner\OnlinerCatalogGroupsScreen;
 use App\Orchid\Screens\Catalog\Onliner\OnlinerManufacturerScreen;
 use App\Orchid\Screens\Catalog\Wildberries\WBCatalogCountriesScreen;
+use App\Orchid\Screens\Catalog\Wildberries\WBCatalogGoodsDetailsScreen;
 use App\Orchid\Screens\Catalog\Wildberries\WBCatalogGoodsScreen;
 use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
@@ -96,3 +97,4 @@ Route::screen('catalog/onliner/types/list', OnlinerCatalogGroupsScreen::class)->
 // Catalog Wildberries
 Route::screen('catalog/wildberries/countries/list', WBCatalogCountriesScreen::class)->name('wb.countries.list');
 Route::screen('catalog/wildberries/goods/list', WBCatalogGoodsScreen::class)->name('wb.goods.list');
+Route::screen('catalog/wildberries/good/{id}/details', WBCatalogGoodsDetailsScreen::class)->name('wb.goods.details');

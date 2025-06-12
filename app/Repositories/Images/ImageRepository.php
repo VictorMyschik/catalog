@@ -6,7 +6,7 @@ namespace App\Repositories\Images;
 
 use App\Models\Catalog\Onliner\OnCatalogImage;
 use App\Repositories\RepositoryBase;
-use App\Services\ImageUploader\DTO\ImageDTO;
+use App\Services\Catalog\Onliner\DTO\ImageDTO;
 
 final readonly class ImageRepository extends RepositoryBase implements ImageRepositoryInterface
 {

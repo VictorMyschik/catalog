@@ -3,6 +3,7 @@
 use App\Models\Catalog\Wildberries\WBCatalogAttribute;
 use App\Models\Catalog\Wildberries\WBCatalogBrand;
 use App\Models\Catalog\Wildberries\WBCatalogGood;
+use App\Models\Catalog\Wildberries\WBCatalogGoodVersion;
 use App\Models\Catalog\Wildberries\WBCatalogGroup;
 use App\Models\Catalog\Wildberries\WBCatalogImage;
 use App\Models\Catalog\Wildberries\WBCatalogNotFound;
@@ -57,6 +58,15 @@ return new class extends Migration {
             $table->unique(['imt_id', 'nm_id']);
             $table->foreign('subject_id')->references('id')->on(WBCatalogGroup::getTableName());
             $table->foreign('brand_id')->references('id')->on(WBCatalogBrand::getTableName());
+        });
+
+        Schema::create(WBCatalogGoodVersion::getTableName(), function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('good_id')->index();
+            $table->jsonb('sl')->nullable();
+            $table->timestampTz('created_at')->useCurrent();
+
+            $table->foreign('good_id')->references('id')->on(WBCatalogGood::getTableName());
         });
 
         Schema::create(WBCatalogImage::getTableName(), function (Blueprint $table) {

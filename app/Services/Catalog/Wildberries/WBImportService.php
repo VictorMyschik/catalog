@@ -112,8 +112,15 @@ final readonly class WBImportService
     #region GOODS
     public function loadGood(int $wbId): void
     {
-        $url = $this->generateUrl($wbId);
-        $response = $this->client->getGood($url);
+        $url = $this->generateGoodUrl($wbId);
+
+        try {
+            $response = $this->client->getGood($url);
+        } catch (\Exception $e) {
+            WBCatalogNotFound::create(['wb_id' => $wbId]);
+
+            return;
+        }
 
         if (empty($response['media']) || empty($response['selling']['supplier_id'])) {
             WBCatalogNotFound::create(['wb_id' => $wbId]);
@@ -135,6 +142,13 @@ final readonly class WBImportService
         );
 
         $this->repository->saveGood(0, $goodDto);
+
+        $imageUrl = [];
+
+        for ($i = 0; $i < count($response['media']['photo_count']); $i++) {
+            $imageUrl[] = $this->generateGoodImageUrl($wbId, $i + 1);
+            $this->repository->saveGoodImage($goodDto->nm_id, $imageUrl, $i + 1);
+        }
     }
 
     private function getGroupId(array $response): int
@@ -152,12 +166,26 @@ final readonly class WBImportService
         return $group->id();
     }
 
-    private function generateUrl(int $wbId): string
+    private function generateGoodUrl(int $wbId): string
+    {
+        [$basket, $vol, $part, $wbId] = $this->calculateUrlElements($wbId);
+
+        return sprintf('https://basket-%s.wbbasket.ru/vol%s/part%s/%s/info/ru/card.json', $basket, $vol, $part, $wbId);
+    }
+
+    private function generateGoodImageUrl(int $wbId, int $imgNumber): string
+    {
+        [$basket, $vol, $part, $wbId] = $this->calculateUrlElements($wbId);
+
+        return sprintf('https://basket-%s.wbbasket.ru/vol%s/part%s/%s/images/big/%s.webp', $basket, $vol, $part, $wbId, $imgNumber);
+    }
+
+    private function calculateUrlElements(int $wbId): array
     {
         $part = substr((string)$wbId, 0, -3);
         $vol = substr((string)$wbId, 0, -5);
 
-        $r = match (true) {
+        $basket = match (true) {
             $vol >= 0 && $vol <= 143 => "01",
             $vol <= 287 => "02",
             $vol <= 431 => "03",
@@ -181,7 +209,7 @@ final readonly class WBImportService
             default => "21"
         };
 
-        return sprintf('https://basket-%s.wbbasket.ru/vol%s/part%s/%s/info/ru/card.json', $r, $vol, $part, $wbId);
+        return [$basket, $vol, $part, $wbId];
     }
     #endregion
 }

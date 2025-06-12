@@ -49,6 +49,11 @@ class WBCatalogGoodsScreen extends Screen
         return ['body' => json_decode($json, true)];
     }
 
+    public function remove(int $id): void
+    {
+        WBCatalogGood::loadByOrDie($id)->delete();
+    }
+
     #region Filter
     public function runFiltering(Request $request): RedirectResponse
     {
@@ -68,6 +73,5 @@ class WBCatalogGoodsScreen extends Screen
     {
         return redirect()->route('wb.goods.list');
     }
-
     #endregion
 }

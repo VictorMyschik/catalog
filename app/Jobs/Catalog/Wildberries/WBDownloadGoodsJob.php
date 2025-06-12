@@ -10,6 +10,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Log;
 
 class WBDownloadGoodsJob implements ShouldQueue
 {
@@ -27,7 +28,7 @@ class WBDownloadGoodsJob implements ShouldQueue
         try {
             $service->loadGood($this->wbGoodId);
         } catch (\Exception $e) {
-
+            Log::error($e->getMessage());
         }
     }
 }

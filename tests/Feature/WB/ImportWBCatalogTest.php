@@ -19,13 +19,13 @@ class ImportWBCatalogTest extends TestCase
 
     public function testImport(): void
     {
-        for ($i = 700000; $i <= 800000; $i++) {
+        for ($i = 600000; $i <= 600200; $i++) {
             if (WBCatalogGood::where('nm_id', $i)->exists() || WBCatalogNotFound::where('wb_id', $i)->exists()) {
                 continue;
             }
 
             try {
-                WBDownloadGoodsJob::dispatch($i);
+                WBDownloadGoodsJob::dispatch($i)->onConnection('sync');
             } catch (\Exception $e) {
                 echo $e->getMessage();
             }

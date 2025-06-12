@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Orchid\Layouts\Catalog\Wildberries;
 
-use App\Models\Catalog\Onliner\OnCatalogGood;
 use App\Models\Catalog\Wildberries\WBCatalogGood;
+use Orchid\Screen\Actions\Button;
+use Orchid\Screen\Actions\DropDown;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Fields\ViewField;
@@ -28,7 +29,11 @@ class WBFullCatalogGoodsListLayout extends Table
                 return Link::make($good->getGroup()->getName())
                     ->route('wb.goods.list', array_merge(request()->query->all(), ['subjectId' => $good->getSubjectId()]));
             })->sort(),
-            TD::make('title', 'Наименование')->sort(),
+            TD::make('title', 'Наименование')->render(function (WBCatalogGood $good) {
+                return Link::make($good->getTitle())
+                    ->route('wb.goods.details', ['id' => $good->id()])
+                    ->target('_blank');
+            })->sort(),
             TD::make('vendor_code', 'Артикул')->sort(),
             TD::make('', 'Ссылка на WB')->render(function (WBCatalogGood $good) {
                 return Link::make('link')->target('_blank')->href('https://www.wildberries.ru/catalog/' . $good->getNmId() . '/detail.aspx');
@@ -50,6 +55,20 @@ class WBFullCatalogGoodsListLayout extends Table
             TD::make('updated_at', 'Дата обновления')->render(function ($model) {
                 return $model->updated_at?->format('h:i d.m.Y');
             })->sort(),
+
+            TD::make('#', '#')
+                ->align(TD::ALIGN_CENTER)
+                ->width('100px')
+                ->render(function (WBCatalogGood $good) {
+                    return DropDown::make()->icon('options-vertical')->list([
+                        Button::make('удалить')
+                            ->icon('trash')
+                            ->confirm('This item will be removed permanently.')
+                            ->method('remove', [
+                                'id' => $good->id(),
+                            ]),
+                    ]);
+                }),
         ];
     }
 

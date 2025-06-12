@@ -68,7 +68,6 @@ class OnlinerCatalogGoodsScreen extends Screen
     {
         $input = Validator::make($request->all(), [
             'good.active'   => 'required|boolean',
-            'good.type'     => 'required|in:1,2,3',
             'good.group_id' => 'required|exists:catalog_groups,id',
             'good.name'     => 'required|string|max:255',
         ])->validate()['good'];

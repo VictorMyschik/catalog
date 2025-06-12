@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories\Catalog\Wildberries;
 
+use App\Models\Catalog\Wildberries\WBCatalogGood;
 use App\Models\Catalog\Wildberries\WBCatalogGroup;
 use App\Services\Catalog\Wildberries\API\Response\Components\AttributeComponent;
 use App\Services\Catalog\Wildberries\API\Response\Components\ChildGroupComponent;
@@ -30,8 +31,6 @@ final readonly class WBGoodsCacheRepository implements WBGoodsInterface
     public function saveGoods(int $marketId, array $data): void
     {
         $this->repository->saveGoods($marketId, $data);
-
-        $this->clearCacheForShop($marketId);
     }
 
     public function clearCacheForShop(int $marketId): void
@@ -107,5 +106,16 @@ final readonly class WBGoodsCacheRepository implements WBGoodsInterface
     public function getGroupById(int $id): ?WBCatalogGroup
     {
         return $this->getFullGroups()[$id] ?? null;
+    }
+
+    public function getGoodById(int $goodId): ?WBCatalogGood
+    {
+        return $this->repository->getGoodById($goodId);
+    }
+
+    public function deleteGood(int $id): void
+    {
+        $this->repository->deleteGood($id);
+        $this->clearGroupCache();
     }
 }

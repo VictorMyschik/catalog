@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace App\Jobs\Catalog\Wildberries;
 
 use App\Jobs\JobsEnum;
-use App\Repositories\Catalog\Wildberries\WBGoodsCacheRepository;
-use App\Services\Catalog\Wildberries\WBImportGoodService;
+use App\Services\Catalog\Wildberries\WBImportService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -18,15 +17,13 @@ class WBDownloadGoodImagesJob implements ShouldQueue
     use InteractsWithQueue;
     use Queueable;
 
-    public function __construct(public int $shopId, public int $goodId, public array $urls)
+    public function __construct(public int $goodId, public array $urls)
     {
-        $this->queue = JobsEnum::OnlinerCatalog->value;
+        $this->queue = JobsEnum::WBCatalog->value;
     }
 
-    public function handle(WBImportGoodService $service, WBGoodsCacheRepository $cacheRepository): void
+    public function handle(WBImportService $service): void
     {
         $service->downloadGoodImage($this->goodId, $this->urls);
-
-        $cacheRepository->clearCacheForShop($this->shopId);
     }
 }

@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Services\ImageUploader;
+namespace App\Services\Catalog\Onliner;
 
 use App\Models\Catalog\Onliner\OnCatalogImage;
 use App\Repositories\Images\ImageRepositoryInterface;
 use App\Services\Catalog\Enum\CatalogImageTypeEnum;
 use App\Services\Catalog\Enum\ImageExtensionEnum;
 use App\Services\Catalog\Enum\MediaTypeEnum;
-use App\Services\ImageUploader\DTO\ImageDTO;
-use App\Services\ImageUploader\Enum\ImageTypeEnum;
+use App\Services\Catalog\Onliner\DTO\ImageDTO;
+use App\Services\Catalog\Onliner\Enum\ImageTypeEnum;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\UploadedFile;
