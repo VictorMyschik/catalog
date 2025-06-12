@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Elasticsearch;
 
 use App\Models\Catalog\Onliner\OnCatalogGood;
+use Elastic\Elasticsearch\Client;
+use Elastic\Elasticsearch\ClientBuilder;
+use Elastic\Elasticsearch\Response\Elasticsearch;
 use Exception;
 use Tests\TestCase;
 
@@ -16,8 +19,8 @@ class ESClientTest extends TestCase
     {
         parent::setUp();
 
-        $login = env('ELASTICSEARCH_LOGIN');
-        $password = env('ELASTICSEARCH_PASSWORD');
+        $login = 'elastic';
+        $password = 'root';
 
         // HTTP Basic Authentication
         $hosts = [
@@ -34,8 +37,8 @@ class ESClientTest extends TestCase
 
         // Elastic delete all documents from "catalog" index
         $params = [
-            'index' => 'catalog',
-            'body'  => [
+            'index'     => 'catalog',
+            'body'      => [
                 'query' => [
                     'match_all' => new \stdClass()
                 ]
@@ -48,7 +51,7 @@ class ESClientTest extends TestCase
     public function testConnection(): void
     {
         $info = $this->client->info();
-        $this->assertIsArray($info);
+        $this->assertInstanceOf(Elasticsearch::class, $info);
     }
 
     public function testCreateBulkIndex(): void
@@ -74,7 +77,7 @@ class ESClientTest extends TestCase
 
         $responses = $this->client->bulk($params);
 
-        $this->assertIsArray($responses);
+        $this->assertInstanceOf(Elasticsearch::class, $responses);
         self::assertCount($limit, $responses['items']);
     }
 
@@ -96,7 +99,7 @@ class ESClientTest extends TestCase
 
         $responses = $this->client->index($params);
 
-        $this->assertIsArray($responses);
+        $this->assertInstanceOf(Elasticsearch::class, $responses);
         self::assertEquals($good->id(), $responses['_id']);
 
         // Read
@@ -107,7 +110,10 @@ class ESClientTest extends TestCase
 
         $responses = $this->client->get($params);
 
-        $this->assertIsArray($responses);
+        $this->assertInstanceOf(Elasticsearch::class, $responses);
+
+        $responses = $responses->asArray();
+
         self::assertEquals($good->getPrefix(), $responses['_source']['prefix']);
         self::assertEquals($good->getName(), $responses['_source']['name']);
         self::assertEquals($good->getShortInfo(), $responses['_source']['short_info']);
@@ -122,12 +128,13 @@ class ESClientTest extends TestCase
             'index' => 'catalog',
             'id'    => $good->id(),
             'body'  => [
-                'name'      => $good->name,
+                'name'       => $good->name,
                 'short_info' => $good->short_info,
             ]
         ];
 
         $responses = $this->client->index($params);
+        $responses = $responses->asArray();
 
         $this->assertIsArray($responses);
         self::assertEquals($good->id(), $responses['_id']);
@@ -138,7 +145,7 @@ class ESClientTest extends TestCase
         ];
 
         $responses = $this->client->get($params);
-
+        $responses = $responses->asArray();
         $this->assertIsArray($responses);
         self::assertEquals($good->name, $responses['_source']['name']);
         self::assertEquals($good->short_info, $responses['_source']['short_info']);
@@ -146,7 +153,7 @@ class ESClientTest extends TestCase
 
         // Delete
         $responses = $this->client->delete($params);
-
+        $responses = $responses->asArray();
         $this->assertIsArray($responses);
         self::assertEquals($good->id(), $responses['_id']);
 
@@ -156,7 +163,7 @@ class ESClientTest extends TestCase
         } catch (Exception $e) {
             self::assertEquals(404, $e->getCode());
             self::assertEquals(
-                '{"_index":"catalog","_type":"_doc","_id":"' . $good->id() . '","found":false}',
+                '404 Not Found: {"_index":"catalog","_id":"' . $good->id() . '","found":false}',
                 $e->getMessage()
             );
         }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Elasticsearch;
 
 use App\Models\Catalog\Onliner\OnCatalogGood;
+use Elastic\Elasticsearch\Response\Elasticsearch;
 use Illuminate\Support\Facades\Log;
 
 final readonly class ESService
@@ -64,7 +65,7 @@ final readonly class ESService
         return $this->client->getById(self::INDEX, $id);
     }
 
-    public function searchGoods(string $query, int $limit): array
+    public function searchGoods(string $query, int $limit): Elasticsearch
     {
         return $this->client->search(query: $query, index: self::INDEX, limit: $limit);
     }

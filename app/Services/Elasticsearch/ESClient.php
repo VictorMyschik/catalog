@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Services\Elasticsearch;
 
-use Elasticsearch\Client;
+
+use Elastic\Elasticsearch\Client;
+use Elastic\Elasticsearch\Response\Elasticsearch;
 
 final readonly class ESClient
 {
@@ -12,15 +14,17 @@ final readonly class ESClient
 
     public function ping(): bool
     {
-        return $this->client->ping();
+        return (bool)$this->client->ping();
     }
 
     public function getById(string $index, int $id): array
     {
-        return $this->client->get([
+        $response = $this->client->get([
             'index' => $index,
             'id'    => $id,
         ]);
+
+        return $response->asArray();
     }
 
     /**
@@ -35,7 +39,9 @@ final readonly class ESClient
             $params['body'][] = $item;
         }
 
-        return $this->client->bulk($params);
+        $response = $this->client->bulk($params);
+
+        return $response->asArray();
     }
 
     public function single(string $index, array $data): array
@@ -46,8 +52,9 @@ final readonly class ESClient
             'body'  => $data
         ];
 
+        $response = $this->client->index($params);
 
-        return $this->client->index($params);
+        return $response->asArray();
     }
 
     public function search(string $query, string $index, int $limit = 10): array
@@ -71,6 +78,8 @@ final readonly class ESClient
             ]
         ];
 
-        return $this->client->search($params);
+        $response = $this->client->search($params);
+
+        return $response->asArray();
     }
 }

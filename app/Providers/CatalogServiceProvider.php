@@ -11,7 +11,8 @@ use App\Services\Catalog\API\CatalogAPIInterface;
 use App\Services\Catalog\API\CatalogAPIResponse;
 use App\Services\ImageUploader\ImageUploaderInterface;
 use App\Services\ImageUploader\ImageUploadService;
-use Elasticsearch\ClientBuilder;
+use Elastic\Elasticsearch\Client;
+use Elastic\Elasticsearch\ClientBuilder;
 use Illuminate\Cache\Repository;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Contracts\Foundation\Application;
@@ -43,7 +44,7 @@ class CatalogServiceProvider extends ServiceProvider
         });
 
         // ESArticlesService
-        $this->app->bind(\Elasticsearch\Client::class, function ($app) {
+        $this->app->bind(Client::class, function ($app) {
             $host = env('ELASTICSEARCH_HOST');
             $port = env('ELASTICSEARCH_PORT');
             $login = env('ELASTICSEARCH_LOGIN');
