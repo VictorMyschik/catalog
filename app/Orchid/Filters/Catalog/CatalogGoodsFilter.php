@@ -20,6 +20,7 @@ use Orchid\Support\Facades\Layout;
 class CatalogGoodsFilter extends Filter
 {
     public const array FIELDS = [
+        'id',
         'name',
         'string_id',
         'manufacturer_id',
@@ -35,6 +36,10 @@ class CatalogGoodsFilter extends Filter
     public function run(Builder $builder): Builder
     {
         $input = $this->request->all(self::FIELDS);
+
+        if (!empty($input['id'])) {
+            $builder->where('id', $input['id']);
+        }
 
         if (!empty($input['name'])) {
             $builder->where('name', 'LIKE', '%' . $input['name'] . '%');
@@ -60,6 +65,7 @@ class CatalogGoodsFilter extends Filter
         $input = $request->all(self::FIELDS);
 
         $group = Group::make([
+            Input::make('id')->value((string)$input['id'])->title('ID'),
             Input::make('prefix')->value((string)$input['prefix'])->title('Префикс'),
             Input::make('string_id')->value((string)$input['string_id'])->title('Строковый ID'),
             Input::make('name')->value((string)$input['name'])->title('Название'),
