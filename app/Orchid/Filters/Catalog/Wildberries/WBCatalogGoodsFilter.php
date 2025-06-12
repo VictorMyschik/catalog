@@ -41,7 +41,7 @@ class WBCatalogGoodsFilter extends Filter
         $input = $this->request->all(self::FIELDS);
 
         $builder->join(WBCatalogGroup::getTableName(), WBCatalogGroup::getTableName() . '.id', '=', WBCatalogGood::getTableName() . '.subject_id');
-        $builder->leftJoin(DB::raw('(SELECT MIN(original_name) as path, good_id FROM ' . WBCatalogImage::getTableName() . ' GROUP BY good_id) as images'), 'images.good_id', '=', WBCatalogGood::getTableName() . '.id');
+        $builder->leftJoin(DB::raw('(SELECT MIN(original_url) as path, good_id FROM ' . WBCatalogImage::getTableName() . ' GROUP BY good_id) as images'), 'images.good_id', '=', WBCatalogGood::getTableName() . '.id');
 
         if (!empty($input['goodId'])) {
             $builder->where(WBCatalogGood::getTableName() . '.id', $input['goodId']);

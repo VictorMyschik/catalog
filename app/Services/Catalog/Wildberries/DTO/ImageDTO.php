@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Catalog\Onliner\DTO;
+namespace App\Services\Catalog\Wildberries\DTO;
 
 use App\Services\Catalog\Enum\CatalogImageTypeEnum;
 use App\Services\Catalog\Enum\MediaTypeEnum;
@@ -12,7 +12,7 @@ final readonly class ImageDTO
     public function __construct(
         public int                  $good_id,
         public ?string              $original_url,
-        public ?string               $path,
+        public ?string              $path,
         public string               $hash,
         public CatalogImageTypeEnum $type,
         public MediaTypeEnum        $media_type,

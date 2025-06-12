@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Repositories\Catalog;
+namespace App\Repositories\Catalog\Onliner;
 
 use Psr\SimpleCache\CacheInterface;
 

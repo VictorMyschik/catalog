@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Catalog\Onliner\Enum;
+namespace App\Services\Catalog\Enum;
 
 enum ImageTypeEnum: int
 {

@@ -21,7 +21,7 @@ return [
         ]
     ],
 
-    'statistics'       => [
+    'statistics' => [
         'host'      => 'https://statistics-api.wildberries.ru',
         'endpoints' => [
             // Статистика
@@ -29,7 +29,7 @@ return [
             'sales'  => '/api/v1/supplier/sales',
         ],
     ],
-    'promotion'        => [
+    'promotion'  => [
         'host'      => 'https://advert-api.wildberries.ru',
         'endpoints' => [
             // Список рекламных компаний
@@ -38,7 +38,7 @@ return [
             'fullstats'    => '/adv/v2/fullstats',
         ],
     ],
-    'analytics'        => [
+    'analytics'  => [
         'host'      => 'https://seller-analytics-api.wildberries.ru',
         'endpoints' => [
             // Получение статистики КТ по дням по выбранным nmID
@@ -46,6 +46,5 @@ return [
         ],
     ],
 
-    // Общий путь для сохранения файлов/картинок и т.д.
-    'global_file_path' => 'wildberries',
+    'images' => 'catalog/wildberries/goods', // Папка для хранения изображений товаров Wildberries
 ];

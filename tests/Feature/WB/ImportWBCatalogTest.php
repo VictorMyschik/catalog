@@ -19,7 +19,7 @@ class ImportWBCatalogTest extends TestCase
 
     public function testImport(): void
     {
-        for ($i = 600000; $i <= 600200; $i++) {
+        for ($i = 100000; $i <= 100200; $i++) {
             if (WBCatalogGood::where('nm_id', $i)->exists() || WBCatalogNotFound::where('wb_id', $i)->exists()) {
                 continue;
             }
@@ -29,7 +29,6 @@ class ImportWBCatalogTest extends TestCase
             } catch (\Exception $e) {
                 echo $e->getMessage();
             }
-
         }
     }
 }

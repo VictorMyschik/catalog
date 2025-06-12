@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-use App\Repositories\Catalog\CatalogDBRepository;
-use App\Repositories\Catalog\CatalogRepositoryInterface;
-use App\Repositories\Images\ImageRepository;
-use App\Repositories\Images\ImageRepositoryInterface;
+use App\Repositories\Catalog\Onliner\CatalogDBRepository;
+use App\Repositories\Catalog\Onliner\CatalogRepositoryInterface;
+use App\Repositories\Catalog\Onliner\ImageRepository;
+use App\Repositories\Catalog\Onliner\ImageRepositoryInterface;
 use App\Services\Catalog\API\CatalogAPICache;
 use App\Services\Catalog\API\CatalogAPIInterface;
 use App\Services\Catalog\API\CatalogAPIResponse;
@@ -35,7 +35,7 @@ class CatalogServiceProvider extends ServiceProvider
             return new ImageUploadService(
                 $application->make(Factory::class)->disk($config->get('filesystems.default')),
                 $application->make(ImageRepositoryInterface::class),
-                $config->get('storage')
+                $config->get('onliner'),
             );
         });
 

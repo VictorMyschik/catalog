@@ -4,16 +4,20 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Repositories\Catalog\Wildberries\ImageRepository;
+use App\Repositories\Catalog\Wildberries\ImageRepositoryInterface;
 use App\Repositories\Catalog\Wildberries\WBCatalogCacheRepository;
 use App\Repositories\Catalog\Wildberries\WBCatalogInterface;
 use App\Repositories\Catalog\Wildberries\WBGoodsCacheRepository;
 use App\Repositories\Catalog\Wildberries\WBGoodsInterface;
 use App\Repositories\Catalog\Wildberries\WBRepository;
 use App\Services\Catalog\Wildberries\API\WBClient;
+use App\Services\Catalog\Wildberries\ImageUploaderInterface;
+use App\Services\Catalog\Wildberries\ImageUploadService;
 use App\Services\Catalog\Wildberries\WBImportService;
-use App\Services\Wildberries\Import\Catalog\WBImportGoodService;
 use GuzzleHttp\Client;
 use Illuminate\Config\Repository;
+use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Support\Facades\Log;
@@ -56,21 +60,26 @@ class WildberriesProvider extends ServiceProvider
             );
         });
 
+        // ImageRepositoryInterface
+        $this->app->bind(ImageRepositoryInterface::class, ImageRepository::class);
+
+        $this->app->bind(ImageUploaderInterface::class, function (Application $application) {
+            $config = $application->make(\Illuminate\Config\Repository::class);
+
+            return new ImageUploadService(
+                $application->make(Factory::class)->disk($config->get('filesystems.default')),
+                $application->make(ImageRepositoryInterface::class),
+                $config->get('wildberries'),
+            );
+        });
+
         $this->app->bind(WBImportService::class, function (Application $app) {
             return new WBImportService(
                 $app->make(WBClient::class),
                 $app->make(WBGoodsInterface::class),
+                $app->make(ImageUploaderInterface::class),
             );
         });
 
-        $this->app->bind(WBImportGoodService::class, function (Application $app) {
-            return new WBImportGoodService(
-                $app->make(WBClient::class),
-                $app->make(Repository::class)->get('wildberries'),
-                $app->make(WBGoodsInterface::class),
-                $app->make(WBFileService::class),
-                $app->make(WBRepository::class),
-            );
-        });
     }
 }

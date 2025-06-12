@@ -23,7 +23,7 @@ class WBFullCatalogGoodsListLayout extends Table
             TD::make('id', 'ID')->sort(),
             TD::make('nm_id', 'ID WB')->sort(),
             TD::make('logo')->render(function (WBCatalogGood $good) {
-                return ViewField::make('')->view('admin.table_image')->value($good->getImage()?->getUrl());
+                return ViewField::make('')->view('admin.table_image')->value($good->getImage()?->getUrlExt());
             }),
             TD::make('group_name', 'Группа товаров')->render(function (WBCatalogGood $good) {
                 return Link::make($good->getGroup()->getName())

@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Catalog\Onliner;
+namespace App\Services\Catalog\Wildberries;
 
-use App\Models\Catalog\Onliner\OnCatalogImage;
-use App\Repositories\Catalog\Onliner\ImageRepositoryInterface;
+use App\Models\Catalog\Wildberries\WBCatalogImage;
+use App\Repositories\Catalog\Wildberries\ImageRepositoryInterface;
 use App\Services\Catalog\Enum\CatalogImageTypeEnum;
 use App\Services\Catalog\Enum\ImageExtensionEnum;
 use App\Services\Catalog\Enum\ImageTypeEnum;
 use App\Services\Catalog\Enum\MediaTypeEnum;
-use App\Services\Catalog\Onliner\DTO\ImageDTO;
+use App\Services\Catalog\Wildberries\DTO\ImageDTO;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\UploadedFile;
@@ -44,7 +44,7 @@ final readonly class ImageUploadService implements ImageUploaderInterface
                 )
             );
 
-            // $this->filesystem->put($path, file_get_contents($imageUrl));
+            $this->filesystem->put($path, file_get_contents($imageUrl));
         } catch (\Exception $e) {
             Log::error('Error upload image: ' . $e->getMessage(), ['good_id' => $goodId, 'image_url' => $imageUrl]);
         }
@@ -55,7 +55,7 @@ final readonly class ImageUploadService implements ImageUploaderInterface
         return $this->storageConfig['images'] . '/' . $goodId;
     }
 
-    public function uploadImage(UploadedFile $image, int $goodId, CatalogImageTypeEnum $type): OnCatalogImage
+    public function uploadImage(UploadedFile $image, int $goodId, CatalogImageTypeEnum $type): WBCatalogImage
     {
         $path = $this->getPathToSave($goodId);
         $this->filesystem->put($path . '/' . $image->getClientOriginalName(), $image->getContent());
@@ -97,7 +97,7 @@ final readonly class ImageUploadService implements ImageUploaderInterface
         }
 
         $dir = '';
-        /** @var OnCatalogImage[] $images */
+        /** @var WBCatalogImage[] $images */
         foreach ($images as $image) {
             $dir = $image->getPath();
             $this->deleteImage($image);
@@ -128,7 +128,7 @@ final readonly class ImageUploadService implements ImageUploaderInterface
         };
     }
 
-    private function deleteImage(OnCatalogImage $image): void
+    private function deleteImage(WBCatalogImage $image): void
     {
         $image->getPath() && $this->deleteFile($image->getPath());
         $this->imageRepository->deleteImage($image);

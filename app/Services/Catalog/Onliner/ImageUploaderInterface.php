@@ -12,6 +12,4 @@ use Illuminate\Http\UploadedFile;
 interface ImageUploaderInterface
 {
     public function uploadImage(UploadedFile $image, int $goodId, CatalogImageTypeEnum $type): OnCatalogImage;
-
-    public function deleteImageWithModel(int $objectId, ImageTypeEnum $imageType): void;
 }

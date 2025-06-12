@@ -11,17 +11,43 @@ class WBCatalogImage extends ORM
 {
     protected $table = 'wb_catalog_images';
 
-    public function getPath(): string
+    protected $fillable = [
+        'file_name',
+        'good_id',
+        'original_url',
+        'path',
+        'hash',
+        'type',
+        'media_type',
+    ];
+
+    public const null UPDATED_AT = null;
+
+    protected $casts = [
+        'created_at' => 'datetime',
+    ];
+
+    public function getOriginalUrl(): ?string
+    {
+        return $this->original_url;
+    }
+
+    public function getUrlExt(): string
+    {
+        return $this->getLocalFileUrl() ?: $this->getOriginalUrl();
+    }
+
+    public function getPath(): ?string
     {
         return $this->path;
     }
-    public function getFullPath(): string
-    {
-        return storage_path($this->path);
-    }
 
-    public function getUrl(): string
+    public function getLocalFileUrl(): ?string
     {
-        return Storage::url($this->getPath());
+        if (!empty($this->path)) {
+            return Storage::url($this->path);
+        }
+
+        return null;
     }
 }

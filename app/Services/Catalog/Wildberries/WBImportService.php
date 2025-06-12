@@ -14,12 +14,12 @@ use Illuminate\Support\Facades\Cache;
 
 final readonly class WBImportService
 {
-    public const string RELATIVE_IMAGES_PATH = '/images/catalog/goods';
     private const string KEY = 'wb_system_tokens';
 
     public function __construct(
-        private WBClient         $client,
-        private WBGoodsInterface $repository
+        private WBClient               $client,
+        private WBGoodsInterface       $repository,
+        private ImageUploaderInterface $uploader,
     ) {}
 
     #region GROUPS
@@ -141,13 +141,11 @@ final readonly class WBImportService
             sl: json_encode($response),
         );
 
-        $this->repository->saveGood(0, $goodDto);
+        $newGoodId = $this->repository->saveGood(0, $goodDto);
 
-        $imageUrl = [];
-
-        for ($i = 0; $i < count($response['media']['photo_count']); $i++) {
-            $imageUrl[] = $this->generateGoodImageUrl($wbId, $i + 1);
-            $this->repository->saveGoodImage($goodDto->nm_id, $imageUrl, $i + 1);
+        for ($i = 0; $i < (int)($response['media']['photo_count'] ?? 0); $i++) {
+            $imageUrl = $this->generateGoodImageUrl($wbId, $i + 1);
+            $this->uploader->uploadImageByURL($newGoodId, $imageUrl);
         }
     }
 

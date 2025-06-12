@@ -12,7 +12,6 @@ class OnCatalogImage extends ORM
     protected $table = 'on_catalog_images';
 
     protected $fillable = [
-        'file_name',
         'good_id',
         'original_url',
         'path',
@@ -32,27 +31,22 @@ class OnCatalogImage extends ORM
         return $this->original_url;
     }
 
-    public function getOriginalUrlExt(): string
+    public function getUrlExt(): string
     {
-        if (!$this->getOriginalUrl()) {
-            return $this->getUrl();
-        }
-
-        return $this->getOriginalUrl();
+        return $this->getLocalFileUrl() ?: $this->getOriginalUrl();
     }
 
-    public function getPath(): string
+    public function getPath(): ?string
     {
         return $this->path;
     }
 
-    public function getUrl(): string
+    public function getLocalFileUrl(): ?string
     {
-        return Storage::url($this->getPath());
-    }
+        if (!empty($this->path)) {
+            return Storage::url($this->path);
+        }
 
-    public function getFilePathWithName(): string
-    {
-        return $this->getPath();
+        return null;
     }
 }

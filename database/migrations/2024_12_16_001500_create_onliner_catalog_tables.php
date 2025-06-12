@@ -100,7 +100,7 @@ return new class extends Migration {
             $table->id();
             $table->unsignedBigInteger('good_id')->index();
             $table->string('original_url')->nullable();
-            $table->string('path');
+            $table->string('path')->nullable();
             $table->string('hash', 32)->index();
             $table->tinyInteger('type')->index();
             $table->tinyInteger('media_type')->index();

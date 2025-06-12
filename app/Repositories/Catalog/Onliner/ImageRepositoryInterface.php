@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Repositories\Images;
+namespace App\Repositories\Catalog\Onliner;
 
 use App\Models\Catalog\Onliner\OnCatalogImage;
 

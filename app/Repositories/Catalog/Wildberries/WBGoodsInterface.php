@@ -48,6 +48,4 @@ interface WBGoodsInterface
     public function getOrCreate(array $selling): int;
 
     public function getGroupById(int $id): ?WBCatalogGroup;
-
-    public function saveGoodImage();
 }

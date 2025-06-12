@@ -69,16 +69,18 @@ return new class extends Migration {
             $table->foreign('good_id')->references('id')->on(WBCatalogGood::getTableName());
         });
 
-        Schema::create(WBCatalogImage::getTableName(), function (Blueprint $table) {
+        Schema::create(WBCatalogImage::getTableName(), function (Blueprint $table): void {
             $table->id();
             $table->unsignedBigInteger('good_id')->index();
-            $table->string('original_name');
-            $table->string('file_name');
-            $table->tinyInteger('type');
-            $table->timestampTz('created_at')->useCurrent();
-            $table->timestampTz('updated_at')->nullable()->useCurrentOnUpdate();
+            $table->string('original_url')->nullable();
+            $table->string('path');
+            $table->string('hash', 32)->index();
+            $table->tinyInteger('type')->index();
+            $table->tinyInteger('media_type')->index();
 
-            $table->foreign('good_id')->references('id')->on(WBCatalogGood::getTableName());
+            $table->timestampTz('created_at')->useCurrent();
+
+            $table->foreign('good_id')->references('id')->on(WBCatalogGood::getTableName())->onDelete('cascade');
         });
 
         Schema::create(WBCatalogReferenceAttribute::getTableName(), function (Blueprint $table) {
