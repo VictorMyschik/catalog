@@ -34,7 +34,7 @@ class CatalogGroupListLayout extends Table
                             ->method('saveCatalogType', ['group_id' => $catalogGroup->id()]),
                         Button::make('обновить товары')
                             ->icon('upload')
-                            ->confirm('This item will be removed permanently.')
+                            ->confirm('Будет просканирован каталог и обновлены товары в группе.')
                             ->method('updateGoods', [
                                 'group_id' => $catalogGroup->id(),
                             ]),
@@ -47,5 +47,10 @@ class CatalogGroupListLayout extends Table
                     ]);
                 }),
         ];
+    }
+
+    public function hoverable(): bool
+    {
+        return true;
     }
 }

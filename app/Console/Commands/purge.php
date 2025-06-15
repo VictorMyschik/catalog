@@ -99,5 +99,8 @@ class purge extends Command
         'wb_catalog_reference_attributes',
         'wb_catalog_groups',
         'wb_catalog_attributes',
+        'wb_catalog_brands',
+        'wb_catalog_goods',
+        'wb_catalog_not_found',
     ];
 }

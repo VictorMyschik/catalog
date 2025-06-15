@@ -15,7 +15,7 @@ use App\Models\Orchid\Attachment;
 use App\Repositories\Catalog\Onliner\CatalogCacheRepository;
 use App\Repositories\Catalog\Onliner\CatalogRepositoryInterface;
 use App\Services\Catalog\Enum\CatalogImageTypeEnum;
-use App\Services\Catalog\Onliner\Enum\ImageTypeEnum;
+use App\Services\Catalog\Enum\ImageTypeEnum;
 use Exception;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;

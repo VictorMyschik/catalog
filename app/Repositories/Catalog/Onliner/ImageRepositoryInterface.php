@@ -13,4 +13,6 @@ interface ImageRepositoryInterface
     public function getImageListByGoodId(int $goodId): array;
 
     public function deleteImage(OnCatalogImage $image): void;
+
+    public function addImagesBulk(array $imageDtos): void;
 }

@@ -24,6 +24,24 @@ final readonly class ImageUploadService implements ImageUploaderInterface
         private array                    $storageConfig
     ) {}
 
+    public function setBulkImages(int $goodId, array $imagesUrls): void
+    {
+        $dtos = [];
+
+        foreach ($imagesUrls as $imageUrl) {
+            $dtos[] = new ImageDTO(
+                good_id: $goodId,
+                original_url: $imageUrl,
+                path: null,//$path,
+                hash: md5_file($imageUrl),
+                type: CatalogImageTypeEnum::PHOTO,
+                media_type: MediaTypeEnum::IMAGE,
+            )->jsonSerialize();
+        }
+
+        $this->imageRepository->addImagesBulk($dtos);
+    }
+
     public function uploadImageByURL(int $goodId, string $imageUrl): void
     {
         try {

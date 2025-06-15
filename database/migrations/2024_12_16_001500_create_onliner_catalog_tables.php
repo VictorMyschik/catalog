@@ -56,6 +56,7 @@ return new class extends Migration {
             $table->string('text_value', 8000)->nullable()->index();
 
             $table->unique(['catalog_attribute_id', 'text_value']);
+            $table->index(['catalog_attribute_id', 'text_value']);
 
             $table->foreign('catalog_attribute_id')->references('id')->on(OnCatalogAttribute::getTableName())->cascadeOnDelete();
         });

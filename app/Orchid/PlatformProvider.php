@@ -40,6 +40,7 @@ class PlatformProvider extends OrchidServiceProvider
                 Menu::make('Purge')->icon('trash')->route('system.purge'),
                 Menu::make('Elasticsearch')->icon('database')->route('system.elasticsearch'),
                 Menu::make('Database')->icon('database')->route('system.database'),
+                Menu::make('Logs')->icon('list')->target('_blank')->href('/log-viewer'),
                 Menu::make(__('Users'))->icon('bs.people')->route('platform.systems.users')->permission('platform.systems.users')->title(__('Access Controls')),
                 Menu::make(__('Roles'))->icon('bs.shield')->route('platform.systems.roles')->permission('platform.systems.roles')->divider(),
             ])->divider(),

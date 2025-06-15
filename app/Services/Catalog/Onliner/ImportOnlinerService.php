@@ -26,7 +26,7 @@ final class ImportOnlinerService
     {
         $cleanData = $this->client->doGet($url);
 
-        $parsedData = $this->parseAttributes((string)$cleanData);
+        $parsedData = $this->parse((string)$cleanData);
         $parsedData['string_id'] = $stringId;
 
         return $this->createGoodWithAllInfo($group, $parsedData, $url, (string)$cleanData, $isLoadImages);
@@ -48,7 +48,12 @@ final class ImportOnlinerService
         $this->updateGoodWithManufacturer($goodId, $parsedData['string_id']);
 
         if ($isLoadImages) {
-            $this->importOnlinerImagesCatalog($goodId, $cleanData);
+            // TODO: пока не перекачиваем, только сохраняем инфу в БД
+            /*foreach ($parsedData['images'] as $imageUrl) {
+                $this->imageService->uploadImageByURL($goodId, $imageUrl);
+            }*/
+
+            $this->imageService->setBulkImages($goodId, $parsedData['images']);
         }
 
         Log::info('Создан товар: ' . $parsedData['good_name'] . '. ID' . $goodId);
@@ -59,17 +64,17 @@ final class ImportOnlinerService
 
     public function importOnlinerImagesCatalog(int $goodId, string $htmlData): void
     {
-        $imageNames = $this->parseImgUrls($htmlData);
+        $crawler = new Crawler($htmlData);
+
+        $imageNames = $this->parseImgUrls($crawler);
 
         foreach ($imageNames as $imageUrl) {
             $this->imageService->uploadImageByURL($goodId, $imageUrl);
         }
     }
 
-    private function parseImgUrls(string $data): array
+    private function parseImgUrls(Crawler $crawler): array
     {
-        $crawler = new Crawler($data);
-
         $scripts = $crawler->filter('script')->each(function (Crawler $node) {
             if (str_contains($node->text(), 'window.__NUXT__') && str_contains($node->text(), 'imgproxy')) {
                 return $node->text();
@@ -89,7 +94,7 @@ final class ImportOnlinerService
         foreach ($matches as $match) {
             $key = $match[1]; // main, retina, or thumbnail
             $url = json_decode('"' . $match[2] . '"');
-            if ($key === 'retina'){
+            if ($key === 'retina') {
                 $result[] = $url;
             }
         }
@@ -178,7 +183,7 @@ final class ImportOnlinerService
         return $out;
     }
 
-    private function parseAttributes($data): array
+    private function parse($data): array
     {
         $crawler = new Crawler($data);
         $data = $crawler->filter('table')->filter('tr')->each(function ($tr) {
@@ -239,6 +244,7 @@ final class ImportOnlinerService
 
         $out['good_name'] = $crawler->filter('.catalog-masthead__title')->text();
         $out['attributes'] = $attrFormatted;
+        $out['images'] = $this->parseImgUrls($crawler);
 
         return $out;
     }

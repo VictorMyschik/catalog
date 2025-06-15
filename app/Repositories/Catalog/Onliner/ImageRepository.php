@@ -32,4 +32,9 @@ final readonly class ImageRepository extends RepositoryBase implements ImageRepo
     {
         $image->delete();
     }
+
+    public function addImagesBulk(array $imageDtos): void
+    {
+        OnCatalogImage::insert($imageDtos);
+    }
 }
