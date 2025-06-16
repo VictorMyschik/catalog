@@ -26,6 +26,8 @@ final readonly class WBImportService
     #region GROUPS
     public function updateCatalogGroups(): void
     {
+        $this->clearCachedTokens();
+
         $this->updateBaseGroups();
         $this->updateChildGroups();
     }
@@ -107,6 +109,11 @@ final readonly class WBImportService
     private function getList(): array
     {
         return Cache::get(self::KEY, array_flip(config('wildberries.content.tokens')));
+    }
+
+    private function clearCachedTokens(): void
+    {
+        Cache::forget(self::KEY);
     }
     #endregion
 
