@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Catalog\Wildberries;
 
+use App\Jobs\Catalog\Wildberries\WBUpdateAttributesJob;
 use App\Jobs\Catalog\Wildberries\WBUpdateCatalogChildGroupsJob;
 use App\Models\Catalog\Wildberries\WBCatalogNotFound;
 use App\Repositories\Catalog\Wildberries\WBGoodsInterface;
@@ -64,19 +65,19 @@ final readonly class WBImportService
         }
     }
 
-    public function updateByGroup(int $wbId): void
+    public function updateByGroup(int $groupId): void
     {
         try {
-            $response = $this->client->getChildGroups($wbId, $this->getToken());
+            $response = $this->client->getChildGroups($groupId, $this->getToken());
 
             foreach ($response->data ?? [] as $childGroup) {
                 $this->repository->saveChildGroup($childGroup);
                 WBUpdateCatalogChildGroupsJob::dispatch($childGroup->subjectID);
                 // Update attributes
-                // WBUpdateAttributesJob::dispatch($childGroup->subjectID);
+                WBUpdateAttributesJob::dispatch($childGroup->subjectID);
             }
         } catch (\Throwable $e) {
-            // WBUpdateCatalogChildGroupsJob::dispatch($wbId);
+            WBUpdateCatalogChildGroupsJob::dispatch($groupId);
         }
     }
 

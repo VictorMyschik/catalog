@@ -4,7 +4,7 @@ return [
     //// Контент.Группы, Номенклатура, Характеристики (https://openapi.wildberries.ru/content/api/ru/)
     'content' => [
         'period_update' => 86400 * 30 * 12 * 2, // 24 hours период обновления данных о товарах
-        'host'          => 'https://suppliers-api.wildberries.ru',
+        'host'          => 'https://content-api.wildberries.ru',
         'endpoints'     => [
             // Список номенклатур (НМ)
             'get_cards_list'   => '/content/v2/get/cards/list',
@@ -17,7 +17,6 @@ return [
         ],
         'tokens'        => [
             env('WB_TOKEN_1'),
-            env('WB_TOKEN_2'),
         ]
     ],
 

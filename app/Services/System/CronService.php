@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\System;
 
+use App\Jobs\Catalog\Wildberries\WBUpdateCatalogJob;
 use App\Models\System\Cron;
 use App\Services\Catalog\Onliner\ImportOnlinerService;
 use App\Services\System\Enum\CronKeyEnum;
@@ -13,7 +14,9 @@ use Illuminate\Support\Facades\Log;
 
 final readonly class CronService
 {
-    public function __construct(private ImportOnlinerService $importOnlinerService) {}
+    public function __construct(
+        private ImportOnlinerService $importOnlinerService,
+    ) {}
 
     public function setLog(string $message): void
     {
@@ -50,7 +53,8 @@ final readonly class CronService
         $cron = Cron::loadByOrDie($id);
 
         match ($cron->getCronKey()) {
-            CronKeyEnum::UPDATE_CATALOG_GOODS => $this->importOnlinerService->updateCatalogGoods(),
+            CronKeyEnum::OnlinerCatalogGoods => $this->importOnlinerService->updateCatalogGoods(),
+            CronKeyEnum::WildberriesCatalogStructure => WBUpdateCatalogJob::dispatch(),
         };
 
         $cron->setLastWork(now());

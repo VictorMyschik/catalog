@@ -6,12 +6,14 @@ namespace App\Services\System\Enum;
 
 enum CronKeyEnum: string
 {
-    case UPDATE_CATALOG_GOODS = 'update_catalog_goods';
+    case OnlinerCatalogGoods = 'onliner_update_catalog_goods';
+    case WildberriesCatalogStructure = 'wb_update_catalog_structure';
 
     public static function getSelectList(): array
     {
         return [
-            self::UPDATE_CATALOG_GOODS->value => 'Обновление каталога товаров',
+            self::OnlinerCatalogGoods->value => 'Обновление каталога товаров Onliner',
+            self::WildberriesCatalogStructure->value => 'Обновление структуры каталога Wildberries',
         ];
     }
 }
