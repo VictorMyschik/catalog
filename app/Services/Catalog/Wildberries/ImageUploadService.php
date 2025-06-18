@@ -44,7 +44,7 @@ final readonly class ImageUploadService implements ImageUploaderInterface
                 )
             );
 
-            $this->filesystem->put($path, file_get_contents($imageUrl));
+            //$this->filesystem->put($path, file_get_contents($imageUrl));
         } catch (\Exception $e) {
             Log::error('Error upload image: ' . $e->getMessage(), ['good_id' => $goodId, 'image_url' => $imageUrl]);
         }
