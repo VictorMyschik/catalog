@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories\Catalog\Wildberries;
 
+use App\Models\Catalog\Onliner\OnCatalogImage;
 use App\Models\Catalog\Wildberries\WBCatalogAttribute;
 use App\Models\Catalog\Wildberries\WBCatalogBrand;
 use App\Models\Catalog\Wildberries\WBCatalogGood;
@@ -132,7 +133,12 @@ readonly class WBRepository implements WBCatalogInterface, WBGoodsInterface
 
     public function deleteGood(int $id): void
     {
-        $this->db->table(WBCatalogGood::getTableName())->where('id', $id)->delete();
         $this->db->table(WBCatalogImage::getTableName())->where('good_id', $id)->delete();
+        $this->db->table(WBCatalogGood::getTableName())->where('id', $id)->delete();
+    }
+
+    public function getGoodImages(int $goodId): array
+    {
+        return WBCatalogImage::where('good_id', $goodId)->get()->all();
     }
 }

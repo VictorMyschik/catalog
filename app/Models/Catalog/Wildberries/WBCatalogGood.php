@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models\Catalog\Wildberries;
 
 use App\Models\Lego\Fields\DescriptionNullableFieldTrait;
+use App\Models\Lego\Fields\JsonFieldTrait;
 use App\Models\Lego\Fields\TitleFieldTrait;
 use App\Models\ORM\ORM;
 use Orchid\Filters\Filterable;
@@ -14,12 +15,14 @@ class WBCatalogGood extends ORM
 {
     use AsSource;
     use Filterable;
+    use JsonFieldTrait;
     use TitleFieldTrait;
     use DescriptionNullableFieldTrait;
 
     protected $table = 'wb_catalog_goods';
 
     protected $casts = [
+        'sl'         => 'json',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
@@ -61,24 +64,9 @@ class WBCatalogGood extends ORM
         return $this->nm_id;
     }
 
-    public function getImtId(): int
-    {
-        return $this->imt_id;
-    }
-
     public function getSubjectId(): int
     {
         return $this->subject_id;
-    }
-
-    public function getVendorCode(): string
-    {
-        return $this->vendor_code;
-    }
-
-    public function getBrandId(): int
-    {
-        return $this->brand_id;
     }
 
     public function getTitle(): string
@@ -91,11 +79,6 @@ class WBCatalogGood extends ORM
         return $this->description;
     }
 
-    public function getDownloadedAt(): string
-    {
-        return $this->downloaded_at;
-    }
-
     public function getGroup(): WBCatalogGroup
     {
         return WBCatalogGroup::loadByOrDie($this->getSubjectId());
@@ -106,8 +89,13 @@ class WBCatalogGood extends ORM
         return WBCatalogImage::where('good_id', $this->id())->first();
     }
 
-    public function getMarket(): Market
+    public function getBrand(): WBCatalogBrand
     {
-        return Market::findOrFail($this->getMarketId());
+        return WBCatalogBrand::loadByOrDie($this->brand_id);
+    }
+
+    public function getLink(): string
+    {
+        return 'https://www.wildberries.ru/catalog/' . $this->getNmId() . '/detail.aspx';
     }
 }

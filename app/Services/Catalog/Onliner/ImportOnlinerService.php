@@ -102,7 +102,7 @@ final class ImportOnlinerService
         return $result;
     }
 
-    public function reloadGoods(OnCatalogGood $good): void
+    public function reloadGoodImages(OnCatalogGood $good): void
     {
         $url = $good->getJsonField('html_url');
 

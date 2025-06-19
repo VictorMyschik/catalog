@@ -97,7 +97,7 @@ class OnlinerCatalogGoodDetailsScreen extends Screen
         $list = $this->service->getGoodAttributes($this->good->id());
 
         return [
-            ViewField::make('')->view('admin.good_attributes')->value($list),
+            ViewField::make('')->view('admin.onliner.good_attributes')->value($list),
         ];
     }
 
@@ -190,7 +190,7 @@ class OnlinerCatalogGoodDetailsScreen extends Screen
 
     public function reUploadGoodPhotos(): void
     {
-        $this->importService->reloadGoods($this->good);
+        $this->importService->reloadGoodImages($this->good);
     }
 
     public function saveGood(Request $request, int $id): void

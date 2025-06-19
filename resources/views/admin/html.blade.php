@@ -1,0 +1,1 @@
+<div><pre class="text-wrap">{!! nl2br(e($value)) !!}</pre></div>

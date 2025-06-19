@@ -6,6 +6,7 @@ namespace App\Services\Catalog\Wildberries;
 
 use App\Jobs\Catalog\Wildberries\WBUpdateAttributesJob;
 use App\Jobs\Catalog\Wildberries\WBUpdateCatalogChildGroupsJob;
+use App\Models\Catalog\Wildberries\WBCatalogGood;
 use App\Models\Catalog\Wildberries\WBCatalogNotFound;
 use App\Repositories\Catalog\Wildberries\WBGoodsInterface;
 use App\Services\Catalog\Wildberries\API\WBClient;
@@ -157,6 +158,20 @@ final readonly class WBImportService
         }
     }
 
+    public function reloadGoods(WBCatalogGood $good): void
+    {
+        $count = $good->getJsonField('media')['photo_count'] ?? 0;
+
+        if (!$count) {
+            return;
+        }
+
+        for ($i = 0; $i < (int)$count; $i++) {
+            $imageUrl = $this->generateGoodImageUrl($good->getNmId(), $i + 1);
+            $this->uploader->uploadImageByURL($good->id(), $imageUrl);
+        }
+    }
+
     private function getGroupId(array $response): int
     {
         $group = $this->repository->getGroupById((int)$response['data']['subject_id']);
@@ -212,7 +227,15 @@ final readonly class WBImportService
             $vol <= 3053 => "18",
             $vol <= 3269 => "19",
             $vol <= 3485 => "20",
-            default => "21"
+            $vol <= 3701 => "21",
+            $vol <= 3917 => "22",
+            $vol <= 4133 => "23",
+            $vol <= 4349 => "24",
+            $vol <= 4565 => "25",
+            $vol <= 4781 => "26",
+            $vol <= 4997 => "27",
+            $vol <= 5213 => "28",
+            $vol <= 5429 => "29",
         };
 
         return [$basket, $vol, $part, $wbId];

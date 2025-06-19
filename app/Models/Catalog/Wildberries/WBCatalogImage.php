@@ -44,7 +44,7 @@ class WBCatalogImage extends ORM
 
     public function getLocalFileUrl(): ?string
     {
-        if (!empty($this->path)) {
+        if (!empty($this->path) && Storage::exists($this->path)) {
             return Storage::url($this->path);
         }
 

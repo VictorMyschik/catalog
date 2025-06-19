@@ -11,7 +11,9 @@ use App\Services\Catalog\Wildberries\Factory\ResponseFactory;
 use App\Services\Catalog\Wildberries\WBClientResponseInterface;
 use App\Services\Traits\LogTrait;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\Request;
+use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Uid\Uuid;
 
@@ -58,6 +60,17 @@ final readonly class WBClient
     }
 
     #endregion
+
+    public function doGetRaw(string $url, array $options = []): StreamInterface
+    {
+        try {
+            $response = $this->client->get($url, $options);
+        } catch (ClientException $e) {
+            $response = $e->getResponse();
+        }
+
+        return $response->getBody();
+    }
 
     public function getGoodByGroup(int $groupId): array
     {

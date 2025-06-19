@@ -118,4 +118,9 @@ final readonly class WBGoodsCacheRepository implements WBGoodsInterface
         $this->repository->deleteGood($id);
         $this->clearGroupCache();
     }
+
+    public function getGoodImages(int $goodId): array
+    {
+        return $this->repository->getGoodImages($goodId);
+    }
 }
