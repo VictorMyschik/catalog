@@ -74,11 +74,6 @@ class WBCatalogGood extends ORM
         return $this->title;
     }
 
-    public function getDescription(): string
-    {
-        return $this->description;
-    }
-
     public function getGroup(): WBCatalogGroup
     {
         return WBCatalogGroup::loadByOrDie($this->getSubjectId());
