@@ -121,6 +121,10 @@ final readonly class WBImportService
     #region GOODS
     public function loadGood(int $wbId): void
     {
+        if (WBCatalogGood::where('nm_id', $wbId)->exists() || WBCatalogNotFound::where('wb_id', $wbId)->exists()) {
+           return;
+        }
+
         $url = $this->generateGoodUrl($wbId);
 
         try {

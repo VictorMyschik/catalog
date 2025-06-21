@@ -58,7 +58,7 @@ final class ImportOnlinerService
 
         Log::info('Создан товар: ' . $parsedData['good_name'] . '. ID' . $goodId);
 
-        event(new ESAddGoodEvent($this->catalogService->getGoodById($goodId)));
+       // event(new ESAddGoodEvent($this->catalogService->getGoodById($goodId)));
         return $goodId;
     }
 
