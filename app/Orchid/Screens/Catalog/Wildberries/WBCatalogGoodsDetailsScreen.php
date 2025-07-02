@@ -88,7 +88,7 @@ class WBCatalogGoodsDetailsScreen extends Screen
             Group::make([
                 Label::make('id')->title('ID товара')->value($this->good->id()),
                 Label::make('nm_id')->title('ID Wildberries товара')->value($this->good->getNmId()),
-                Label::make('vendor_code')->title('Артикул')->value($this->good->getNmId()),
+                Label::make('vendor_code')->title('Артикул')->value($this->good->vendor_code),
             ]),
         ]);
     }
@@ -107,7 +107,7 @@ class WBCatalogGoodsDetailsScreen extends Screen
                     ->modal('view_good')
                     ->parameters(['id' => $this->good->id()]),
             ])->autoWidth(),
-            Link::make('link')->title('Ссылка на страницу Onliner')->horizontal()->icon('link')->target('_blank')->href($this->good->getLink()),
+            Link::make('link')->title('Ссылка на страницу Wildberries')->horizontal()->icon('link')->target('_blank')->href($this->good->getLink()),
         ]);
     }
 
