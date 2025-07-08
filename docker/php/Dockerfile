@@ -69,3 +69,10 @@ WORKDIR /var/www/catalog
 RUN curl -sl https://deb.nodesource.com/setup_18.x | bash -
 RUN apt-get install nodejs -y
 RUN npm install -g npm@10.8.2
+
+RUN apt-get update && apt-get install -y cron
+RUN touch /var/log/cron.log && chmod 0644 /var/log/cron.log
+COPY ./crontab /etc/cron.d/crontab
+RUN chmod 0644 /etc/cron.d/crontab
+
+CMD cron && php-fpm
