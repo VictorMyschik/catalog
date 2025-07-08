@@ -56,16 +56,19 @@ final readonly class CronService
         match ($cron->getCronKey()) {
             CronKeyEnum::OnlinerCatalogGoods => $this->importOnlinerService->updateCatalogGoods(),
             CronKeyEnum::WildberriesCatalogStructure => WBUpdateCatalogJob::dispatch(),
-            CronKeyEnum::ClearLogs => function () {
-                Artisan::call('cache:clear');
-                Artisan::call('view:clear');
-                Artisan::call('route:clear');
-                Artisan::call('config:clear');
-                file_put_contents(storage_path('logs/laravel.log'), '');
-            },
+            CronKeyEnum::ClearLogs => $this->clearLogs(),
         };
 
         $cron->setLastWork(now());
         $cron->save();
+    }
+
+    private function clearLogs(): void
+    {
+        Artisan::call('cache:clear');
+        Artisan::call('view:clear');
+        Artisan::call('route:clear');
+        Artisan::call('config:clear');
+        file_put_contents(storage_path('logs/laravel.log'), '');
     }
 }
