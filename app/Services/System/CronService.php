@@ -10,6 +10,7 @@ use App\Services\Catalog\Onliner\ImportOnlinerService;
 use App\Services\System\Enum\CronKeyEnum;
 use DateInterval;
 use Exception;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Log;
 
 final readonly class CronService
@@ -55,6 +56,13 @@ final readonly class CronService
         match ($cron->getCronKey()) {
             CronKeyEnum::OnlinerCatalogGoods => $this->importOnlinerService->updateCatalogGoods(),
             CronKeyEnum::WildberriesCatalogStructure => WBUpdateCatalogJob::dispatch(),
+            CronKeyEnum::ClearLogs => function () {
+                Artisan::call('cache:clear');
+                Artisan::call('view:clear');
+                Artisan::call('route:clear');
+                Artisan::call('config:clear');
+                file_put_contents(storage_path('logs/laravel.log'), '');
+            },
         };
 
         $cron->setLastWork(now());
