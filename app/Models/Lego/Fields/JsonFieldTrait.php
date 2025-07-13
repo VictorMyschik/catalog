@@ -7,7 +7,7 @@ namespace App\Models\Lego\Fields;
  */
 trait JsonFieldTrait
 {
-    public function getSL()//: ?string
+    public function getSL(): ?string
     {
         return $this->sl;
     }
@@ -23,7 +23,9 @@ trait JsonFieldTrait
             return null;
         }
 
-        return $this->getSL()[$field] ?? null;
+        $data = json_decode($this->getSL(), true);
+
+        return $data[$field] ?? null;
     }
 
     public function setJsonField(string $field, mixed $value): void

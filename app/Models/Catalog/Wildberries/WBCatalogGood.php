@@ -22,7 +22,6 @@ class WBCatalogGood extends ORM
     protected $table = 'wb_catalog_goods';
 
     protected $casts = [
-        'sl'         => 'json',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
