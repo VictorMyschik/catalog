@@ -44,7 +44,6 @@ class OnCatalogGood extends ORM
         'manufacturer_id'  => 'integer',
         'parent_good_id'   => 'string',
         'is_certification' => 'boolean',
-        'sl'               => 'json',
         'int_id'           => 'integer',
         'string_id'        => 'string',
         'link'             => 'string',

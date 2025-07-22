@@ -135,7 +135,7 @@ final readonly class WBImportService
             return;
         }
 
-        if (empty($response['media']) || empty($response['selling']['supplier_id'])) {
+        if (empty($response['media']) || empty($response['slug']) || empty($response['selling']['supplier_id'])) {
             WBCatalogNotFound::create(['wb_id' => $wbId]);
 
             return;

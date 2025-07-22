@@ -28,7 +28,6 @@ class OnCatalogGroup extends ORM
     protected $casts = [
         'id'        => 'int',
         'name'      => 'string',
-        'sl'        => 'json',
         'json_link' => 'string',
     ];
 

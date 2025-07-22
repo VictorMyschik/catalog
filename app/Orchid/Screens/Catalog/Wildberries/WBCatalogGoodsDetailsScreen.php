@@ -149,7 +149,7 @@ class WBCatalogGoodsDetailsScreen extends Screen
                 ->method('reUploadGoodPhotos')
                 ->novalidate()
                 ->class('mr-btn-success')
-                ->confirm('Вы уверены, что хотите перезагрузить все картинки с сайта Onliner?'),
+                ->confirm('Вы уверены, что хотите перезагрузить все картинки с сайта Wildberries?'),
 
             Button::make('Удалить все фото')
                 ->method('deleteAllGoodPhoto')
