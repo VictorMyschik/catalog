@@ -43,6 +43,7 @@ class PlatformProvider extends OrchidServiceProvider
                 Menu::make('Logs')->icon('list')->target('_blank')->href('/log-viewer'),
                 Menu::make(__('Users'))->icon('bs.people')->route('platform.systems.users')->permission('platform.systems.users')->title(__('Access Controls')),
                 Menu::make(__('Roles'))->icon('bs.shield')->route('platform.systems.roles')->permission('platform.systems.roles')->divider(),
+                Menu::make('Supervisor')->route('system.supervisor'),
             ])->divider(),
 
             Menu::make('API documentation')->icon('database')->target('_blank')->href('/api/documentation'),

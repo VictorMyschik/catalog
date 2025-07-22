@@ -12,20 +12,18 @@ class ImportWBCatalogTest extends TestCase
 {
     public function testImportGroups()
     {
-        /** @var WBImportService $service */
-        $service = app(WBImportService::class);
-        $service->loadGood(314380902);
+        WBDownloadGoodsJob::dispatch(446365574)->onConnection('sync');
     }
 
     public function testImport(): void
     {
-        for ($i = 100000; $i <= 100200; $i++) {
+        for ($i = 300200; $i <= 3000000; $i++) {
             if (WBCatalogGood::where('nm_id', $i)->exists() || WBCatalogNotFound::where('wb_id', $i)->exists()) {
                 continue;
             }
 
             try {
-                WBDownloadGoodsJob::dispatch($i)->onConnection('sync');
+                WBDownloadGoodsJob::dispatch(224713703)->onConnection('sync');
             } catch (\Exception $e) {
                 echo $e->getMessage();
             }

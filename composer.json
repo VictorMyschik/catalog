@@ -24,7 +24,9 @@
     "symfony/dom-crawler": "^8.0.x-dev",
     "tymon/jwt-auth": "^2.0",
     "scalar/laravel": "^0.2.0",
-    "vladimir-yuldashev/laravel-queue-rabbitmq": "^v14.2.0"
+    "vladimir-yuldashev/laravel-queue-rabbitmq": "^v14.2.0",
+    "ext-xmlrpc": "*",
+    "ext-curl": "*"
   },
   "require-dev": {
     "fakerphp/faker": "^1.23",

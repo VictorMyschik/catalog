@@ -16,6 +16,20 @@ RUN apt-get install -y libpq-dev \
     && docker-php-ext-install pdo pdo_pgsql pgsql \
     && docker-php-ext-install sockets
 
+# Install the ext-xmlrpc PHP extensions
+RUN apt-get update && apt-get install -y \
+    libxml2-dev \
+    libzip-dev \
+    librabbitmq-dev \
+    build-essential \
+    && pecl install xmlrpc-1.0.0RC3 \
+    && docker-php-ext-enable xmlrpc \
+    && docker-php-ext-install zip \
+    && pecl install amqp \
+    && docker-php-ext-enable amqp \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
 RUN set -x && \
     # install lib packages
     apt-get update &&\

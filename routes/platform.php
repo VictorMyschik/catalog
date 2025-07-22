@@ -20,6 +20,7 @@ use App\Orchid\Screens\System\ElasticsearchScreen;
 use App\Orchid\Screens\System\FailedJobsScreen;
 use App\Orchid\Screens\System\PurgeScreen;
 use App\Orchid\Screens\System\SettingsScreen;
+use App\Orchid\Screens\System\SupervisorScreen;
 use App\Orchid\Screens\User\UserEditScreen;
 use App\Orchid\Screens\User\UserListScreen;
 use App\Orchid\Screens\User\UserProfileScreen;
@@ -87,6 +88,7 @@ Route::screen('system/failed-jobs', FailedJobsScreen::class)->name('system.faile
 Route::screen('system/database', DatabaseScreen::class)->name('system.database');
 Route::screen('system/database/table/{table}', DatabaseTableScreen::class)->name('system.database.table');
 Route::screen('system/elasticsearch', ElasticsearchScreen::class)->name('system.elasticsearch');
+Route::screen('system/supervisor', SupervisorScreen::class)->name('system.supervisor');
 
 // Catalog Onliner
 Route::screen('catalog/onliner/goods/list', OnlinerCatalogGoodsScreen::class)->name('onliner.goods.list');
